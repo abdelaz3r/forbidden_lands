@@ -1,7 +1,7 @@
 # Used by "mix format"
 [
   plugins: [Phoenix.LiveView.HTMLFormatter],
-  import_deps: [:ecto, :phoenix],
+  import_deps: [:ecto],
   inputs: [
     "*.{heex,ex,exs}",
     "priv/*/seeds.exs",
