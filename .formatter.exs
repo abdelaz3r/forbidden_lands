@@ -10,5 +10,5 @@
   ],
   subdirectories: ["priv/*/migrations"],
   line_length: 118,
-  heex_line_length: 118
+  heex_line_length: 128
 ]
