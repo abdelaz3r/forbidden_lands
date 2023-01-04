@@ -148,19 +148,19 @@ defmodule ForbiddenLands.Calendar do
 
   defp quarters() do
     [
-      %{key: :morning, name: "matinée", description: "de 6h à 12h"},
-      %{key: :day, name: "après-midi", description: "de 12h à 18h"},
-      %{key: :evening, name: "soirée", description: "de 18h à minuit"},
-      %{key: :night, name: "nuit", description: "de minuit à 6h"}
+      %{key: :morning, name: "matinée", description: "entre 6h et 12h"},
+      %{key: :day, name: "après-midi", description: "entre 12h et 18h"},
+      %{key: :evening, name: "soirée", description: "entre 18h et minuit"},
+      %{key: :night, name: "nuit", description: "entre minuit et 6h"}
     ]
   end
 
   defp moon_cycles() do
     [
       %{key: :new, name: "nouvelle lune"},
-      %{key: :first, name: "premier quartier"},
+      %{key: :first, name: "lune montante"},
       %{key: :full, name: "pleine lune"},
-      %{key: :last, name: "dernier quartier"}
+      %{key: :last, name: "lune descendante"}
     ]
   end
 
@@ -178,14 +178,14 @@ defmodule ForbiddenLands.Calendar do
 
   defp months() do
     [
-      %{key: :springrise, name: "springrise"},
-      %{key: :springwane, name: "springwane"},
-      %{key: :summerrise, name: "summerrise"},
-      %{key: :summerwane, name: "summerwane"},
-      %{key: :fallrise, name: "fallrise"},
-      %{key: :fallwane, name: "fallwane"},
-      %{key: :winterrise, name: "winterrise"},
-      %{key: :winterwane, name: "winterwane"}
+      %{key: :springrise, name: "springrise", days_count: 45},
+      %{key: :springwane, name: "springwane", days_count: 46},
+      %{key: :summerrise, name: "summerrise", days_count: 46},
+      %{key: :summerwane, name: "summerwane", days_count: 46},
+      %{key: :fallrise, name: "fallrise", days_count: 45},
+      %{key: :fallwane, name: "fallwane", days_count: 46},
+      %{key: :winterrise, name: "winterrise", days_count: 45},
+      %{key: :winterwane, name: "winterwane", days_count: 46}
     ]
   end
 
