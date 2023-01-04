@@ -17,13 +17,8 @@ defmodule ForbiddenLandsWeb.Router do
   scope "/", ForbiddenLandsWeb do
     pipe_through(:browser)
 
-    get("/", PageController, :home)
+    live("/", Live.Home)
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", ForbiddenLandsWeb do
-  #   pipe_through :api
-  # end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:forbidden_lands, :dev_routes) do
