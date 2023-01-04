@@ -14,10 +14,11 @@ defmodule ForbiddenLandsWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "/", ForbiddenLandsWeb do
+  scope "/", ForbiddenLandsWeb.Live do
     pipe_through(:browser)
 
-    live("/", Live.Home)
+    live("/", Home)
+    live("/calendar", Calendar)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

@@ -11,6 +11,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        title: ['Lora']
+      },
       colors: {
         brand: "#FD4F00",
       }
