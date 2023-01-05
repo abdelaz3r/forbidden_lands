@@ -38,9 +38,8 @@ defmodule ForbiddenLandsWeb.Live.Instance do
     ~H"""
     <div class="grid grid-cols-[1fr_400px] h-screen bg-slate-700">
       <div class="relative overflow-hidden">
-        <span class="absolute z-10 inset-0 shadow-[inset_0_0_60px_50px_black]"></span>
         <div class="w-full h-full overflow-hidden">
-          <.image path="map.webp" alt="Carte des Forbiddens Land" class="object-cover saturate-50" />
+          <.image path="map.jpg" alt="Carte des Forbiddens Land" class="object-cover h-full w-full" />
         </div>
       </div>
 
