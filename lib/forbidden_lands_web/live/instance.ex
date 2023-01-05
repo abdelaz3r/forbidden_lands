@@ -42,14 +42,14 @@ defmodule ForbiddenLandsWeb.Live.Instance do
         </div>
       </div>
 
-      <div class="flex flex-col overflow-hidden bg-slate-800 shadow-xl shadow-black/50">
-        <.header date={@now} quarter_shift={@quarter_shift} class="flex-none z-10" />
+      <div class="flex flex-col overflow-hidden bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
+        <.header
+          date={@now}
+          quarter_shift={@quarter_shift}
+          class="flex-none z-10 border-b border-slate-900 shadow-2xl shadow-black/50"
+        />
 
         <div class="grow overflow-y-auto flex flex-col gap-5 p-5">
-          <div class="text-slate-400">
-            <%= inspect(@now) %>
-          </div>
-
           <div class="flex flex-wrap gap-2">
             <.button
               :for={amount <- [1, 4, 28, 180, 1460, -1, -4, -28, -180, -1460]}
@@ -67,8 +67,10 @@ defmodule ForbiddenLandsWeb.Live.Instance do
           </div>
         </div>
 
-        <div class="flex-none h-40 font-title text-slate-100 border-t border-slate-900 shadow-2xl shadow-black/60">
-          Castle info
+        <div class="flex-none h-40 font-title text-slate-100 border-t border-slate-900 shadow-2xl shadow-black/50">
+          <div class="p-5">
+            Castle info
+          </div>
         </div>
       </div>
     </div>
