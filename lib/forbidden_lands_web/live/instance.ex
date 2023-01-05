@@ -42,23 +42,33 @@ defmodule ForbiddenLandsWeb.Live.Instance do
         </div>
       </div>
 
-      <div class="bg-slate-800 shadow-xl shadow-black/50 overflow-hidden">
-        <.header date={@now} quarter_shift={@quarter_shift} />
+      <div class="flex flex-col overflow-hidden bg-slate-800 shadow-xl shadow-black/50">
+        <.header date={@now} quarter_shift={@quarter_shift} class="flex-none z-10" />
 
-        <div class="flex flex-wrap p-4 gap-2 mb-10">
-          <.button
-            :for={amount <- [1, 4, 28, 180, 1460, -1, -4, -28, -180, -1460]}
-            phx-click="move"
-            phx-value-amount={amount}
-            phx-value-type="quarter"
-            style={:secondary}
-          >
-            <%= amount %> Quarter
-          </.button>
+        <div class="grow overflow-y-auto flex flex-col gap-5 p-5">
+          <div class="text-slate-400">
+            <%= inspect(@now) %>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <.button
+              :for={amount <- [1, 4, 28, 180, 1460, -1, -4, -28, -180, -1460]}
+              phx-click="move"
+              phx-value-amount={amount}
+              phx-value-type="quarter"
+              style={:secondary}
+            >
+              <%= amount %> Quarter
+            </.button>
+          </div>
+
+          <div class="text-slate-400">
+            <%= inspect(@now) %>
+          </div>
         </div>
 
-        <div class="p-4 mb-10 text-slate-400">
-          <%= inspect(@now) %>
+        <div class="flex-none h-40 font-title text-slate-100 border-t border-slate-900 shadow-2xl shadow-black/60">
+          Castle info
         </div>
       </div>
     </div>

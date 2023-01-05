@@ -15,7 +15,7 @@ defmodule ForbiddenLandsWeb.Live.Instance.Header do
   @spec header(assigns :: map()) :: Phoenix.LiveView.Rendered.t()
   def header(assigns) do
     ~H"""
-    <div class={["font-title text-slate-100 border-b border-slate-900 shadow-xl", @class]}>
+    <div class={["font-title text-slate-100 border-b border-slate-900 shadow-2xl shadow-black/60", @class]}>
       <div class="flex items-stretch gap-4 p-4">
         <div class="relative overflow-hidden w-16 h-16 flex-none flex items-center text-3xl justify-center bg-rose-500 border border-rose-500 shadow-inner shadow-rose-700 rounded-full outline outline-offset-2 outline-2 outline-rose-500/30">
           <span class="absolute z-10 text-white font-bold"><%= @date.month.day %></span>
