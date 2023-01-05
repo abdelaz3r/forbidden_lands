@@ -12,7 +12,9 @@ defmodule ForbiddenLandsWeb.Live.Home do
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
     now = Calendar.from_quarters(@current_quarter)
-    {:ok, assign(socket, now: now)}
+    quarter_shift = now.count.quarters - rem(now.count.quarters - 1, 4)
+
+    {:ok, assign(socket, now: now, quarter_shift: quarter_shift)}
   end
 
   @impl Phoenix.LiveView
@@ -37,10 +39,13 @@ defmodule ForbiddenLandsWeb.Live.Home do
           <div class="flex items-stretch gap-4 p-4">
             <div class="relative overflow-hidden w-16 h-16 flex-none flex items-center text-3xl justify-center bg-rose-500 border border-rose-500 shadow-inner shadow-rose-700 rounded-full outline outline-offset-2 outline-2 outline-rose-500/30">
               <span class="absolute z-10 text-white font-bold"><%= @now.month.day %></span>
-              <span class={["top-0 right-0", base_quadrant(), opacity_quadrant(@now.quarter.number, 1)]}></span>
-              <span class={["bottom-0 right-0", base_quadrant(), opacity_quadrant(@now.quarter.number, 2)]}></span>
-              <span class={["bottom-0 left-0", base_quadrant(), opacity_quadrant(@now.quarter.number, 3)]}></span>
-              <span class={["top-0 left-0", base_quadrant(), opacity_quadrant(@now.quarter.number, 4)]}></span>
+              <span
+                class="absolute inset-0 transition-all duration-500"
+                style={"transform: rotate(#{((@now.count.quarters - @quarter_shift) * 90) + 45}deg);"}
+              >
+                <span class="absolute w-1/2 h-1/2 border border-rose-900/70 bg-rose-900/50 shadow-inner shadow-rose-900 top-0 right-0">
+                </span>
+              </span>
             </div>
             <div class="grow">
               <div class="flex justify-between items-end text-lg font-bold">
@@ -72,22 +77,20 @@ defmodule ForbiddenLandsWeb.Live.Home do
             </div>
           </div>
           <div class="h-0.5 w-full bg-slate-900/20">
-            <div
-              class="h-0.5 bg-rose-500 transition-all"
-              style={"width: #{(@now.month.day - 1) / (@now.month.days_count - 1) * 100}%;"}
-            >
-            </div>
+            <div class="h-0.5 bg-rose-500 transition-all duration-500" style={"width: #{Calendar.month_progression(@now)}%;"}></div>
           </div>
-          <div class="text-slate-100/40 text-sm flex items-center justify-between p-4">
+          <div class="text-sm flex items-center justify-between p-4">
             <div>
-              Luminosité...
+              <%= Calendar.luminosity(@now).name |> String.capitalize() %>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 text-slate-100/40">
               <%= @now.moon.name |> String.capitalize() %>
-              <span :if={@now.moon.key == :new} class="w-3.5 h-3.5 bg-slate-900 rounded-full"></span>
-              <Heroicons.moon :if={@now.moon.key == :first} mini class="w-4 text-amber-200/60" />
-              <span :if={@now.moon.key == :full} class="w-3.5 h-3.5 bg-amber-100 rounded-full"></span>
-              <Heroicons.moon :if={@now.moon.key == :last} mini class="w-4 text-amber-200/60 rotate-90" />
+              <span class="flex" style={"opacity: #{Calendar.moon_progression(@now)}%;"}>
+                <span :if={@now.moon.key == :new} class="w-4 h-4 bg-amber-100 rounded-full"></span>
+                <Heroicons.moon :if={@now.moon.key == :first} mini class="w-4 text-amber-100" />
+                <span :if={@now.moon.key == :full} class="w-4 h-4 bg-amber-100 rounded-full"></span>
+                <Heroicons.moon :if={@now.moon.key == :last} mini class="w-4 text-amber-100 rotate-90" />
+              </span>
             </div>
           </div>
         </div>
@@ -121,8 +124,4 @@ defmodule ForbiddenLandsWeb.Live.Home do
 
     {:noreply, assign(socket, now: now)}
   end
-
-  defp base_quadrant(), do: "absolute transition-all duration-500 w-1/2 h-1/2 bg-rose-900"
-  defp opacity_quadrant(quadrant, limit) when quadrant == limit, do: "opacity-50"
-  defp opacity_quadrant(_quadrant, _limit), do: "opacity-0"
 end

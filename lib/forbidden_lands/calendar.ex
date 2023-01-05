@@ -100,6 +100,46 @@ defmodule ForbiddenLands.Calendar do
     calendar
   end
 
+  @doc """
+  Return the months progression in percent.
+  """
+  @spec month_progression(Calendar.t()) :: float()
+  def month_progression(%{month: %{day: day, days_count: days_count}}) do
+    (day - 1) / (days_count - 1) * 100
+  end
+
+  @doc """
+  Return the moon progression in percent where new moon equals 0% and full moon equals 100%.
+  """
+  @spec moon_progression(Calendar.t()) :: float()
+  def moon_progression(%{moon: %{number: number}}) do
+    [start_of_cycle, _, full_moon, end_of_cycle] = @moon_cycle_shift
+
+    cond do
+      number == start_of_cycle -> 0.0
+      number == full_moon -> 100.0
+      number < full_moon -> (number - 1) / (full_moon - start_of_cycle) * 100
+      true -> (1.0 - (number - full_moon) / (end_of_cycle - full_moon + 1)) * 100
+    end
+  end
+
+  @doc """
+  TODO.
+  """
+  @spec luminosity(Calendar.t()) :: map()
+  def luminosity(%{quarter: %{luminosity: luminosity}, season: %{luminosity_shift: luminosity_shift}}) do
+    real_luminosity = luminosity + luminosity_shift
+    default = List.first(luminosity_values())
+
+    luminosity_values()
+    |> Enum.reverse()
+    |> Enum.find(default, fn l -> real_luminosity >= l.threshold end)
+  end
+
+  # ####### #
+  # Private #
+  # ####### #
+
   defp new(quarters) do
     days = trunc(Float.ceil(quarters / @quarter_by_day, 0))
     weeks = trunc(Float.ceil(days / @day_by_week, 0))
@@ -148,10 +188,10 @@ defmodule ForbiddenLands.Calendar do
 
   defp quarters() do
     [
-      %{key: :morning, name: "matinée", description: "entre 6h et 12h"},
-      %{key: :day, name: "après-midi", description: "entre 12h et 18h"},
-      %{key: :evening, name: "soirée", description: "entre 18h et minuit"},
-      %{key: :night, name: "nuit", description: "entre minuit et 6h"}
+      %{key: :morning, name: "matinée", luminosity: 7, description: "entre 6h et 12h"},
+      %{key: :day, name: "après-midi", luminosity: 10, description: "entre 12h et 18h"},
+      %{key: :evening, name: "soirée", luminosity: 5, description: "entre 18h et minuit"},
+      %{key: :night, name: "nuit", luminosity: 0, description: "entre minuit et 6h"}
     ]
   end
 
@@ -191,10 +231,19 @@ defmodule ForbiddenLands.Calendar do
 
   defp seasons() do
     [
-      %{key: :spring, name: "printemps"},
-      %{key: :summer, name: "été"},
-      %{key: :fall, name: "automne"},
-      %{key: :winter, name: "hivers"}
+      %{key: :spring, name: "printemps", luminosity_shift: -3},
+      %{key: :summer, name: "été", luminosity_shift: 0},
+      %{key: :fall, name: "automne", luminosity_shift: -3},
+      %{key: :winter, name: "hivers", luminosity_shift: -5}
+    ]
+  end
+
+  defp luminosity_values() do
+    [
+      %{key: :dark, name: "nuit noire", threshold: 0},
+      %{key: :darkish, name: "sombre", threshold: 2},
+      %{key: :ligthish, name: "clair", threshold: 4},
+      %{key: :daylight, name: "jour", threshold: 5}
     ]
   end
 
