@@ -1,13 +1,11 @@
 defmodule ForbiddenLandsWeb.Components.Generic.Image do
   @moduledoc """
-  Image component.
-  Use first the default folder `/images`, put subfolder in the name attribute.
+  Default image component.
   """
 
   use ForbiddenLandsWeb, :html
 
-  attr(:path, :string, default: "/images/")
-  attr(:name, :string, required: true)
+  attr(:path, :string, required: true)
   attr(:alt, :string, required: true)
 
   attr(:rest, :global, default: %{class: "inline-block"})
@@ -15,9 +13,7 @@ defmodule ForbiddenLandsWeb.Components.Generic.Image do
   @spec image(assigns :: map()) :: Phoenix.LiveView.Rendered.t()
   def image(assigns) do
     ~H"""
-    <!--
-    <img src={Routes.static_path(Endpoint, "#{@path}#{@name}")} alt={@alt} {@rest} />
-    -->
+    <img src={~p"/images/#{@path}"} alt={@alt} {@rest} />
     """
   end
 end

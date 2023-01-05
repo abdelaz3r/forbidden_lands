@@ -6,6 +6,7 @@ defmodule ForbiddenLandsWeb.Live.Instance do
   use ForbiddenLandsWeb, :live_view
 
   import ForbiddenLandsWeb.Components.Generic.Button
+  import ForbiddenLandsWeb.Components.Generic.Image
   import ForbiddenLandsWeb.Live.Instance.Header
 
   alias ForbiddenLands.Calendar
@@ -34,11 +35,10 @@ defmodule ForbiddenLandsWeb.Live.Instance do
   def render(assigns) do
     ~H"""
     <div class="grid grid-cols-[1fr_400px] h-screen bg-slate-700">
-      <div class="flex items-stretch">
-        <div class="grow m-6 border border-white/20 border-dashed rounded-lg flex justify-center items-center">
-          <h1 class="font-title font-bold text-4xl text-white/20">
-            Carte des Forbidden Lands
-          </h1>
+      <div class="relative overflow-hidden">
+        <span class="absolute z-10 inset-0 shadow-[inset_0_0_60px_50px_black]"></span>
+        <div class="w-full h-full overflow-hidden">
+          <.image path="map.webp" alt="Carte des Forbiddens Land" class="object-cover saturate-50" />
         </div>
       </div>
 
