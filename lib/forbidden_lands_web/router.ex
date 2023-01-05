@@ -17,7 +17,7 @@ defmodule ForbiddenLandsWeb.Router do
   scope "/", ForbiddenLandsWeb.Live do
     pipe_through(:browser)
 
-    live("/", Home)
+    live("/", Instance)
     live("/calendar", Calendar)
   end
 
