@@ -1,6 +1,6 @@
 defmodule ForbiddenLandsWeb.Live.Instance do
   @moduledoc """
-  Home view
+  Home view.
   """
 
   use ForbiddenLandsWeb, :live_view
@@ -12,9 +12,14 @@ defmodule ForbiddenLandsWeb.Live.Instance do
   alias ForbiddenLands.Calendar
 
   @current_quarter 1_701_993
+  @topic "main"
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      ForbiddenLandsWeb.Endpoint.subscribe(@topic)
+    end
+
     now = Calendar.from_quarters(@current_quarter)
     quarter_shift = now.count.quarters - rem(now.count.quarters - 1, 4)
     messages = Enum.map(1..20, fn i -> Calendar.add(now, i * 32 + Enum.random(1..3), :quarter) end)
@@ -97,9 +102,25 @@ defmodule ForbiddenLandsWeb.Live.Instance do
 
   @impl Phoenix.LiveView
   def handle_event("move", %{"amount" => amount, "type" => type}, socket) do
-    amount = String.to_integer(amount)
-    type = String.to_existing_atom(type)
+    # Par la suite:
+    # - l'event deviendra "next", "amount" (quarter)
+    # - appel le calendrier et fait la maj.
+    # - récupère le nouveau nombre de quarter
+    # - update la date en bdd
+    # - si on passe une semaine
+    #   - charge les données de mise à jour auto
+    #   - update les infos du château
+    #    - crée l'event automatique
+    # - envoie `now`, `events` (si changement), et `castle` (si changement)
 
-    {:noreply, assign(socket, now: Calendar.add(socket.assigns.now, amount, type))}
+    now = Calendar.add(socket.assigns.now, String.to_integer(amount), String.to_existing_atom(type))
+    ForbiddenLandsWeb.Endpoint.broadcast(@topic, "update", %{now: now})
+
+    {:noreply, socket}
+  end
+
+  @impl Phoenix.LiveView
+  def handle_info(%{topic: @topic, event: "update", payload: %{now: now}}, socket) do
+    {:noreply, assign(socket, now: now)}
   end
 end
