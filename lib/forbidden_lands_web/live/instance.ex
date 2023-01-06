@@ -41,14 +41,14 @@ defmodule ForbiddenLandsWeb.Live.Instance do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="grid grid-cols-[1fr_400px] h-screen bg-slate-700">
-      <div class="relative overflow-hidden">
+    <div class="md:grid md:grid-cols-[1fr_400px] h-screen bg-slate-700">
+      <div class="hidden md:block relative overflow-hidden">
         <div class="w-full h-full overflow-hidden">
           <.image path="map.jpg" alt="Carte des Forbiddens Land" class="object-cover h-full w-full" />
         </div>
       </div>
 
-      <div class="flex flex-col overflow-hidden bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
+      <div class="h-screen flex flex-col overflow-hidden bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
         <.header
           date={@now}
           quarter_shift={@quarter_shift}
