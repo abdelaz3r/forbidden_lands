@@ -17,14 +17,10 @@ defmodule ForbiddenLandsWeb.Router do
   scope "/", ForbiddenLandsWeb.Live do
     pipe_through(:browser)
 
-    #  liste des instances
     live("/", Instances)
-    #  creer une instance
     live("/new", CreateInstance)
-    #  dashboard d'une instance
     live("/instance/:id", Dashboard)
-    #  admin d'une instance
-    live("/instance/:id/admin", Dashboard)
+    live("/instance/:id/admin", InstanceAdmin)
 
     live("/test/calendar", Calendar)
   end

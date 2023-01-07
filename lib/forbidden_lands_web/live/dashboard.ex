@@ -5,37 +5,43 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
 
   use ForbiddenLandsWeb, :live_view
 
-  import ForbiddenLandsWeb.Components.Generic.Button
   import ForbiddenLandsWeb.Components.Generic.Image
   import ForbiddenLandsWeb.Live.Dashboard.Header
 
   alias ForbiddenLands.Calendar
+  alias ForbiddenLands.Instances.Instances
 
-  @current_quarter 1_701_993
   @topic "main"
 
   @impl Phoenix.LiveView
-  def mount(_params, _session, socket) do
+  def mount(%{"id" => id}, _session, socket) do
     if connected?(socket) do
       ForbiddenLandsWeb.Endpoint.subscribe(@topic)
     end
 
-    now = Calendar.from_quarters(@current_quarter)
-    quarter_shift = now.count.quarters - rem(now.count.quarters - 1, 4)
-    messages = Enum.map(1..20, fn i -> Calendar.add(now, i * 32 + Enum.random(0..3), :quarter) end)
+    case Instances.get(id) do
+      {:ok, instance} ->
+        calendar = Calendar.from_quarters(instance.current_date)
+        quarter_shift = calendar.count.quarters - rem(calendar.count.quarters - 1, 4)
+        messages = Enum.map(1..20, fn i -> Calendar.add(calendar, i * 32 + Enum.random(0..3), :quarter) end)
 
-    socket =
-      socket
-      |> assign(now: now)
-      |> assign(quarter_shift: quarter_shift)
-      |> assign(messages: messages)
+        socket =
+          socket
+          |> assign(instance: instance)
+          |> assign(calendar: calendar)
+          |> assign(quarter_shift: quarter_shift)
+          |> assign(messages: messages)
 
-    {:ok, socket}
-  end
+        {:ok, socket}
 
-  @impl Phoenix.LiveView
-  def handle_params(_params, _uri, socket) do
-    {:noreply, socket}
+      {:error, _reason} ->
+        socket =
+          socket
+          |> push_navigate(to: ~p"/")
+          |> put_flash(:error, "Cette instance n'existe pas")
+
+        {:ok, socket}
+    end
   end
 
   @impl Phoenix.LiveView
@@ -50,7 +56,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
 
       <div class="h-screen flex flex-col overflow-hidden bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
         <.header
-          date={@now}
+          date={@calendar}
           quarter_shift={@quarter_shift}
           class="flex-none z-10 border-b border-slate-900 shadow-2xl shadow-black/50"
         />
@@ -74,18 +80,6 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
             </header>
             <p class="text-sm">Un événement au bol...</p>
           </section>
-
-          <div class="flex flex-wrap gap-2">
-            <.button
-              :for={amount <- [1, 4, 28, 180, 1460, -1, -4, -28, -180, -1460]}
-              phx-click="move"
-              phx-value-amount={amount}
-              phx-value-type="quarter"
-              style={:secondary}
-            >
-              <%= amount %> Quarter
-            </.button>
-          </div>
         </div>
 
         <div class="flex-none h-40 font-title text-slate-100 border-t border-slate-900 shadow-2xl shadow-black/50 bg-gradient-to-l from-slate-800 to-slate-900">
@@ -101,26 +95,20 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   end
 
   @impl Phoenix.LiveView
-  def handle_event("move", %{"amount" => amount, "type" => type}, socket) do
-    # Par la suite:
-    # - l'event deviendra "next", "amount" (quarter)
-    # - appel le calendrier et fait la maj.
-    # - récupère le nouveau nombre de quarter
-    # - update la date en bdd
-    # - si on passe une semaine
-    #   - charge les données de mise à jour auto
-    #   - update les infos du château
-    #    - crée l'event automatique
-    # - envoie `now`, `events` (si changement), et `castle` (si changement)
+  def handle_info(%{topic: @topic, event: "update"}, socket) do
+    case Instances.get(socket.assigns.instance.id) do
+      {:ok, instance} ->
+        calendar = Calendar.from_quarters(instance.current_date)
 
-    now = Calendar.add(socket.assigns.now, String.to_integer(amount), String.to_existing_atom(type))
-    ForbiddenLandsWeb.Endpoint.broadcast(@topic, "update", %{now: now})
+        socket =
+          socket
+          |> assign(instance: instance)
+          |> assign(calendar: calendar)
 
-    {:noreply, socket}
-  end
+        {:noreply, socket}
 
-  @impl Phoenix.LiveView
-  def handle_info(%{topic: @topic, event: "update", payload: %{now: now}}, socket) do
-    {:noreply, assign(socket, now: now)}
+      {:error, reason} ->
+        {:noreply, put_flash(socket, :error, "Erreur générale: (#{inspect(reason)})")}
+    end
   end
 end

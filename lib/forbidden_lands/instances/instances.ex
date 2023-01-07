@@ -12,10 +12,22 @@ defmodule ForbiddenLands.Instances.Instances do
     end
   end
 
+  @spec get_all() :: [Instance.t()]
+  def get_all() do
+    Repo.all(Instance)
+  end
+
   @spec create(map()) :: {:ok, Instance.t()} | {:error, Changeset.t()}
   def create(params) do
     %Instance{}
     |> Instance.changeset(params)
     |> Repo.insert()
+  end
+
+  @spec update(Instance.t(), map()) :: {:ok, Instance.t()} | {:error, Changeset.t()}
+  def update(instance, params) do
+    instance
+    |> Instance.changeset(params)
+    |> Repo.update()
   end
 end

@@ -15,6 +15,8 @@ defmodule ForbiddenLands.Instances.Instance do
     field(:name, :string)
     field(:initial_date, :integer)
     field(:current_date, :integer)
+
+    timestamps(type: :naive_datetime_usec)
   end
 
   @spec changeset(Instance.t(), map()) :: Ecto.Changeset.t()
