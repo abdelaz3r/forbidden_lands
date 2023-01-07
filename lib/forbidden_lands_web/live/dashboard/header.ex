@@ -1,4 +1,4 @@
-defmodule ForbiddenLandsWeb.Live.Instance.Header do
+defmodule ForbiddenLandsWeb.Live.Dashboard.Header do
   @moduledoc """
   TODO.
   """

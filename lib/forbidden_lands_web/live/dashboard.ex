@@ -1,13 +1,13 @@
-defmodule ForbiddenLandsWeb.Live.Instance do
+defmodule ForbiddenLandsWeb.Live.Dashboard do
   @moduledoc """
-  Home view.
+  Dashboard of an instance.
   """
 
   use ForbiddenLandsWeb, :live_view
 
   import ForbiddenLandsWeb.Components.Generic.Button
   import ForbiddenLandsWeb.Components.Generic.Image
-  import ForbiddenLandsWeb.Live.Instance.Header
+  import ForbiddenLandsWeb.Live.Dashboard.Header
 
   alias ForbiddenLands.Calendar
 
@@ -22,7 +22,7 @@ defmodule ForbiddenLandsWeb.Live.Instance do
 
     now = Calendar.from_quarters(@current_quarter)
     quarter_shift = now.count.quarters - rem(now.count.quarters - 1, 4)
-    messages = Enum.map(1..20, fn i -> Calendar.add(now, i * 32 + Enum.random(1..3), :quarter) end)
+    messages = Enum.map(1..20, fn i -> Calendar.add(now, i * 32 + Enum.random(0..3), :quarter) end)
 
     socket =
       socket
