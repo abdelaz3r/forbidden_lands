@@ -22,12 +22,12 @@ defmodule ForbiddenLands.Calendar do
   defstruct [:quarter, :day, :month, :season, :moon, :year, :count]
 
   @doc """
-  Create a calendar form a given string-format date following the format `y.m.d`.
+  Create a calendar form a given string-format date following the format `dd.m.yyyy`.
   """
   @spec from_date(String.t()) :: {:ok, Calendar.t()} | {:error, :atom}
   def from_date(date) when is_binary(date) do
     try do
-      [year, month, day] =
+      [day, month, year] =
         date
         |> String.split(".")
         |> Enum.map(fn number -> String.to_integer(number) - 1 end)
@@ -53,7 +53,7 @@ defmodule ForbiddenLands.Calendar do
   end
 
   @doc """
-  Create a calendar form a given string-format datequarter following the format `y.m.d q/4`.
+  Create a calendar form a given string-format datequarter following the format `dd.m.yyyy q/4`.
   """
   @spec from_datequarter(String.t()) :: {:ok, Calendar.t()} | {:error, :atom}
   def from_datequarter(datequarter) when is_binary(datequarter) do
@@ -101,7 +101,7 @@ defmodule ForbiddenLands.Calendar do
   """
   @spec to_date(Calendar.t()) :: String.t()
   def to_date(%{} = calendar) do
-    "#{calendar.year.number}.#{calendar.month.number}.#{calendar.month.day}"
+    "#{calendar.month.day}.#{calendar.month.number}.#{calendar.year.number}"
   end
 
   @doc """
@@ -110,6 +110,14 @@ defmodule ForbiddenLands.Calendar do
   @spec to_datequarter(Calendar.t()) :: String.t()
   def to_datequarter(%{} = calendar) do
     to_date(calendar) <> " #{calendar.quarter.number}/4"
+  end
+
+  @doc """
+  Create string-format datequarter following the format `y.m.d q/4`.
+  """
+  @spec format(Calendar.t()) :: String.t()
+  def format(%{} = calendar) do
+    "#{calendar.month.day} #{calendar.month.name} #{calendar.year.number}, #{calendar.quarter.name}"
   end
 
   @doc """
