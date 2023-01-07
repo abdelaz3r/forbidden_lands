@@ -2,7 +2,6 @@ defmodule ForbiddenLands.Calendar do
   @moduledoc false
 
   alias ForbiddenLands.Calendar
-  alias ForbiddenLands.Utils.RomanNumerals
 
   @quarter_by_day 4
   @day_by_week 7
@@ -23,8 +22,66 @@ defmodule ForbiddenLands.Calendar do
   defstruct [:quarter, :day, :month, :season, :moon, :year, :count]
 
   @doc """
-  Create a date from a given number of days.
-  The date will automatically starts at the beginning of a day (first quarter).
+  Create a calendar form a given string-format date following the format `y.m.d`.
+  """
+  @spec from_date(String.t()) :: {:ok, Calendar.t()} | {:error, :atom}
+  def from_date(date) when is_binary(date) do
+    try do
+      [year, month, day] =
+        date
+        |> String.split(".")
+        |> Enum.map(fn number -> String.to_integer(number) - 1 end)
+
+      if month < 0 or month >= length(months()), do: throw(:month_range_error)
+      month_data = Enum.at(months(), month)
+
+      if day < 0 or day >= month_data.days_count, do: throw(:day_range_error)
+
+      days_before_month =
+        Enum.reduce_while(months(), 0, fn month, days ->
+          if month_data.key == month.key,
+            do: {:halt, days},
+            else: {:cont, days + month.days_count}
+        end)
+
+      {:ok, from_days(year * @day_by_year + days_before_month + day)}
+    rescue
+      _ -> {:error, :format_error}
+    catch
+      reason -> {:error, reason}
+    end
+  end
+
+  @doc """
+  Create a calendar form a given string-format datequarter following the format `y.m.d q/4`.
+  """
+  @spec from_datequarter(String.t()) :: {:ok, Calendar.t()} | {:error, :atom}
+  def from_datequarter(datequarter) when is_binary(datequarter) do
+    try do
+      [date, quarter] = String.split(datequarter, " ")
+      [quarter, _] = String.split(quarter, "/")
+      quarter = String.to_integer(quarter) - 1
+
+      if quarter < 0 or quarter >= @quarter_by_day, do: throw(:quarter_range_error)
+
+      case from_date(date) do
+        {:ok, calendar} ->
+          calendar = add(calendar, quarter, :quarter)
+          {:ok, calendar}
+
+        {:error, reason} ->
+          {:error, reason}
+      end
+    rescue
+      _ -> {:error, :format_error}
+    catch
+      reason -> {:error, reason}
+    end
+  end
+
+  @doc """
+  Create a calendar from a given number of days.
+  The calendar will automatically starts at the beginning of a day (first quarter).
   """
   @spec from_days(integer) :: Calendar.t()
   def from_days(days) do
@@ -32,7 +89,7 @@ defmodule ForbiddenLands.Calendar do
   end
 
   @doc """
-  Create a date from a given number of quarter.
+  Create a calendar from a given number of quarter.
   """
   @spec from_quarters(integer) :: Calendar.t()
   def from_quarters(quarters) do
@@ -40,7 +97,23 @@ defmodule ForbiddenLands.Calendar do
   end
 
   @doc """
-  Add a certain amount of [:year | :week | :day | :quarter] to a date.
+  Create string-format date following the format `y.m.d`.
+  """
+  @spec to_date(Calendar.t()) :: String.t()
+  def to_date(%{} = calendar) do
+    "#{calendar.year.number}.#{calendar.month.number}.#{calendar.month.day}"
+  end
+
+  @doc """
+  Create string-format datequarter following the format `y.m.d q/4`.
+  """
+  @spec to_datequarter(Calendar.t()) :: String.t()
+  def to_datequarter(%{} = calendar) do
+    to_date(calendar) <> " #{calendar.quarter.number}/4"
+  end
+
+  @doc """
+  Add a certain amount of [:year | :week | :day | :quarter] to a calendar.
   The amount can be negative, positive, or null.
   """
   @spec add(Calendar.t(), number(), :year | :week | :day | :quarter) :: Calendar.t()
@@ -61,7 +134,7 @@ defmodule ForbiddenLands.Calendar do
   end
 
   @doc """
-  Move a date to the start of a certain date milestone.
+  Move a calendar to the start of a certain calendar milestone.
   """
   @spec start_of(Calendar.t(), :year | :month | :week | :day) :: Calendar.t()
   def start_of(%{year: %{day: year_day}, count: %{days: days}}, :year) do
@@ -81,7 +154,7 @@ defmodule ForbiddenLands.Calendar do
   end
 
   @doc """
-  Move a date to the end of a certain date milestone.
+  Move a calendar to the end of a certain calendar milestone.
   """
   @spec end_of(Calendar.t(), :year | :month | :week | :day) :: Calendar.t()
   def end_of(%{year: %{day: year_day}, count: %{days: days}}, :year) do
@@ -124,7 +197,7 @@ defmodule ForbiddenLands.Calendar do
   end
 
   @doc """
-  TODO.
+  Return the luminosity struct from a calendar.
   """
   @spec luminosity(Calendar.t()) :: map()
   def luminosity(%{quarter: %{luminosity: luminosity}, season: %{luminosity_shift: luminosity_shift}}) do
@@ -245,15 +318,5 @@ defmodule ForbiddenLands.Calendar do
       %{key: :ligthish, name: "clair", threshold: 4},
       %{key: :daylight, name: "jour", threshold: 5}
     ]
-  end
-
-  # temporary
-
-  @spec format(Calendar.t()) :: String.t()
-  def format(date) do
-    "#{date.quarter.name |> String.capitalize()} du #{date.day.ref} (#{date.day.name |> String.capitalize()}) " <>
-      "#{date.month.day} #{date.month.name |> String.capitalize()} (#{RomanNumerals.convert(date.month.number)}) " <>
-      "#{date.year.number} AS " <>
-      "[#{date.moon.name |> String.capitalize()} (#{date.moon.number})]"
   end
 end
