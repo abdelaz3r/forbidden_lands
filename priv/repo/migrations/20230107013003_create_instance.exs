@@ -1,0 +1,13 @@
+defmodule ForbiddenLands.Repo.Migrations.CreateInstance do
+  use Ecto.Migration
+
+  def change do
+    create(table(:instance)) do
+      add(:name, :string, null: false)
+      add(:initial_date, :string, null: false)
+      add(:current_date, :integer, null: false)
+
+      timestamps()
+    end
+  end
+end
