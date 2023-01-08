@@ -14,7 +14,7 @@ defmodule ForbiddenLandsWeb.Live.CreateInstance do
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :changeset, changeset())}
+    {:ok, assign(socket, page_title: "Créer une instance", changeset: changeset())}
   end
 
   @impl Phoenix.LiveView

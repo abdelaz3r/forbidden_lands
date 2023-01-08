@@ -10,20 +10,22 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.Instances
 
-  @topic "main"
-
   @impl Phoenix.LiveView
   def mount(%{"id" => id}, _session, socket) do
-    if connected?(socket) do
-      ForbiddenLandsWeb.Endpoint.subscribe(@topic)
-    end
-
     case Instances.get(id) do
       {:ok, instance} ->
+        topic = "instance-#{instance.id}"
+
+        if connected?(socket) do
+          ForbiddenLandsWeb.Endpoint.subscribe(topic)
+        end
+
         calendar = Calendar.from_quarters(instance.current_date)
 
         socket =
           socket
+          |> assign(page_title: instance.name)
+          |> assign(topic: topic)
           |> assign(instance: instance)
           |> assign(calendar: calendar)
 
@@ -77,7 +79,7 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
 
     case Instances.update(socket.assigns.instance, %{current_date: new_quarters}) do
       {:ok, _instance} ->
-        ForbiddenLandsWeb.Endpoint.broadcast(@topic, "update", %{})
+        ForbiddenLandsWeb.Endpoint.broadcast(socket.assigns.topic, "update", %{})
         {:noreply, socket}
 
       {:error, reason} ->
@@ -86,7 +88,7 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
   end
 
   @impl Phoenix.LiveView
-  def handle_info(%{topic: @topic, event: "update"}, socket) do
+  def handle_info(%{topic: topic, event: "update"}, socket) when topic == socket.assigns.topic do
     case Instances.get(socket.assigns.instance.id) do
       {:ok, instance} ->
         calendar = Calendar.from_quarters(instance.current_date)

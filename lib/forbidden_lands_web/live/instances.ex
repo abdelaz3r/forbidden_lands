@@ -13,7 +13,7 @@ defmodule ForbiddenLandsWeb.Live.Instances do
   def mount(_params, _session, socket) do
     instances = Instances.get_all()
 
-    {:ok, assign(socket, instances: instances)}
+    {:ok, assign(socket, page_title: "Liste des instances", instances: instances)}
   end
 
   @impl Phoenix.LiveView

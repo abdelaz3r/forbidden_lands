@@ -11,25 +11,27 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.Instances
 
-  @topic "main"
-
   @impl Phoenix.LiveView
   def mount(%{"id" => id}, _session, socket) do
-    if connected?(socket) do
-      ForbiddenLandsWeb.Endpoint.subscribe(@topic)
-    end
-
     case Instances.get(id) do
       {:ok, instance} ->
+        topic = "instance-#{instance.id}"
+
+        if connected?(socket) do
+          ForbiddenLandsWeb.Endpoint.subscribe(topic)
+        end
+
         calendar = Calendar.from_quarters(instance.current_date)
         quarter_shift = calendar.count.quarters - rem(calendar.count.quarters - 1, 4)
         messages = Enum.map(1..20, fn i -> Calendar.add(calendar, i * 32 + Enum.random(0..3), :quarter) end)
 
         socket =
           socket
+          |> assign(page_title: instance.name)
+          |> assign(quarter_shift: quarter_shift)
+          |> assign(topic: topic)
           |> assign(instance: instance)
           |> assign(calendar: calendar)
-          |> assign(quarter_shift: quarter_shift)
           |> assign(messages: messages)
 
         {:ok, socket}
@@ -95,7 +97,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   end
 
   @impl Phoenix.LiveView
-  def handle_info(%{topic: @topic, event: "update"}, socket) do
+  def handle_info(%{topic: topic, event: "update"}, socket) when topic == socket.assigns.topic do
     case Instances.get(socket.assigns.instance.id) do
       {:ok, instance} ->
         calendar = Calendar.from_quarters(instance.current_date)
