@@ -98,4 +98,15 @@ defmodule ForbiddenLands.Instances.Stronghold do
     ])
     |> validate_required([:name])
   end
+
+  @spec coins_to_type(non_neg_integer()) :: {non_neg_integer(), non_neg_integer(), non_neg_integer()}
+  def coins_to_type(coins) do
+    gold = floor(coins / 100)
+    rest = coins - gold * 100
+
+    silver = floor(rest / 10)
+    copper = rest - silver * 10
+
+    {copper, silver, gold}
+  end
 end

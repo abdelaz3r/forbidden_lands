@@ -9,6 +9,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   import ForbiddenLandsWeb.Live.Dashboard.Header
 
   alias ForbiddenLands.Calendar
+  alias ForbiddenLands.Instances.Stronghold
   alias ForbiddenLands.Instances.Instances
 
   @impl Phoenix.LiveView
@@ -90,8 +91,13 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
         >
           <div class="p-4">
             <h1 class="flex gap-4 text-lg font-bold">
-              <Heroicons.bookmark class="w-6" /> Weatherstone
+              <Heroicons.bookmark class="w-6" />
+              <%= @instance.stronghold.name %>
             </h1>
+
+            <p>Lieu: <%= @instance.stronghold.location %></p>
+            <p>Def: <%= @instance.stronghold.defense %></p>
+            <p>Coins: <%= inspect(Stronghold.coins_to_type(@instance.stronghold.coins)) %></p>
           </div>
         </div>
       </div>
