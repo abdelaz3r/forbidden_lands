@@ -63,7 +63,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           class="flex-none z-10 border-b border-slate-900 shadow-2xl shadow-black/50"
         />
 
-        <div class="grow overflow-y-auto flex flex-col gap-4 p-4 font-title text-slate-100">
+        <div class="grow overflow-y-auto flex flex-col gap-4 p-4 font-title">
           <section :for={message <- @messages} class="pb-4 border-b border-slate-900/50">
             <header class="flex justify-between">
               <h2 class="font-bold">
@@ -84,7 +84,10 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           </section>
         </div>
 
-        <div class="flex-none h-40 font-title text-slate-100 border-t border-slate-900 shadow-2xl shadow-black/50 bg-gradient-to-l from-slate-800 to-slate-900">
+        <div
+          :if={@instance.stronghold}
+          class="flex-none font-title border-t border-slate-900 shadow-2xl shadow-black/50 bg-gradient-to-l from-slate-800 to-slate-900"
+        >
           <div class="p-4">
             <h1 class="flex gap-4 text-lg font-bold">
               <Heroicons.bookmark class="w-6" /> Weatherstone

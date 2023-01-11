@@ -24,7 +24,7 @@ defmodule ForbiddenLandsWeb.Live.Instances do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="p-5 md:p-20 min-h-screen bg-slate-700 text-slate-100 font-title">
+    <div class="p-5 md:p-20 min-h-screen bg-slate-700 font-title">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <.link
           :for={instance <- @instances}
