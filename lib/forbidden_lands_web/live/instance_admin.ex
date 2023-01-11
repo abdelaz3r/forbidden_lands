@@ -52,12 +52,7 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
 
         <div class="grow overflow-y-auto flex flex-col gap-4 p-4 font-title text-slate-100">
           <div class="flex flex-wrap gap-2">
-            <.button
-              :for={amount <- [1, 4, 28, 180, 1460, -1, -4, -28, -180, -1460]}
-              phx-click="move"
-              phx-value-amount={amount}
-              style={:secondary}
-            >
+            <.button :for={amount <- [1, 4, 28, 180, 1460, -1, -4]} phx-click="move" phx-value-amount={amount} style={:secondary}>
               <%= amount %> Quarters
             </.button>
           </div>

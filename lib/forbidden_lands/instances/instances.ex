@@ -17,14 +17,14 @@ defmodule ForbiddenLands.Instances.Instances do
     Repo.all(Instance)
   end
 
-  @spec create(map()) :: {:ok, Instance.t()} | {:error, Changeset.t()}
+  @spec create(map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
   def create(params) do
     %Instance{}
     |> Instance.changeset(params)
     |> Repo.insert()
   end
 
-  @spec update(Instance.t(), map()) :: {:ok, Instance.t()} | {:error, Changeset.t()}
+  @spec update(Instance.t(), map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
   def update(instance, params) do
     instance
     |> Instance.changeset(params)
