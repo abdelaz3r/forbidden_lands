@@ -5,10 +5,9 @@ defmodule ForbiddenLandsWeb.Live.CreateInstance do
 
   use ForbiddenLandsWeb, :live_view
 
-  alias ForbiddenLands.Calendar
   alias Ecto.Changeset
+  alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.Instances
-  alias Phoenix.HTML.Form
 
   @default_date "1.7.1166"
 
@@ -20,50 +19,25 @@ defmodule ForbiddenLandsWeb.Live.CreateInstance do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="p-4 md:p-20 min-h-screen bg-slate-700 text-slate-100">
-      <div class="md:w-[700px] h-96 p-5 border border-slate-900/50 bg-slate-800 shadow-2xl shadow-black/50">
-        <h1 class="pb-5">Nouvelle instance</h1>
+    <div class="p-5 md:p-20 min-h-screen bg-slate-700">
+      <div class="md:w-[700px] p-5 border border-slate-900/50 bg-slate-800 shadow-2xl shadow-black/50">
+        <h1 class="pb-5 text-2xl font-bold font-title">Nouvelle campagne</h1>
 
-        <.form
-          :let={f}
-          as={:create}
-          for={@changeset}
-          phx-change="validate"
-          phx-submit="save"
-          class="flex flex-col gap-3 text-slate-900"
-        >
-          <input
-            type="text"
-            placeholder="Name"
-            id={Form.input_id(f, :name)}
-            name={Form.input_name(f, :name)}
-            value={Form.input_value(f, :name)}
-          />
-
-          <input
-            type="text"
-            placeholder="Date (dd.mm.yyyy)"
-            id={Form.input_id(f, :date)}
-            name={Form.input_name(f, :date)}
-            value={Form.input_value(f, :date)}
-          />
-
-          <button class="bg-slate-300">Submit</button>
-        </.form>
+        <.simple_form :let={f} as={:create} for={@changeset} phx-submit="save">
+          <.input field={{f, :name}} label="Nom" />
+          <.input field={{f, :date}} label="Date de départ (dd.mm.yyyy)" />
+          <:actions>
+            <.button>Créer la campagne</.button>
+          </:actions>
+        </.simple_form>
       </div>
     </div>
     """
   end
 
   @impl Phoenix.LiveView
-  def handle_event("validate", params, socket) do
-    changeset = Map.put(changeset(params["create"]), :action, :validate)
-    {:noreply, assign(socket, :changeset, changeset)}
-  end
-
-  @impl Phoenix.LiveView
-  def handle_event("save", params, socket) do
-    changeset = Map.put(changeset(params["create"]), :action, :update)
+  def handle_event("save", %{"create" => params}, socket) do
+    changeset = Map.put(changeset(params), :action, :update)
 
     with true <- changeset.valid?,
          {:ok, calendar} <- Calendar.from_date(changeset.changes.date),

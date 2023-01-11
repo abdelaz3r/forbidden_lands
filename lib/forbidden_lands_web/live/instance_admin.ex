@@ -5,10 +5,9 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
 
   use ForbiddenLandsWeb, :live_view
 
-  import ForbiddenLandsWeb.Components.Generic.Button
-
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.Instances
+  alias ForbiddenLands.Instances.Stronghold
 
   @impl Phoenix.LiveView
   def mount(%{"id" => id}, _session, socket) do
@@ -20,14 +19,13 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
           ForbiddenLandsWeb.Endpoint.subscribe(topic)
         end
 
-        calendar = Calendar.from_quarters(instance.current_date)
-
         socket =
           socket
           |> assign(page_title: instance.name)
           |> assign(topic: topic)
           |> assign(instance: instance)
-          |> assign(calendar: calendar)
+          |> assign(calendar: Calendar.from_quarters(instance.current_date))
+          |> assign(changeset_strongold: Stronghold.changeset(%Stronghold{}, %{}))
 
         {:ok, socket}
 
@@ -44,18 +42,30 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="md:grid md:grid-cols-[1fr_400px] h-screen bg-slate-700">
-      <div class="h-screen flex flex-col overflow-hidden bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
-        <div class="p-4 text-slate-100">
-          <%= Calendar.format(@calendar) %>
-        </div>
+    <div class="md:p-20 min-h-screen bg-slate-700">
+      <div class="flex flex-col gap-5 md:w-[700px] p-5 md:border md:border-slate-900/50 bg-slate-800 md:shadow-2xl md:shadow-black/50">
+        <h1 class="text-2xl font-title">Campagne <strong><%= @instance.name %></strong></h1>
 
-        <div class="grow overflow-y-auto flex flex-col gap-4 p-4 font-title text-slate-100">
+        <hr class="border-slate-900/50" />
+
+        <section>
+          <h2 class="pb-3"><%= Calendar.format(@calendar) %></h2>
           <div class="flex flex-wrap gap-2">
-            <.button :for={amount <- [1, 4, 28, 180, 1460, -1, -4]} phx-click="move" phx-value-amount={amount} style={:secondary}>
-              <%= amount %> Quarters
-            </.button>
+            <.button phx-click="move" phx-value-amount={1} style={:primary}>Prochain quarter</.button>
+            <.button phx-click="move" phx-value-amount={4} style={:secondary}>Avancer d'un jour</.button>
+            <.button phx-click="move" phx-value-amount={28} style={:secondary}>Avancer d'une semaine</.button>
           </div>
+        </section>
+
+        <div :if={is_nil(@instance.stronghold)}>
+          <hr class="border-slate-900/50" />
+          <.simple_form :let={f} as={:stronghold} for={@changeset_strongold} phx-submit="create_stronghold">
+            <.input field={{f, :name}} label="Nom" />
+            <.input field={{f, :coins}} type="number" label="Pièces de cuivre" />
+            <:actions>
+              <.button>Créer le château</.button>
+            </:actions>
+          </.simple_form>
         </div>
       </div>
     </div>
@@ -79,6 +89,19 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
 
       {:error, reason} ->
         {:noreply, put_flash(socket, :error, "Erreur dans la mise à jour: (#{inspect(reason)})")}
+    end
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("create_stronghold", %{"stronghold" => stronghold}, socket) do
+    changeset = Map.put(Stronghold.changeset(%Stronghold{}, stronghold), :action, :update)
+
+    with true <- changeset.valid?,
+         {:ok, _instance} = Instances.update(socket.assigns.instance, %{"stronghold" => changeset.changes}) do
+      ForbiddenLandsWeb.Endpoint.broadcast(socket.assigns.topic, "update", %{})
+      {:noreply, socket}
+    else
+      error -> {:noreply, socket |> put_flash(:error, inspect(error)) |> assign(:changeset_strongold, changeset)}
     end
   end
 
