@@ -28,9 +28,7 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
           |> assign(instance: instance)
           |> assign(calendar: calendar)
           |> assign(changeset_strongold: Stronghold.changeset(%Stronghold{}, %{}))
-          |> assign(
-            changeset_event: Event.create(%Event{}, %{"human_datequarter" => Calendar.to_datequarter(calendar)})
-          )
+          |> assign(changeset_event: Event.create(%Event{}, default_event_params(calendar)))
 
         {:ok, socket}
 
@@ -124,9 +122,7 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
     with true <- event.valid?,
          {:ok, _instance} = Instances.add_event(socket.assigns.instance, event) do
       ForbiddenLandsWeb.Endpoint.broadcast(socket.assigns.topic, "update", %{})
-
-      new_event_changeset =
-        Event.create(%Event{}, %{"human_datequarter" => Calendar.to_datequarter(socket.assigns.calendar)})
+      new_event_changeset = Event.create(%Event{}, default_event_params(socket.assigns.calendar))
 
       socket =
         socket
@@ -170,14 +166,19 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
           socket
           |> assign(instance: instance)
           |> assign(calendar: calendar)
-          |> assign(
-            changeset_event: Event.create(%Event{}, %{"human_datequarter" => Calendar.to_datequarter(calendar)})
-          )
+          |> assign(changeset_event: Event.create(%Event{}, default_event_params(calendar)))
 
         {:noreply, socket}
 
       {:error, reason} ->
         {:noreply, put_flash(socket, :error, "Erreur générale: (#{inspect(reason)})")}
     end
+  end
+
+  defp default_event_params(calendar) do
+    %{
+      "human_datequarter" => Calendar.to_datequarter(calendar),
+      "type" => "normal"
+    }
   end
 end

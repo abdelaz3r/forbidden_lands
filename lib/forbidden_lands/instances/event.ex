@@ -9,7 +9,7 @@ defmodule ForbiddenLands.Instances.Event do
   alias ForbiddenLands.Instances.Event
   alias ForbiddenLands.Instances.Instance
 
-  @types [:normal, :special]
+  @types [:automatic, :normal, :special, :legendary]
 
   @type t() :: %Event{
           id: non_neg_integer() | nil,
@@ -39,7 +39,7 @@ defmodule ForbiddenLands.Instances.Event do
   def create(event, params \\ %{}) do
     event
     |> cast(params, [:human_datequarter, :type, :title, :description])
-    |> validate_required([:human_datequarter, :type, :title, :description])
+    |> validate_required([:human_datequarter, :type, :title])
     |> validate_inclusion(:type, @types)
     |> validate_length(:title, max: 200)
     |> validate_length(:description, max: 10_000)

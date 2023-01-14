@@ -62,17 +62,22 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           class="flex-none z-10 border-b border-slate-900 shadow-2xl shadow-black/50"
         />
 
-        <div class="grow overflow-y-auto flex flex-col gap-4 p-4 font-title">
-          <section :for={event <- @instance.events} class="pb-4 border-b border-slate-900/50">
-            <header class="pb-2">
+        <div class="grow overflow-y-auto flex flex-col gap-1.5 py-4 font-title">
+          <section :for={event <- @instance.events} class="space-y-2">
+            <header class="px-4">
               <.event_type_icon type={event.type} />
               <h2 class="font-bold"><%= event.title %></h2>
               <.event_date date={event.date} />
             </header>
-            <div class="text-sm space-y-1.5">
+            <div :if={not is_nil(event.description)} class="text-sm space-y-1.5 px-4 text-slate-100/80">
               <%= Phoenix.HTML.Format.text_to_html(event.description) |> raw() %>
             </div>
+            <hr class="border-t border-slate-900/50" />
           </section>
+
+          <div :if={length(@instance.events) == 0} class="p-24 text-center font-title text-lg text-slate-100/20">
+            Commencez à écrire votre histoire.
+          </div>
         </div>
 
         <div
@@ -112,20 +117,32 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
     """
   end
 
+  defp event_type_icon(%{type: :automatic} = assigns) do
+    ~H"""
+    <Heroicons.bars_2 class={[event_icon_class(), "bg-gray-500 border-gray-400 outline-gray-400/10"]} />
+    """
+  end
+
   defp event_type_icon(%{type: :normal} = assigns) do
     ~H"""
-    <Heroicons.bookmark class={[event_icon_class(), "bg-rose-600 border-rose-400 outline-rose-500/20"]} />
+    <Heroicons.bars_3_bottom_left class={[event_icon_class(), "bg-gray-500 border-gray-400 outline-gray-400/20"]} />
     """
   end
 
   defp event_type_icon(%{type: :special} = assigns) do
     ~H"""
-    <Heroicons.bookmark class={[event_icon_class(), "bg-emerald-600 border-emerald-400 outline-emerald-500/20"]} />
+    <Heroicons.star class={[event_icon_class(), "bg-emerald-600 border-emerald-400 outline-emerald-500/30"]} />
+    """
+  end
+
+  defp event_type_icon(%{type: :legendary} = assigns) do
+    ~H"""
+    <Heroicons.sparkles class={[event_icon_class(), "bg-amber-600 border-amber-400 outline-amber-500/40"]} />
     """
   end
 
   defp event_icon_class(),
-    do: "float-left w-8 my-2 mr-2 p-1.5 rounded-full border outline outline-offset-2 outline-2"
+    do: "float-left w-8 my-2 mr-3 p-1.5 rounded-full border outline outline-offset-2 outline-2"
 
   @impl Phoenix.LiveView
   def handle_info(%{topic: topic, event: "update"}, socket) when topic == socket.assigns.topic do
