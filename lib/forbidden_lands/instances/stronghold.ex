@@ -1,4 +1,6 @@
 defmodule ForbiddenLands.Instances.Stronghold do
+  @moduledoc false
+
   use Ecto.Schema
 
   import Ecto.Changeset

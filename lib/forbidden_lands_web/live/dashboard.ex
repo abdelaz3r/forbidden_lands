@@ -24,7 +24,6 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
 
         calendar = Calendar.from_quarters(instance.current_date)
         quarter_shift = calendar.count.quarters - rem(calendar.count.quarters - 1, 4)
-        messages = Enum.map(1..20, fn i -> Calendar.add(calendar, i * 32 + Enum.random(0..3), :quarter) end)
 
         socket =
           socket
@@ -33,7 +32,6 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           |> assign(topic: topic)
           |> assign(instance: instance)
           |> assign(calendar: calendar)
-          |> assign(messages: messages)
 
         {:ok, socket}
 
@@ -65,23 +63,15 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
         />
 
         <div class="grow overflow-y-auto flex flex-col gap-4 p-4 font-title">
-          <section :for={message <- @messages} class="pb-4 border-b border-slate-900/50">
-            <header class="flex justify-between">
-              <h2 class="font-bold">
-                Title
-              </h2>
-              <div>
-                <%= message.month.day %>
-                <%= message.month.name %>
-                <span class="opacity-50">
-                  <%= message.year.number %>,
-                  <span class="opacity-50">
-                    <%= message.quarter.name %>
-                  </span>
-                </span>
-              </div>
+          <section :for={event <- @instance.events} class="pb-4 border-b border-slate-900/50">
+            <header class="pb-2">
+              <.event_type_icon type={event.type} />
+              <h2 class="font-bold"><%= event.title %></h2>
+              <.event_date date={event.date} />
             </header>
-            <p class="text-sm">Un événement au bol...</p>
+            <div class="text-sm space-y-1.5">
+              <%= Phoenix.HTML.Format.text_to_html(event.description) |> raw() %>
+            </div>
           </section>
         </div>
 
@@ -104,6 +94,38 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
     </div>
     """
   end
+
+  defp event_date(%{date: date} = assigns) do
+    assigns = assign(assigns, calendar: Calendar.from_quarters(date))
+
+    ~H"""
+    <div class="text-sm">
+      <%= @calendar.month.day %>
+      <%= @calendar.month.name %>
+      <span class="opacity-50">
+        <%= @calendar.year.number %>,
+        <span class="opacity-50">
+          <%= @calendar.quarter.name %>
+        </span>
+      </span>
+    </div>
+    """
+  end
+
+  defp event_type_icon(%{type: :normal} = assigns) do
+    ~H"""
+    <Heroicons.bookmark class={[event_icon_class(), "bg-rose-600 border-rose-400 outline-rose-500/20"]} />
+    """
+  end
+
+  defp event_type_icon(%{type: :special} = assigns) do
+    ~H"""
+    <Heroicons.bookmark class={[event_icon_class(), "bg-emerald-600 border-emerald-400 outline-emerald-500/20"]} />
+    """
+  end
+
+  defp event_icon_class(),
+    do: "float-left w-8 my-2 mr-2 p-1.5 rounded-full border outline outline-offset-2 outline-2"
 
   @impl Phoenix.LiveView
   def handle_info(%{topic: topic, event: "update"}, socket) when topic == socket.assigns.topic do

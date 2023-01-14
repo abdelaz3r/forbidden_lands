@@ -1,12 +1,23 @@
 defmodule ForbiddenLands.Instances.Instances do
-  # import Ecto.Query
+  @moduledoc false
 
+  import Ecto.Query
+
+  alias ForbiddenLands.Instances.Event
   alias ForbiddenLands.Instances.Instance
   alias ForbiddenLands.Repo
 
   @spec get(number()) :: {:ok, Instance.t()} | {:error, :not_found}
   def get(id) do
-    case Repo.get(Instance, id) do
+    query =
+      from(
+        i in Instance,
+        where: i.id == ^id,
+        select: i,
+        preload: [events: ^from(e in Event, order_by: [desc: e.date])]
+      )
+
+    case Repo.one(query) do
       %Instance{} = instance -> {:ok, instance}
       nil -> {:error, :not_found}
     end
@@ -20,14 +31,22 @@ defmodule ForbiddenLands.Instances.Instances do
   @spec create(map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
   def create(params) do
     %Instance{}
-    |> Instance.changeset(params)
+    |> Instance.create(params)
     |> Repo.insert()
   end
 
   @spec update(Instance.t(), map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
   def update(instance, params) do
     instance
-    |> Instance.changeset(params)
+    |> Instance.update(params)
     |> Repo.update()
+  end
+
+  @spec add_event(Instance.t(), map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
+  def add_event(instance, event) do
+    instance
+    |> Ecto.build_assoc(:events, event)
+    |> Ecto.Changeset.cast(event.changes, [:date, :type, :title, :description])
+    |> Repo.insert()
   end
 end

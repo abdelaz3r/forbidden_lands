@@ -6,6 +6,7 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
   use ForbiddenLandsWeb, :live_view
 
   alias ForbiddenLands.Calendar
+  alias ForbiddenLands.Instances.Event
   alias ForbiddenLands.Instances.Instances
   alias ForbiddenLands.Instances.Stronghold
 
@@ -14,6 +15,7 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
     case Instances.get(id) do
       {:ok, instance} ->
         topic = "instance-#{instance.id}"
+        calendar = Calendar.from_quarters(instance.current_date)
 
         if connected?(socket) do
           ForbiddenLandsWeb.Endpoint.subscribe(topic)
@@ -24,8 +26,11 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
           |> assign(page_title: instance.name)
           |> assign(topic: topic)
           |> assign(instance: instance)
-          |> assign(calendar: Calendar.from_quarters(instance.current_date))
+          |> assign(calendar: calendar)
           |> assign(changeset_strongold: Stronghold.changeset(%Stronghold{}, %{}))
+          |> assign(
+            changeset_event: Event.create(%Event{}, %{"human_datequarter" => Calendar.to_datequarter(calendar)})
+          )
 
         {:ok, socket}
 
@@ -57,8 +62,25 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
           </div>
         </section>
 
-        <div :if={is_nil(@instance.stronghold)}>
+        <hr class="border-slate-900/50" />
+
+        <section>
+          <h2 class="pb-3">Ajouter un évènement</h2>
+          <.simple_form :let={f} as={:event} for={@changeset_event} phx-submit="create_event">
+            <.input field={{f, :human_datequarter}} label="Date (dd.mm.yyyy q/4)" />
+            <.input field={{f, :type}} type="select" options={Event.types()} label="Type" />
+            <.input field={{f, :title}} label="Titre" />
+            <.input field={{f, :description}} type="textarea" label="Description" />
+            <:actions>
+              <.button>Ajouter l'évènement</.button>
+            </:actions>
+          </.simple_form>
+        </section>
+
+        <section :if={is_nil(@instance.stronghold)}>
           <hr class="border-slate-900/50" />
+
+          <h2 class="pb-3">Ajouter un château</h2>
           <.simple_form :let={f} as={:stronghold} for={@changeset_strongold} phx-submit="create_stronghold">
             <.input field={{f, :name}} label="Nom" />
             <.input field={{f, :coins}} type="number" label="Pièces de cuivre" />
@@ -66,7 +88,7 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
               <.button>Créer le château</.button>
             </:actions>
           </.simple_form>
-        </div>
+        </section>
       </div>
     </div>
     """
@@ -93,6 +115,35 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
   end
 
   @impl Phoenix.LiveView
+  def handle_event("create_event", %{"event" => event}, socket) do
+    event =
+      %Event{}
+      |> Event.create(event)
+      |> Map.put(:action, :insert)
+
+    with true <- event.valid?,
+         {:ok, _instance} = Instances.add_event(socket.assigns.instance, event) do
+      ForbiddenLandsWeb.Endpoint.broadcast(socket.assigns.topic, "update", %{})
+
+      new_event_changeset =
+        Event.create(%Event{}, %{"human_datequarter" => Calendar.to_datequarter(socket.assigns.calendar)})
+
+      socket =
+        socket
+        |> assign(:changeset_event, new_event_changeset)
+        |> put_flash(:info, "Évènement créé")
+
+      {:noreply, socket}
+    else
+      false ->
+        {:noreply, assign(socket, :changeset_event, event)}
+
+      {:error, _changeset} ->
+        {:noreply, socket}
+    end
+  end
+
+  @impl Phoenix.LiveView
   def handle_event("create_stronghold", %{"stronghold" => stronghold}, socket) do
     changeset = Map.put(Stronghold.changeset(%Stronghold{}, stronghold), :action, :update)
 
@@ -101,7 +152,11 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
       ForbiddenLandsWeb.Endpoint.broadcast(socket.assigns.topic, "update", %{})
       {:noreply, socket}
     else
-      error -> {:noreply, socket |> put_flash(:error, inspect(error)) |> assign(:changeset_strongold, changeset)}
+      false ->
+        {:noreply, assign(socket, :changeset_strongold, changeset)}
+
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, "error")}
     end
   end
 
@@ -115,6 +170,9 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
           socket
           |> assign(instance: instance)
           |> assign(calendar: calendar)
+          |> assign(
+            changeset_event: Event.create(%Event{}, %{"human_datequarter" => Calendar.to_datequarter(calendar)})
+          )
 
         {:noreply, socket}
 

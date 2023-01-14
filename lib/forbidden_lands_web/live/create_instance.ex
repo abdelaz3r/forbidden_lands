@@ -5,15 +5,19 @@ defmodule ForbiddenLandsWeb.Live.CreateInstance do
 
   use ForbiddenLandsWeb, :live_view
 
-  alias Ecto.Changeset
-  alias ForbiddenLands.Calendar
+  alias ForbiddenLands.Instances.Instance
   alias ForbiddenLands.Instances.Instances
 
   @default_date "1.7.1166"
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, page_title: "Créer une instance", changeset: changeset())}
+    socket =
+      socket
+      |> assign(page_title: "Créer une instance")
+      |> assign(changeset: Instance.create(%Instance{}, %{human_date: @default_date}))
+
+    {:ok, socket}
   end
 
   @impl Phoenix.LiveView
@@ -25,7 +29,7 @@ defmodule ForbiddenLandsWeb.Live.CreateInstance do
 
         <.simple_form :let={f} as={:create} for={@changeset} phx-submit="save">
           <.input field={{f, :name}} label="Nom" />
-          <.input field={{f, :date}} label="Date de départ (dd.mm.yyyy)" />
+          <.input field={{f, :human_date}} label="Date de départ (dd.mm.yyyy)" />
           <:actions>
             <.button>Créer la campagne</.button>
           </:actions>
@@ -37,36 +41,12 @@ defmodule ForbiddenLandsWeb.Live.CreateInstance do
 
   @impl Phoenix.LiveView
   def handle_event("save", %{"create" => params}, socket) do
-    changeset = Map.put(changeset(params), :action, :update)
+    case Instances.create(params) do
+      {:ok, instance} ->
+        {:noreply, push_navigate(socket, to: ~p"/instance/#{instance.id}")}
 
-    with true <- changeset.valid?,
-         {:ok, calendar} <- Calendar.from_date(changeset.changes.date),
-         name <- changeset.changes.name,
-         quarters <- calendar.count.quarters,
-         data <- %{name: name, initial_date: quarters, current_date: quarters},
-         {:ok, instance} <- Instances.create(data) do
-      {:noreply, push_navigate(socket, to: ~p"/instance/#{instance.id}")}
-    else
-      false ->
+      {:error, changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
-
-      error ->
-        socket =
-          socket
-          |> assign(:changeset, changeset)
-          |> put_flash(:error, inspect(error))
-
-        {:noreply, socket}
     end
-  end
-
-  defp changeset(params \\ %{date: @default_date}) do
-    types = %{name: :string, date: :string}
-    fields = Map.keys(types)
-
-    {%{}, types}
-    |> Changeset.cast(params, fields)
-    |> Changeset.validate_required([:name, :date])
-    |> Changeset.validate_length(:name, max: 200)
   end
 end
