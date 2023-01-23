@@ -149,12 +149,12 @@ defmodule ForbiddenLands.Calendar do
     from_days(days - year_day + 1)
   end
 
-  def start_of(calendar, :month) do
-    calendar
+  def start_of(%{month: %{day: month_day}, count: %{days: days}}, :month) do
+    from_days(days - month_day + 1)
   end
 
-  def start_of(calendar, :week) do
-    calendar
+  def start_of(%{day: %{number: week_day}, count: %{days: days}}, :week) do
+    from_days(days - week_day + 1)
   end
 
   def start_of(calendar, :day) do

@@ -7,6 +7,7 @@ defmodule ForbiddenLands.Repo.Migrations.CreateInstance do
       add(:initial_date, :integer, null: false)
       add(:current_date, :integer, null: false)
       add(:stronghold, :map)
+      add(:resource_rules, :map)
 
       timestamps()
     end

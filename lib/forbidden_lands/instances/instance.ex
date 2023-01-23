@@ -8,6 +8,7 @@ defmodule ForbiddenLands.Instances.Instance do
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.Event
   alias ForbiddenLands.Instances.Instance
+  alias ForbiddenLands.Instances.ResourceRule
   alias ForbiddenLands.Instances.Stronghold
 
   @type t() :: %Instance{
@@ -24,6 +25,7 @@ defmodule ForbiddenLands.Instances.Instance do
     field(:initial_date, :integer)
     field(:current_date, :integer)
     embeds_one(:stronghold, Stronghold)
+    embeds_many(:resource_rules, ResourceRule, on_replace: :delete)
     has_many(:events, Event)
 
     timestamps(type: :naive_datetime_usec)
@@ -38,12 +40,13 @@ defmodule ForbiddenLands.Instances.Instance do
     |> put_dates()
   end
 
-  @spec update(Instance.t(), map()) :: Ecto.Changeset.t()
-  def update(instance, params \\ %{}) do
+  @spec update(Instance.t(), map(), list()) :: Ecto.Changeset.t()
+  def update(instance, params \\ %{}, resource_rules \\ []) do
     instance
     |> cast(params, [:name, :current_date])
     |> validate_required([:name, :current_date])
     |> cast_embed(:stronghold, with: &Stronghold.changeset/2)
+    |> put_embed(:resource_rules, resource_rules)
   end
 
   defp put_dates(instance) do

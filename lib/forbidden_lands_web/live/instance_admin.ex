@@ -8,6 +8,7 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.Event
   alias ForbiddenLands.Instances.Instances
+  alias ForbiddenLands.Instances.ResourceRule
   alias ForbiddenLands.Instances.Stronghold
 
   @impl Phoenix.LiveView
@@ -29,6 +30,7 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
           |> assign(calendar: calendar)
           |> assign(changeset_strongold: Stronghold.changeset(%Stronghold{}, %{}))
           |> assign(changeset_event: Event.create(%Event{}, default_event_params(calendar)))
+          |> assign(changeset_rule: ResourceRule.create(%ResourceRule{}, %{}))
 
         {:ok, socket}
 
@@ -75,6 +77,31 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
           </.simple_form>
         </section>
 
+        <hr class="border-slate-900/50" />
+
+        <section>
+          <h2 class="pb-3">Ajouter une règle</h2>
+          <.simple_form :let={f} as={:rule} for={@changeset_rule} phx-submit="create_rule">
+            <.input field={{f, :name}} label="Nom" />
+            <.input field={{f, :type}} type="select" options={Stronghold.resource_fields()} label="Type" />
+            <.input field={{f, :amount}} type="number" label="Quantité" />
+            <:actions>
+              <.button>Ajouter la règle</.button>
+            </:actions>
+          </.simple_form>
+
+          <h2 class="pb-3">Règles</h2>
+          <div :for={rule <- @instance.resource_rules} class="">
+            <span :if={rule.amount > 0}>
+              <%= rule.name %> produit <%= abs(rule.amount) %> <%= Stronghold.resource_name(rule.type, rule.amount) %> par semaine.
+            </span>
+            <span :if={rule.amount < 0}>
+              <%= rule.name %> consomme <%= abs(rule.amount) %> <%= Stronghold.resource_name(rule.type, rule.amount) %> par semaine
+            </span>
+            <button type="button" phx-click="remove_rule" phx-value-id={rule.id}>[x]</button>
+          </div>
+        </section>
+
         <section :if={is_nil(@instance.stronghold)}>
           <hr class="border-slate-900/50" />
 
@@ -93,16 +120,53 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
   end
 
   @impl Phoenix.LiveView
-  def handle_event("move", %{"amount" => amount}, socket) do
-    # Par la suite:
-    # - si on passe une semaine
-    #   - charge les données de mise à jour auto
-    #   - update les infos du château
-    #    - crée l'event automatique
+  def handle_event("move", %{"amount" => amount}, %{assigns: %{instance: instance, calendar: old_calendar}} = socket) do
+    amount = String.to_integer(amount)
+    new_calendar = Calendar.add(old_calendar, amount, :quarter)
+    days_diff = old_calendar.day.number + abs(new_calendar.count.days - old_calendar.count.days) - 1
+    weeks_diff = floor(days_diff / 7)
 
-    new_quarters = socket.assigns.instance.current_date + String.to_integer(amount)
+    if weeks_diff > 0 do
+      title =
+        if weeks_diff == 1,
+          do: "1 semaine passe",
+          else: "#{weeks_diff} semaines passent"
 
-    case Instances.update(socket.assigns.instance, %{current_date: new_quarters}) do
+      rules =
+        instance.resource_rules
+        |> Enum.map(fn %{name: name, type: type, amount: amount} ->
+          if amount > 0,
+            do: "— #{name} produit #{abs(amount * weeks_diff)} #{Stronghold.resource_name(type, amount)}",
+            else: "— #{name} consomme #{abs(amount * weeks_diff)} #{Stronghold.resource_name(type, amount)}"
+        end)
+        |> Enum.join("\r\n")
+
+      event =
+        Event.create(%Event{}, %{
+          "human_datequarter" => Calendar.to_datequarter(Calendar.start_of(new_calendar, :week)),
+          "type" => "automatic",
+          "title" => title,
+          "description" => "Récapitulatif des ressources du château: \r\n\r\n#{rules}"
+        })
+
+      {:ok, _instance} = Instances.add_event(instance, event)
+    end
+
+    case Instances.update(instance, %{current_date: new_calendar.count.quarters}, instance.resource_rules) do
+      {:ok, _instance} ->
+        ForbiddenLandsWeb.Endpoint.broadcast(socket.assigns.topic, "update", %{})
+        {:noreply, socket}
+
+      {:error, reason} ->
+        {:noreply, put_flash(socket, :error, "Erreur dans la mise à jour: (#{inspect(reason)})")}
+    end
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("remove_rule", %{"id" => id}, %{assigns: %{instance: instance}} = socket) do
+    resource_rules = Enum.filter(instance.resource_rules, fn rule -> rule.id != id end)
+
+    case Instances.update(instance, %{}, resource_rules) do
       {:ok, _instance} ->
         ForbiddenLandsWeb.Endpoint.broadcast(socket.assigns.topic, "update", %{})
         {:noreply, socket}
@@ -150,6 +214,23 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
     else
       false ->
         {:noreply, assign(socket, :changeset_strongold, changeset)}
+
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, "error")}
+    end
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("create_rule", %{"rule" => rule}, %{assigns: %{instance: instance}} = socket) do
+    changeset = Map.put(ResourceRule.create(%ResourceRule{}, rule), :action, :update)
+
+    with true <- changeset.valid?,
+         {:ok, _instance} = Instances.update(instance, %{}, instance.resource_rules ++ [changeset.changes]) do
+      ForbiddenLandsWeb.Endpoint.broadcast(socket.assigns.topic, "update", %{})
+      {:noreply, socket}
+    else
+      false ->
+        {:noreply, assign(socket, :changeset_rule, changeset)}
 
       {:error, _changeset} ->
         {:noreply, put_flash(socket, :error, "error")}

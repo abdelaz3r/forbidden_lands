@@ -7,6 +7,30 @@ defmodule ForbiddenLands.Instances.Stronghold do
 
   alias ForbiddenLands.Instances.Stronghold
 
+  @resource_fields [
+    :coins,
+    :iron_ore,
+    :iron,
+    :silver,
+    :gold,
+    :stone,
+    :glass,
+    :wood,
+    :fur,
+    :leather,
+    :cloth,
+    :wool,
+    :food,
+    :water,
+    :flour,
+    :grain,
+    :meat,
+    :fish,
+    :vegetables,
+    :tallow,
+    :herbs
+  ]
+
   @type t() :: %Stronghold{
           name: String.t() | nil,
           location: String.t() | nil,
@@ -69,36 +93,9 @@ defmodule ForbiddenLands.Instances.Stronghold do
   @spec changeset(Stronghold.t(), map()) :: Ecto.Changeset.t()
   def changeset(stronghold, params \\ %{}) do
     stronghold
-    |> cast(params, [
-      :name,
-      :location,
-      :description,
-      :defense,
-      :coins,
-      :functions,
-      :hireling,
-      :iron_ore,
-      :iron,
-      :silver,
-      :gold,
-      :stone,
-      :glass,
-      :wood,
-      :fur,
-      :leather,
-      :cloth,
-      :wool,
-      :food,
-      :water,
-      :flour,
-      :grain,
-      :meat,
-      :fish,
-      :vegetables,
-      :tallow,
-      :herbs
-    ])
+    |> cast(params, [:name, :location, :description, :defense, :functions, :hireling] ++ @resource_fields)
     |> validate_required([:name])
+    |> validate_resource_field()
   end
 
   @spec coins_to_type(non_neg_integer()) :: {non_neg_integer(), non_neg_integer(), non_neg_integer()}
@@ -110,5 +107,59 @@ defmodule ForbiddenLands.Instances.Stronghold do
     copper = rest - silver * 10
 
     {copper, silver, gold}
+  end
+
+  def resource_fields() do
+    @resource_fields
+  end
+
+  def resource_name(:coins, 1), do: "pièce de cuivre"
+  def resource_name(:coins, _), do: "pièces de cuivre"
+  def resource_name(:iron_ore, 1), do: "minerai de fer"
+  def resource_name(:iron_ore, _), do: " minerais de fer"
+  def resource_name(:iron, 1), do: "lingot de fer"
+  def resource_name(:iron, _), do: "lingots de fer"
+  def resource_name(:silver, 1), do: "minerai d'argent"
+  def resource_name(:silver, _), do: "minerais d'argent"
+  def resource_name(:gold, 1), do: "minerai d'or"
+  def resource_name(:gold, _), do: "minerais d'or"
+  def resource_name(:stone, 1), do: "bloc de pierre"
+  def resource_name(:stone, _), do: "blocs de pierre"
+  def resource_name(:glass, 1), do: "unité de verre"
+  def resource_name(:glass, _), do: "unités de verre"
+  def resource_name(:wood, 1), do: "rondin de bois"
+  def resource_name(:wood, _), do: "rondins de bois"
+  def resource_name(:fur, 1), do: "unité de fourrure"
+  def resource_name(:fur, _), do: "unités de fourrure"
+  def resource_name(:leather, 1), do: "unité de cuire"
+  def resource_name(:leather, _), do: "unités de cuire"
+  def resource_name(:cloth, 1), do: "vêtement"
+  def resource_name(:cloth, _), do: "vêtements"
+  def resource_name(:wool, 1), do: "unité de laine"
+  def resource_name(:wool, _), do: "unités de laine"
+  def resource_name(:food, 1), do: "ration"
+  def resource_name(:food, _), do: "rations"
+  def resource_name(:water, 1), do: "unité d'eau"
+  def resource_name(:water, _), do: "unités d'eau"
+  def resource_name(:flour, 1), do: "unité de farine"
+  def resource_name(:flour, _), do: "unités de farine"
+  def resource_name(:grain, 1), do: "unité de grain"
+  def resource_name(:grain, _), do: "unités de grain"
+  def resource_name(:meat, 1), do: "ration de viande"
+  def resource_name(:meat, _), do: "rations de viande"
+  def resource_name(:fish, 1), do: "ration de poisson"
+  def resource_name(:fish, _), do: "rations de poisson"
+  def resource_name(:vegetables, 1), do: "ration de légumes"
+  def resource_name(:vegetables, _), do: "rations de légumes"
+  def resource_name(:tallow, 1), do: "bocal de suif"
+  def resource_name(:tallow, _), do: "bocaux de suif"
+  def resource_name(:herbs, 1), do: "unité d'herbe"
+  def resource_name(:herbs, _), do: "unités d'herbe"
+  def resource_name(_type, _), do: "ressource inconnue"
+
+  defp validate_resource_field(stronghold) do
+    Enum.reduce(@resource_fields, stronghold, fn field, acc ->
+      validate_number(acc, field, greater_than_or_equal_to: 0)
+    end)
   end
 end

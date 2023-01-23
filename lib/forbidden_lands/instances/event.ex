@@ -15,7 +15,7 @@ defmodule ForbiddenLands.Instances.Event do
           id: non_neg_integer() | nil,
           human_datequarter: String.t() | nil,
           date: integer() | nil,
-          type: String.t() | nil,
+          type: atom() | nil,
           title: String.t() | nil,
           description: String.t() | nil
         }
