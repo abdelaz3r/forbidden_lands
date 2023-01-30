@@ -36,7 +36,15 @@ defmodule ForbiddenLands.Instances.Instances do
   end
 
   @spec update(Instance.t(), map(), list()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
-  def update(instance, params, resource_rules \\ []) do
+  def update(instance, params, resource_rules \\ [])
+
+  def update(instance, params, resource_rules) when resource_rules == [] do
+    instance
+    |> Instance.update(params, instance.resource_rules)
+    |> Repo.update()
+  end
+
+  def update(instance, params, resource_rules) do
     instance
     |> Instance.update(params, resource_rules)
     |> Repo.update()

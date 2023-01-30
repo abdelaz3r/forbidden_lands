@@ -24,7 +24,7 @@ defmodule ForbiddenLands.Instances.Instance do
     field(:human_date, :string, virtual: true)
     field(:initial_date, :integer)
     field(:current_date, :integer)
-    embeds_one(:stronghold, Stronghold)
+    embeds_one(:stronghold, Stronghold, on_replace: :update)
     embeds_many(:resource_rules, ResourceRule, on_replace: :delete)
     has_many(:events, Event)
 

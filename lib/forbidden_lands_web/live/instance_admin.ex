@@ -126,33 +126,57 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
     days_diff = old_calendar.day.number + abs(new_calendar.count.days - old_calendar.count.days) - 1
     weeks_diff = floor(days_diff / 7)
 
-    if weeks_diff > 0 do
-      title =
-        if weeks_diff == 1,
-          do: "1 semaine passe",
-          else: "#{weeks_diff} semaines passent"
+    instance =
+      if weeks_diff > 0 do
+        title =
+          if weeks_diff == 1,
+            do: "1 semaine passe",
+            else: "#{weeks_diff} semaines passent"
 
-      rules =
-        instance.resource_rules
-        |> Enum.map(fn %{name: name, type: type, amount: amount} ->
-          if amount > 0,
-            do: "— #{name} produit #{abs(amount * weeks_diff)} #{Stronghold.resource_name(type, amount)}",
-            else: "— #{name} consomme #{abs(amount * weeks_diff)} #{Stronghold.resource_name(type, amount)}"
-        end)
-        |> Enum.join("\r\n")
+        rules =
+          instance.resource_rules
+          |> Enum.map(fn %{name: name, type: type, amount: amount} ->
+            if amount > 0,
+              do: "— #{name} produit #{abs(amount * weeks_diff)} #{Stronghold.resource_name(type, amount)}",
+              else: "— #{name} consomme #{abs(amount * weeks_diff)} #{Stronghold.resource_name(type, amount)}"
+          end)
+          |> Enum.join("\r\n")
 
-      event =
-        Event.create(%Event{}, %{
-          "human_datequarter" => Calendar.to_datequarter(Calendar.start_of(new_calendar, :week)),
-          "type" => "automatic",
-          "title" => title,
-          "description" => "Récapitulatif des ressources du château: \r\n\r\n#{rules}"
-        })
+        event =
+          Event.create(%Event{}, %{
+            "human_datequarter" => Calendar.to_datequarter(Calendar.start_of(new_calendar, :week)),
+            "type" => "automatic",
+            "title" => title,
+            "description" => "Récapitulatif des ressources du château: \r\n\r\n#{rules}"
+          })
 
-      {:ok, _instance} = Instances.add_event(instance, event)
-    end
+        stronghold_params =
+          Enum.reduce(Stronghold.resource_fields(), %{}, fn field, params ->
+            current_amount = Map.get(params, Atom.to_string(field), Map.get(instance.stronghold, field))
 
-    case Instances.update(instance, %{current_date: new_calendar.count.quarters}, instance.resource_rules) do
+            new_amount =
+              Enum.reduce(instance.resource_rules, current_amount, fn %{type: type, amount: amount}, total ->
+                if type == field, do: total + amount * weeks_diff, else: total
+              end)
+
+            new_amount = Enum.max([0, new_amount])
+
+            Map.put(params, Atom.to_string(field), new_amount)
+          end)
+
+        with {:ok, _instance} = Instances.add_event(instance, event),
+             changeset <- Map.put(Stronghold.changeset(instance.stronghold, stronghold_params), :action, :update),
+             true <- changeset.valid?,
+             {:ok, instance} = Instances.update(instance, %{"stronghold" => changeset.changes}) do
+          instance
+        else
+          _ -> instance
+        end
+      else
+        instance
+      end
+
+    case Instances.update(instance, %{current_date: new_calendar.count.quarters}) do
       {:ok, _instance} ->
         ForbiddenLandsWeb.Endpoint.broadcast(socket.assigns.topic, "update", %{})
         {:noreply, socket}
