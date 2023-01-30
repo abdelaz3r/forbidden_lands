@@ -98,6 +98,22 @@ defmodule ForbiddenLands.Instances.Stronghold do
     |> validate_resource_field()
   end
 
+  @spec coins_to_type(non_neg_integer(), atom()) :: non_neg_integer()
+  def coins_to_type(coins, :copper) do
+    {copper, _silver, _gold} = coins_to_type(coins)
+    copper
+  end
+
+  def coins_to_type(coins, :silver) do
+    {_copper, silver, _gold} = coins_to_type(coins)
+    silver
+  end
+
+  def coins_to_type(coins, :gold) do
+    {_copper, _silver, gold} = coins_to_type(coins)
+    gold
+  end
+
   @spec coins_to_type(non_neg_integer()) :: {non_neg_integer(), non_neg_integer(), non_neg_integer()}
   def coins_to_type(coins) do
     gold = floor(coins / 100)
@@ -113,47 +129,47 @@ defmodule ForbiddenLands.Instances.Stronghold do
     @resource_fields
   end
 
-  def resource_name(:coins, 1), do: "pièce de cuivre"
+  def resource_name(:coins, x) when x <= 1, do: "pièce de cuivre"
   def resource_name(:coins, _), do: "pièces de cuivre"
-  def resource_name(:iron_ore, 1), do: "minerai de fer"
+  def resource_name(:iron_ore, x) when x <= 1, do: "minerai de fer"
   def resource_name(:iron_ore, _), do: " minerais de fer"
-  def resource_name(:iron, 1), do: "lingot de fer"
+  def resource_name(:iron, x) when x <= 1, do: "lingot de fer"
   def resource_name(:iron, _), do: "lingots de fer"
-  def resource_name(:silver, 1), do: "minerai d'argent"
+  def resource_name(:silver, x) when x <= 1, do: "minerai d'argent"
   def resource_name(:silver, _), do: "minerais d'argent"
-  def resource_name(:gold, 1), do: "minerai d'or"
+  def resource_name(:gold, x) when x <= 1, do: "minerai d'or"
   def resource_name(:gold, _), do: "minerais d'or"
-  def resource_name(:stone, 1), do: "bloc de pierre"
+  def resource_name(:stone, x) when x <= 1, do: "bloc de pierre"
   def resource_name(:stone, _), do: "blocs de pierre"
-  def resource_name(:glass, 1), do: "unité de verre"
+  def resource_name(:glass, x) when x <= 1, do: "unité de verre"
   def resource_name(:glass, _), do: "unités de verre"
-  def resource_name(:wood, 1), do: "rondin de bois"
+  def resource_name(:wood, x) when x <= 1, do: "rondin de bois"
   def resource_name(:wood, _), do: "rondins de bois"
-  def resource_name(:fur, 1), do: "unité de fourrure"
+  def resource_name(:fur, x) when x <= 1, do: "unité de fourrure"
   def resource_name(:fur, _), do: "unités de fourrure"
-  def resource_name(:leather, 1), do: "unité de cuire"
+  def resource_name(:leather, x) when x <= 1, do: "unité de cuire"
   def resource_name(:leather, _), do: "unités de cuire"
-  def resource_name(:cloth, 1), do: "vêtement"
+  def resource_name(:cloth, x) when x <= 1, do: "vêtement"
   def resource_name(:cloth, _), do: "vêtements"
-  def resource_name(:wool, 1), do: "unité de laine"
+  def resource_name(:wool, x) when x <= 1, do: "unité de laine"
   def resource_name(:wool, _), do: "unités de laine"
-  def resource_name(:food, 1), do: "ration"
+  def resource_name(:food, x) when x <= 1, do: "ration"
   def resource_name(:food, _), do: "rations"
-  def resource_name(:water, 1), do: "unité d'eau"
+  def resource_name(:water, x) when x <= 1, do: "unité d'eau"
   def resource_name(:water, _), do: "unités d'eau"
-  def resource_name(:flour, 1), do: "unité de farine"
+  def resource_name(:flour, x) when x <= 1, do: "unité de farine"
   def resource_name(:flour, _), do: "unités de farine"
-  def resource_name(:grain, 1), do: "unité de grain"
+  def resource_name(:grain, x) when x <= 1, do: "unité de grain"
   def resource_name(:grain, _), do: "unités de grain"
-  def resource_name(:meat, 1), do: "ration de viande"
+  def resource_name(:meat, x) when x <= 1, do: "ration de viande"
   def resource_name(:meat, _), do: "rations de viande"
-  def resource_name(:fish, 1), do: "ration de poisson"
+  def resource_name(:fish, x) when x <= 1, do: "ration de poisson"
   def resource_name(:fish, _), do: "rations de poisson"
-  def resource_name(:vegetables, 1), do: "ration de légumes"
+  def resource_name(:vegetables, x) when x <= 1, do: "ration de légumes"
   def resource_name(:vegetables, _), do: "rations de légumes"
-  def resource_name(:tallow, 1), do: "bocal de suif"
+  def resource_name(:tallow, x) when x <= 1, do: "bocal de suif"
   def resource_name(:tallow, _), do: "bocaux de suif"
-  def resource_name(:herbs, 1), do: "unité d'herbe"
+  def resource_name(:herbs, x) when x <= 1, do: "unité d'herbe"
   def resource_name(:herbs, _), do: "unités d'herbe"
   def resource_name(_type, _), do: "ressource inconnue"
 
