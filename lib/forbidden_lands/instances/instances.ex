@@ -14,7 +14,7 @@ defmodule ForbiddenLands.Instances.Instances do
         i in Instance,
         where: i.id == ^id,
         select: i,
-        preload: [events: ^from(e in Event, order_by: [desc: e.date], limit: 1_000)]
+        preload: [events: ^from(e in Event, order_by: [desc: e.date, desc: e.id], limit: 1_000)]
       )
 
     case Repo.one(query) do
