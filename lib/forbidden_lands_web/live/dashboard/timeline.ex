@@ -74,5 +74,11 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
     """
   end
 
+  defp event_type_icon(%{type: :death} = assigns) do
+    ~H"""
+    <Heroicons.hand_raised class={[event_icon_class(), "bg-purple-900 border-purple-700 outline-purple-800/40"]} />
+    """
+  end
+
   defp event_icon_class(), do: "float-left w-8 my-2 mr-3 p-1.5 rounded-full border outline outline-offset-2 outline-2"
 end

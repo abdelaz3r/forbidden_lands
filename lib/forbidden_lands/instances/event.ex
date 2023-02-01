@@ -9,7 +9,7 @@ defmodule ForbiddenLands.Instances.Event do
   alias ForbiddenLands.Instances.Event
   alias ForbiddenLands.Instances.Instance
 
-  @types [:automatic, :normal, :special, :legendary]
+  @types [:automatic, :normal, :special, :legendary, :death]
 
   @type t() :: %Event{
           id: non_neg_integer() | nil,
