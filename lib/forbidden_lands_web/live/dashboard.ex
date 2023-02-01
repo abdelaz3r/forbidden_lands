@@ -47,7 +47,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="md:grid md:grid-cols-[1fr_400px] h-screen bg-slate-700">
+    <div class="md:grid md:grid-cols-[1fr_400px] h-screen bg-slate-700 overflow-hidden relative">
       <div class="hidden md:block relative overflow-hidden">
         <div class="w-full h-full overflow-hidden">
           <.image path="map.jpg" alt="Carte des Forbiddens Land" class="object-cover h-full w-full" />
