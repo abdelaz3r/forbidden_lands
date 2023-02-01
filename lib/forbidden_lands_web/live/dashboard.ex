@@ -31,6 +31,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           |> assign(topic: topic)
           |> assign(instance: instance)
           |> assign(calendar: calendar)
+          |> assign(stronghold_open?: false)
 
         {:ok, socket}
 
@@ -57,10 +58,15 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
       <div class="h-screen flex flex-col overflow-hidden bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
         <.header date={@calendar} quarter_shift={@quarter_shift} />
         <.timeline events={@instance.events} />
-        <.stronghold stronghold={@instance.stronghold} />
+        <.stronghold stronghold={@instance.stronghold} open?={@stronghold_open?} />
       </div>
     </div>
     """
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("toggle_stronghold", _params, socket) do
+    {:noreply, assign(socket, :stronghold_open?, not socket.assigns.stronghold_open?)}
   end
 
   @impl Phoenix.LiveView

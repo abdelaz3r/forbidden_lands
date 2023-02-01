@@ -8,6 +8,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
   alias ForbiddenLands.Instances.Stronghold
 
   attr(:stronghold, :map, required: true, doc: "todo")
+  attr(:open?, :boolean, required: true, doc: "todo")
   attr(:class, :string, default: "", doc: "todo")
 
   @spec stronghold(assigns :: map()) :: Phoenix.LiveView.Rendered.t()
@@ -17,12 +18,14 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
       :if={@stronghold}
       class={[
         "flex-none font-title border-t border-slate-900 shadow-2xl shadow-black/50 bg-gradient-to-l from-slate-800",
-        "to-slate-900 h-[140px] hover:h-[434px] transition-all duration-500 relative",
+        "to-slate-900 transition-all duration-500 relative",
+        if(@open?, do: "h-[434px]", else: "h-[140px]"),
         @class
       ]}
     >
-      <button type="button" class="absolute -top-10 w-full p-2">
-        <Heroicons.chevron_double_up class="h-6 w-6 m-auto" />
+      <button type="button" class="absolute -top-10 w-full p-2" phx-click="toggle_stronghold">
+        <Heroicons.chevron_double_down :if={@open?} class="h-6 w-6 m-auto" />
+        <Heroicons.chevron_double_up :if={not @open?} class="h-6 w-6 m-auto" />
       </button>
 
       <div class="p-4">
