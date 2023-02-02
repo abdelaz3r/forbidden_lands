@@ -24,8 +24,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
       ]}
     >
       <button type="button" class="absolute -top-10 w-full p-2" phx-click="toggle_stronghold">
-        <Heroicons.chevron_double_down :if={@open?} class="h-6 w-6 m-auto" />
-        <Heroicons.chevron_double_up :if={not @open?} class="h-6 w-6 m-auto" />
+        <Heroicons.chevron_double_up class={["h-6 w-6 m-auto transition-all duration-500", @open? && "rotate-180"]} />
       </button>
 
       <div class="p-4">
@@ -59,9 +58,9 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
 
         <div class="grid grid-cols-2 gap-1 tabular-nums">
           <div :for={type <- Stronghold.resource_fields()} :if={type != :coins} class="flex gap-1 items-baseline">
-            <span class="inline-flex font-bold">
+            <span class="inline-flex font-bold items-baseline">
               <span class="text-slate-100/10"><%= leading_zeros(Map.get(@stronghold, type)) %></span>
-              <%= Map.get(@stronghold, type) %>
+              <%= Enum.min([9999, Map.get(@stronghold, type)]) %>
             </span>
             <span class="text-slate-100/60 text-sm truncate">
               <%= Stronghold.resource_name(type, Map.get(@stronghold, type)) %>
