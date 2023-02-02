@@ -1,4 +1,4 @@
-defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
+defmodule ForbiddenLandsWeb.Live.Admin do
   @moduledoc """
   Dashboard of an instance.
   """
@@ -128,11 +128,6 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
 
     instance =
       if weeks_diff > 0 do
-        title =
-          if weeks_diff == 1,
-            do: "1 semaine passe",
-            else: "#{weeks_diff} semaines passent"
-
         rules =
           instance.resource_rules
           |> Enum.map(fn %{name: name, type: type, amount: amount} ->
@@ -146,8 +141,9 @@ defmodule ForbiddenLandsWeb.Live.InstanceAdmin do
           Event.create(%Event{}, %{
             "human_datequarter" => Calendar.to_datequarter(Calendar.start_of(new_calendar, :week)),
             "type" => "automatic",
-            "title" => title,
-            "description" => "Récapitulatif des ressources du château: \r\n\r\n#{rules}"
+            "title" => dngettext("events", "1 semaine passe", "%{count} semaines passent", weeks_diff),
+            "description" =>
+              dgettext("events", "Récapitulatif des ressources du château: \r\n\r\n%{rules}", rules: rules)
           })
 
         stronghold_params =

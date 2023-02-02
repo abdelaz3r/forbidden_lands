@@ -18,11 +18,9 @@ defmodule ForbiddenLandsWeb.Router do
     pipe_through(:browser)
 
     live("/", Instances)
-    live("/new", CreateInstance)
-    live("/instance/:id", Dashboard)
-    live("/instance/:id/admin", InstanceAdmin)
-
-    live("/test/calendar", Calendar)
+    live("/instance/new", CreateInstance)
+    live("/instance/:id/dashboard", Dashboard)
+    live("/instance/:id/admin", Admin)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

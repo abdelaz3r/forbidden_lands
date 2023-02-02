@@ -28,7 +28,7 @@ defmodule ForbiddenLandsWeb.Live.Instances do
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <.link
           :for={instance <- @instances}
-          navigate={~p"/instance/#{instance.id}"}
+          navigate={~p"/instance/#{instance.id}/dashboard"}
           class="block p-5 min-h-[134px] border border-slate-900/50 bg-slate-800 shadow-2xl shadow-black/50"
         >
           <h2 class="font-bold text-xl pb-4"><%= instance.name %></h2>
@@ -43,7 +43,7 @@ defmodule ForbiddenLandsWeb.Live.Instances do
         </.link>
 
         <.link
-          navigate={~p"/new"}
+          navigate={~p"/instance/new"}
           class="block p-5 min-h-[134px] border border-slate-900/50 bg-slate-800 shadow-2xl shadow-black/50"
         >
           <h2 class="font-bold text-xl pb-4">Créer une nouvelle instance</h2>
