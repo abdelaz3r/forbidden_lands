@@ -33,12 +33,14 @@ defmodule ForbiddenLands.Instances.Stronghold do
 
   @type t() :: %Stronghold{
           name: String.t() | nil,
-          location: String.t() | nil,
           description: String.t() | nil,
           defense: non_neg_integer() | nil,
+          reputation: non_neg_integer() | nil,
           coins: non_neg_integer() | nil,
           functions: String.t() | nil,
           hireling: String.t() | nil,
+          tools: String.t() | nil,
+          items: String.t() | nil,
           iron_ore: non_neg_integer() | nil,
           iron: non_neg_integer() | nil,
           silver: non_neg_integer() | nil,
@@ -62,12 +64,14 @@ defmodule ForbiddenLands.Instances.Stronghold do
         }
   embedded_schema do
     field(:name, :string)
-    field(:location, :string)
     field(:description, :string)
     field(:defense, :integer, default: 0)
+    field(:reputation, :integer, default: 0)
     field(:coins, :integer, default: 0)
     field(:functions, :string)
     field(:hireling, :string)
+    field(:tools, :string)
+    field(:items, :string)
     field(:iron_ore, :integer, default: 0)
     field(:iron, :integer, default: 0)
     field(:silver, :integer, default: 0)
@@ -93,7 +97,10 @@ defmodule ForbiddenLands.Instances.Stronghold do
   @spec changeset(Stronghold.t(), map()) :: Ecto.Changeset.t()
   def changeset(stronghold, params \\ %{}) do
     stronghold
-    |> cast(params, [:name, :location, :description, :defense, :functions, :hireling] ++ @resource_fields)
+    |> cast(
+      params,
+      [:name, :description, :defense, :reputation, :functions, :hireling, :tools, :items] ++ @resource_fields
+    )
     |> validate_required([:name])
     |> validate_resource_field()
   end

@@ -52,7 +52,9 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
           </div>
           <div class="border border-slate-800 py-2 px-4 bg-slate-900/60 justify-around flex gap-2 items-center flex-none">
             <Heroicons.chat_bubble_left_right class="float-left w-7 p-1 rounded-full border outline outline-offset-2 outline-2 bg-cyan-200 border-cyan-100 outline-cyan-100/10 text-cyan-700" />
-            <span class="text-xl font-bold">—</span>
+            <span class="text-xl font-bold">
+              <%= @stronghold.reputation %>
+            </span>
           </div>
         </div>
 

@@ -55,6 +55,8 @@ defmodule ForbiddenLandsWeb.Live.Admin.Stronghold do
           <.input field={{f, :description}} type="textarea" label={dgettext("admin", "Description")} />
           <.input field={{f, :functions}} type="textarea" label={dgettext("admin", "Bâtiments")} />
           <.input field={{f, :hirelings}} type="textarea" label={dgettext("admin", "Employés")} />
+          <.input field={{f, :tools}} type="textarea" label={dgettext("admin", "Outils")} />
+          <.input field={{f, :items}} type="textarea" label={dgettext("admin", "Trésor")} />
           <div class="grid grid-cols-3 gap-4">
             <.input
               :for={resource <- Stronghold.resource_fields()}

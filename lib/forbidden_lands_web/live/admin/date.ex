@@ -64,10 +64,9 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
       ) do
     new_calendar = Calendar.add(calendar, String.to_integer(amount), :quarter)
     weeks_diff = compute_weeks_diff(calendar, new_calendar)
-    IO.inspect(weeks_diff)
 
     instance =
-      if weeks_diff > 0 do
+      if not is_nil(instance.stronghold) and weeks_diff > 0 do
         rules =
           instance.resource_rules
           |> Enum.map(fn %{name: name, type: type, amount: amount} ->
