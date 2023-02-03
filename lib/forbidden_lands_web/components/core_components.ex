@@ -185,7 +185,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
   def simple_form(assigns) do
     ~H"""
     <.form :let={f} for={@for} as={@as} {@rest}>
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col">
         <%= render_slot(@inner_block, f) %>
         <div :for={action <- @actions} class="flex gap-6 justify-between items-center mt-2">
           <%= render_slot(action, f) %>
@@ -205,6 +205,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
   """
   attr(:type, :string, default: nil)
   attr(:class, :string, default: nil)
+  attr(:color, :atom, default: :gray)
   attr(:rest, :global, include: ~w(disabled form name value))
 
   slot(:inner_block, required: true)
@@ -214,8 +215,8 @@ defmodule ForbiddenLandsWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded bg-slate-700 hover:bg-slate-600 border border-slate-900 py-2 px-3",
-        "text-sm font-semibold leading-6 text-slate/80 transition-all",
+        "phx-submit-loading:opacity-75 rounded border py-2 px-3 text-sm font-semibold leading-6 transition-all",
+        color(@color),
         @class
       ]}
       {@rest}
@@ -224,6 +225,10 @@ defmodule ForbiddenLandsWeb.CoreComponents do
     </button>
     """
   end
+
+  defp color(:blue), do: "bg-cyan-700 hover:bg-cyan-600 border-cyan-900 text-white"
+  defp color(:red), do: "bg-rose-700 hover:bg-rose-600 border-rose-900 text-white"
+  defp color(:gray), do: "bg-slate-700 hover:bg-slate-600 border-slate-900 text-white"
 
   @doc """
   Renders an input with label and error messages.
@@ -299,7 +304,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "block mt-2 p-2 w-full bg-white rounded border-2 shadow-sm sm:text-sm focus:ring-4",
+          "block mt-0.5 p-2 w-full bg-white rounded border-1 shadow-sm sm:text-sm focus:ring-4",
           "text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-blue-500/20",
           input_border(@errors)
         ]}
@@ -322,7 +327,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
         id={@id || @name}
         name={@name}
         class={[
-          "mt-2 block min-h-[6rem] w-full rounded border-2 p-2",
+          "mt-0.5 block h-40 w-full rounded border-1 p-2",
           "text-slate-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
           "phx-no-feedback:border-blue-500 phx-no-feedback:focus:border-blue-500",
           input_border(@errors)
@@ -345,7 +350,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
         id={@id || @name}
         value={@value}
         class={[
-          "mt-2 block w-full rounded border-2 p-2",
+          "mt-0.5 block w-full rounded border-1 p-2",
           "text-slate-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
           "phx-no-feedback:border-blue-500 phx-no-feedback:focus:border-grey-500",
           input_border(@errors)
@@ -381,7 +386,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
 
   def error(assigns) do
     ~H"""
-    <div class="flex flex-col gap-1 mt-1 text-sm min-h-[20px] text-rose-600">
+    <div class="flex flex-col gap-1 mt-1 text-xs min-h-[20px] text-rose-600">
       <p :for={msg <- @errors}>
         <%= String.capitalize(msg) %>
       </p>
