@@ -57,4 +57,9 @@ defmodule ForbiddenLands.Instances.Instances do
     |> Ecto.Changeset.cast(event.changes, [:date, :type, :title, :description])
     |> Repo.insert()
   end
+
+  @spec remove_event(map()) :: {:ok, Event.t()} | {:error, Ecto.Changeset.t()}
+  def remove_event(event) do
+    Repo.delete(event)
+  end
 end
