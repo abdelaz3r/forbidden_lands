@@ -21,6 +21,7 @@ defmodule ForbiddenLandsWeb.Router do
     live("/instance/new", CreateInstance)
     live("/instance/:id/dashboard", Dashboard)
     live("/instance/:id/admin", Admin)
+    live("/instance/:id/admin/:panel", Admin)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
