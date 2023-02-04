@@ -70,12 +70,40 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
           </div>
         </div>
       </div>
+
+      <div class={[
+        "grid grid-cols-2 gap-4 absolute bottom-4 right-[416px] w-[620px] transition-all duration-500",
+        if(@open?, do: "opacity-100", else: "opacity-0")
+      ]}>
+        <div class="flex flex-col justify-end gap-4">
+          <.bloc_content :if={@stronghold.items} title="Trésor" content={@stronghold.items} />
+          <.bloc_content :if={@stronghold.hirelings} title="Gens du châteaux" content={@stronghold.hirelings} />
+        </div>
+        <div class="flex flex-col justify-end gap-4">
+          <.bloc_content :if={@stronghold.description} title="Description" content={@stronghold.description} />
+          <.bloc_content :if={@stronghold.tools} title="Outils" content={@stronghold.tools} />
+          <.bloc_content :if={@stronghold.functions} title="Bâtiments/Dépendances" content={@stronghold.functions} />
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  defp bloc_content(%{title: _title, content: _content} = assigns) do
+    ~H"""
+    <div class="p-4 border border-slate-900 shadow-lg bg-gradient-to-l from-slate-800 to-slate-900">
+      <h2 class="pb-2 border-b mb-2 border-slate-900 font-bold">
+        <%= @title %>
+      </h2>
+      <div class="text-sm space-y-1.5 text-slate-100/80">
+        <%= Phoenix.HTML.Format.text_to_html(@content) |> raw() %>
+      </div>
     </div>
     """
   end
 
   defp leading_zeros(amount) do
-    String.pad_leading("", 4 - String.length(Integer.to_string(amount)), "0")
+    String.pad_leading("", Enum.max([0, 4 - String.length(Integer.to_string(amount))]), "0")
   end
 
   defp coins_class(:copper), do: "bg-orange-800 border-orange-700 outline-orange-700/10 text-orange-200"

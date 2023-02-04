@@ -38,7 +38,7 @@ defmodule ForbiddenLands.Instances.Stronghold do
           reputation: non_neg_integer() | nil,
           coins: non_neg_integer() | nil,
           functions: String.t() | nil,
-          hireling: String.t() | nil,
+          hirelings: String.t() | nil,
           tools: String.t() | nil,
           items: String.t() | nil,
           iron_ore: non_neg_integer() | nil,
@@ -69,7 +69,7 @@ defmodule ForbiddenLands.Instances.Stronghold do
     field(:reputation, :integer, default: 0)
     field(:coins, :integer, default: 0)
     field(:functions, :string)
-    field(:hireling, :string)
+    field(:hirelings, :string)
     field(:tools, :string)
     field(:items, :string)
     field(:iron_ore, :integer, default: 0)
@@ -99,7 +99,7 @@ defmodule ForbiddenLands.Instances.Stronghold do
     stronghold
     |> cast(
       params,
-      [:name, :description, :defense, :reputation, :functions, :hireling, :tools, :items] ++ @resource_fields
+      [:name, :description, :defense, :reputation, :functions, :hirelings, :tools, :items] ++ @resource_fields
     )
     |> validate_required([:name])
     |> validate_resource_field()

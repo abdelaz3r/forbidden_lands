@@ -115,7 +115,6 @@ defmodule ForbiddenLandsWeb.Live.Admin.Stronghold do
         %{"stronghold" => stronghold},
         %{assigns: %{topic: topic, instance: instance}} = socket
       ) do
-    IO.inspect(stronghold)
     changeset = Map.put(Stronghold.changeset(instance.stronghold || %Stronghold{}, stronghold), :action, :update)
 
     with true <- changeset.valid?,

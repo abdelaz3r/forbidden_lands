@@ -55,7 +55,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
         </div>
       </div>
 
-      <div class="h-screen flex flex-col overflow-hidden bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
+      <div class="h-screen flex flex-col bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
         <.header date={@calendar} quarter_shift={@quarter_shift} />
         <.timeline events={@instance.events} />
         <.stronghold stronghold={@instance.stronghold} open?={@stronghold_open?} />
