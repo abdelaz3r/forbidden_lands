@@ -55,16 +55,18 @@ defmodule ForbiddenLandsWeb.Live.Admin do
         <nav class="flex justify-between border-b">
           <div class="flex px-3">
             <.link
-              :for={%{name: name, key: key, component: _component} <- panels()}
+              :for={%{key: key, component: _component} <- panels()}
               class={["py-4 px-3 font-bold", @panel.key == key && "text-sky-800 underline"]}
               patch={~p"/instance/#{@instance.id}/admin/#{key}"}
             >
-              <span class="text-grey-600"><%= name %></span>
+              <span class="text-grey-600">
+                <.nav_icon key={key} class="w-6 h-6" />
+              </span>
             </.link>
           </div>
           <div class="flex">
             <.link navigate={~p"/instance/#{@instance.id}/dashboard"} class="py-4 px-6 font-bold">
-              Voir
+              <Heroicons.arrow_top_right_on_square class="w-6 h-6" />
             </.link>
           </div>
         </nav>
@@ -110,11 +112,35 @@ defmodule ForbiddenLandsWeb.Live.Admin do
     end
   end
 
+  defp nav_icon(%{key: "date"} = assigns) do
+    ~H"""
+    <Heroicons.bookmark class={@class} />
+    """
+  end
+
+  defp nav_icon(%{key: "event"} = assigns) do
+    ~H"""
+    <Heroicons.calendar_days class={@class} />
+    """
+  end
+
+  defp nav_icon(%{key: "stronghold"} = assigns) do
+    ~H"""
+    <Heroicons.home class={@class} />
+    """
+  end
+
+  defp nav_icon(%{key: "export"} = assigns) do
+    ~H"""
+    <Heroicons.arrow_down_on_square class={@class} />
+    """
+  end
+
   defp panels() do
     [
-      %{name: "Date", key: "date", component: ForbiddenLandsWeb.Live.Admin.Date},
-      %{name: "Evénement", key: "event", component: ForbiddenLandsWeb.Live.Admin.Event},
-      %{name: "Château", key: "stronghold", component: ForbiddenLandsWeb.Live.Admin.Stronghold}
+      %{key: "date", component: ForbiddenLandsWeb.Live.Admin.Date},
+      %{key: "event", component: ForbiddenLandsWeb.Live.Admin.Event},
+      %{key: "stronghold", component: ForbiddenLandsWeb.Live.Admin.Stronghold}
     ]
   end
 end
