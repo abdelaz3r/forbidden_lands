@@ -70,6 +70,10 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   end
 
   @impl Phoenix.LiveView
+  def handle_info(%{topic: topic, event: "toggle_stronghold"}, socket) when topic == socket.assigns.topic do
+    {:noreply, assign(socket, :stronghold_open?, not socket.assigns.stronghold_open?)}
+  end
+
   def handle_info(%{topic: topic, event: "update"}, socket) when topic == socket.assigns.topic do
     case Instances.get(socket.assigns.instance.id) do
       {:ok, instance} ->

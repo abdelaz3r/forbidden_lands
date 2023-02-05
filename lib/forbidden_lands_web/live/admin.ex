@@ -112,6 +112,10 @@ defmodule ForbiddenLandsWeb.Live.Admin do
     end
   end
 
+  def handle_info(%{topic: topic, event: _event}, socket) when topic == socket.assigns.topic do
+    {:noreply, socket}
+  end
+
   defp nav_icon(%{key: "date"} = assigns) do
     ~H"""
     <Heroicons.bookmark class={@class} />

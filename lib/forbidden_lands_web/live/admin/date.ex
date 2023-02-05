@@ -24,6 +24,9 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
         <.button phx-click="move" phx-target={@myself} phx-value-amount={1} color={:blue}>
           <%= dgettext("admin", "Passer au prochain quarter") %>
         </.button>
+        <.button phx-click="toggle_stronghold" phx-target={@myself}>
+          <%= dgettext("admin", "Afficher/cacher le château") %>
+        </.button>
 
         <button
           type="button"
@@ -54,6 +57,12 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
   @impl Phoenix.LiveComponent
   def handle_event("show_more", _params, socket) do
     {:noreply, assign(socket, :show_more?, not socket.assigns.show_more?)}
+  end
+
+  @impl Phoenix.LiveComponent
+  def handle_event("toggle_stronghold", _params, %{assigns: %{topic: topic}} = socket) do
+    ForbiddenLandsWeb.Endpoint.broadcast(topic, "toggle_stronghold", %{})
+    {:noreply, socket}
   end
 
   @impl Phoenix.LiveComponent
