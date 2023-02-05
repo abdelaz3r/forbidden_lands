@@ -76,26 +76,34 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
         if(@open?, do: "opacity-100", else: "opacity-0")
       ]}>
         <div class="flex flex-col justify-end gap-4">
-          <.bloc_content :if={@stronghold.items} title="Trésor" content={@stronghold.items} />
-          <.bloc_content :if={@stronghold.hirelings} title="Gens du châteaux" content={@stronghold.hirelings} />
+          <.bloc_content :if={@stronghold.items} underlined?={false} title="Trésor" content={@stronghold.items} />
+          <.bloc_content :if={@stronghold.hirelings} underlined?={true} title="Gens du châteaux" content={@stronghold.hirelings} />
         </div>
         <div class="flex flex-col justify-end gap-4">
-          <.bloc_content :if={@stronghold.description} title="Description" content={@stronghold.description} />
-          <.bloc_content :if={@stronghold.tools} title="Outils" content={@stronghold.tools} />
-          <.bloc_content :if={@stronghold.functions} title="Bâtiments/Dépendances" content={@stronghold.functions} />
+          <.bloc_content :if={@stronghold.description} underlined?={false} title="Description" content={@stronghold.description} />
+          <.bloc_content :if={@stronghold.tools} underlined?={false} title="Outils" content={@stronghold.tools} />
+          <.bloc_content
+            :if={@stronghold.functions}
+            underlined?={true}
+            title="Bâtiments/Dépendances"
+            content={@stronghold.functions}
+          />
         </div>
       </div>
     </div>
     """
   end
 
-  defp bloc_content(%{title: _title, content: _content} = assigns) do
+  defp bloc_content(%{title: _title, content: _content, underlined?: _underlined?} = assigns) do
     ~H"""
     <div class="p-4 border border-slate-900 shadow-lg bg-gradient-to-l from-slate-800 to-slate-900">
       <h2 class="pb-2 border-b mb-2 border-slate-900 font-bold">
         <%= @title %>
       </h2>
-      <div class="text-sm space-y-1.5 text-slate-100/80">
+      <div class={[
+        "text-sm space-y-1.5 text-slate-100/80",
+        @underlined? && "underline underline-offset-8 decoration-slate-700 leading-loose"
+      ]}>
         <%= Phoenix.HTML.Format.text_to_html(@content) |> raw() %>
       </div>
     </div>
