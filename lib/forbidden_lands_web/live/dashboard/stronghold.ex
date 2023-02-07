@@ -100,11 +100,8 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
       <h2 class="pb-2 border-b mb-2 border-slate-900 font-bold">
         <%= @title %>
       </h2>
-      <div class={[
-        "text-sm space-y-1.5 text-slate-100/80",
-        @underlined? && "underline underline-offset-8 decoration-slate-700 leading-loose"
-      ]}>
-        <%= Phoenix.HTML.Format.text_to_html(@content) |> raw() %>
+      <div class="text-sm space-y-1.5 text-slate-100/80">
+        <%= Helper.text_to_raw_html(@content) %>
       </div>
     </div>
     """

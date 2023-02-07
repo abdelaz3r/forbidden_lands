@@ -21,7 +21,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
           <.event_date date={event.date} />
         </header>
         <div :if={not is_nil(event.description)} class="text-sm space-y-1.5 px-4 text-slate-100/80">
-          <%= Phoenix.HTML.Format.text_to_html(event.description) |> raw() %>
+          <%= Helper.text_to_raw_html(event.description) |> raw() %>
         </div>
         <hr class="border-t border-slate-900/50" />
       </section>
