@@ -53,6 +53,8 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
         <div class="w-full h-full overflow-hidden">
           <.image path="map.jpg" alt="Carte des Forbiddens Land" class="object-cover h-full w-full" />
         </div>
+        <div class="absolute inset-0 shadow-[inset_0_0_60px_30px_rgba(0,0,0,0.6),_inset_0_0_10px_5px_rgba(0,0,0,0.2)] backdrop-hue-rotate-[50deg]">
+        </div>
       </div>
 
       <div class="h-screen flex flex-col bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
