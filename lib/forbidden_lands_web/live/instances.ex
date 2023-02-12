@@ -24,31 +24,29 @@ defmodule ForbiddenLandsWeb.Live.Instances do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="p-5 md:p-20 min-h-screen bg-slate-700 font-title">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <.link
-          :for={instance <- @instances}
-          navigate={~p"/instance/#{instance.id}/dashboard"}
-          class="block p-5 min-h-[134px] border border-slate-900/50 bg-slate-800 shadow-2xl shadow-black/50"
-        >
-          <h2 class="font-bold text-xl pb-4"><%= instance.name %></h2>
-          <p class="flex justify-between">
-            <span class="opacity-40">Date de départ</span>
-            <%= instance.initial_date |> Calendar.from_quarters() |> Calendar.format() %>
-          </p>
-          <p class="flex justify-between">
-            <span class="opacity-40">Date actuelle</span>
-            <%= instance.current_date |> Calendar.from_quarters() |> Calendar.format() %>
-          </p>
-        </.link>
+    <div class="bg-white text-slate-900 max-w-[700px] mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
+      <.link
+        :for={instance <- @instances}
+        navigate={~p"/instance/#{instance.id}/dashboard"}
+        class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all min-h-[134px]"
+      >
+        <h2 class="font-bold text-xl pb-4"><%= instance.name %></h2>
+        <p class="flex justify-between">
+          <span class="opacity-40">Date de départ</span>
+          <%= instance.initial_date |> Calendar.from_quarters() |> Calendar.format() %>
+        </p>
+        <p class="flex justify-between">
+          <span class="opacity-40">Date actuelle</span>
+          <%= instance.current_date |> Calendar.from_quarters() |> Calendar.format() %>
+        </p>
+      </.link>
 
-        <.link
-          navigate={~p"/instance/new"}
-          class="block p-5 min-h-[134px] border border-slate-900/50 bg-slate-800 shadow-2xl shadow-black/50"
-        >
-          <h2 class="font-bold text-xl pb-4">Créer une nouvelle instance</h2>
-        </.link>
-      </div>
+      <.link
+        navigate={~p"/instance/new"}
+        class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all min-h-[134px]"
+      >
+        <h2 class="font-bold text-xl pb-4">Créer une nouvelle instance</h2>
+      </.link>
     </div>
     """
   end
