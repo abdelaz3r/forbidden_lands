@@ -52,17 +52,21 @@ defmodule ForbiddenLandsWeb.Live.Admin.Stronghold do
             <.input field={{f, :defense}} type="number" label={dgettext("admin", "Défense")} />
             <.input field={{f, :reputation}} type="number" label={dgettext("admin", "Réputation")} />
           </div>
-          <.input field={{f, :description}} type="textarea" label={dgettext("admin", "Description")} />
-          <.input field={{f, :functions}} type="textarea" label={dgettext("admin", "Bâtiments")} />
-          <.input field={{f, :hirelings}} type="textarea" label={dgettext("admin", "Employés")} />
-          <.input field={{f, :tools}} type="textarea" label={dgettext("admin", "Outils")} />
-          <.input field={{f, :items}} type="textarea" label={dgettext("admin", "Trésor")} />
-          <div class="grid grid-cols-3 gap-4">
+          <.input field={{f, :description}} type="textarea" label={dgettext("admin", "Description")} style="height: 90px;" />
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <.input field={{f, :functions}} type="textarea" label={dgettext("admin", "Bâtiments")} style="height: 450px;" />
+            <.input field={{f, :hirelings}} type="textarea" label={dgettext("admin", "Employés")} style="height: 450px;" />
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <.input field={{f, :tools}} type="textarea" label={dgettext("admin", "Outils")} style="height: 115px;" />
+            <.input field={{f, :items}} type="textarea" label={dgettext("admin", "Trésor")} style="height: 115px;" />
+          </div>
+          <div class="grid grid-cols-4 gap-4 items-end">
             <.input
               :for={resource <- Stronghold.resource_fields()}
               field={{f, resource}}
               type="number"
-              label={Stronghold.resource_name(resource, 1)}
+              label={Stronghold.resource_name(resource, 1) |> String.capitalize()}
             />
           </div>
           <:actions>
