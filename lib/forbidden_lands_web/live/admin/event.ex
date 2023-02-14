@@ -10,51 +10,85 @@ defmodule ForbiddenLandsWeb.Live.Admin.Event do
 
   @impl Phoenix.LiveComponent
   def mount(socket) do
-    {:ok, assign(socket, changeset: Event.create(%Event{}, %{}))}
+    socket =
+      socket
+      |> assign(edit: false)
+      |> assign(changeset: Event.create(%Event{}, %{}))
+
+    {:ok, socket}
+  end
+
+  @impl Phoenix.LiveComponent
+  def update(assigns, socket) do
+    socket =
+      socket
+      |> assign(instance: assigns.instance)
+      |> assign(topic: assigns.topic)
+      |> assign(calendar: assigns.calendar)
+      |> assign(changeset: Event.create(%Event{}, default_params(assigns.calendar)))
+
+    {:ok, socket}
   end
 
   @impl Phoenix.LiveComponent
   def render(assigns) do
-    # MAYBE ADD:
-    # edition d'events
-
     ~H"""
     <div class="p-6">
       <section>
         <h2 class="pb-3 text-xl font-bold">
-          <%= dgettext("admin", "Ajouter un événement") %>
+          <%= if @edit do %>
+            <%= dgettext("admin", "Editer un événement") %>
+          <% else %>
+            <%= dgettext("admin", "Ajouter un événement") %>
+          <% end %>
         </h2>
 
         <.simple_form :let={f} as={:event} for={@changeset} phx-submit="create_event" phx-target={@myself}>
+          <div class="h-0 overflow-hidden">
+            <.input :if={@edit} field={{f, :id}} type="hidden" />
+          </div>
           <div class="grid grid-cols-2 gap-4">
+            <.input field={{f, :human_datequarter}} label={dgettext("admin", "Date (dd.mm.yyyy q/4)")} />
             <.input
-              field={{f, :human_datequarter}}
-              label={dgettext("admin", "Date (dd.mm.yyyy q/4)")}
-              value={Calendar.to_datequarter(@calendar)}
+              field={{f, :type}}
+              type="select"
+              options={Event.types()}
+              label={dgettext("admin", "Type")}
+              {if(@edit, do: %{}, else: %{value: "normal"})}
             />
-            <.input field={{f, :type}} type="select" options={Event.types()} label={dgettext("admin", "Type")} value="normal" />
           </div>
           <.input field={{f, :title}} label={dgettext("admin", "Titre")} />
           <.input field={{f, :description}} type="textarea" label={dgettext("admin", "Description")} />
           <:actions>
             <.button color={:blue}>
-              <%= dgettext("admin", "Ajouter") %>
+              <%= if @edit do %>
+                <%= dgettext("admin", "Mettre à jour") %>
+              <% else %>
+                <%= dgettext("admin", "Ajouter") %>
+              <% end %>
             </.button>
           </:actions>
         </.simple_form>
       </section>
 
       <section>
-        <h2 class="pt-10 pb-3 text-xl font-bold">Événements</h2>
+        <h2 class="pt-10 pb-3 text-xl font-bold">
+          Événements (<%= length(@instance.events) %>)
+        </h2>
 
         <div :for={event <- @instance.events} class="flex justify-between py-2 border-b">
           <div>
             <div><%= event.title %></div>
             <div class="text-xs"><%= event.date |> Calendar.from_quarters() |> Calendar.format() %></div>
           </div>
-          <button type="button" phx-click="delete_event" phx-value-id={event.id} phx-target={@myself}>
-            <Heroicons.x_mark class="h-6 w-6 " />
-          </button>
+          <div class="flex gap-3">
+            <button type="button" phx-click="edit_event" phx-value-id={event.id} phx-target={@myself}>
+              <Heroicons.pencil_square class="h-6 w-6 " />
+            </button>
+            <button type="button" phx-click="delete_event" phx-value-id={event.id} phx-target={@myself}>
+              <Heroicons.x_mark class="h-6 w-6 " />
+            </button>
+          </div>
         </div>
         <p :if={length(@instance.events) == 0}>
           <%= dgettext("admin", "Aucun événements") %>
@@ -65,7 +99,11 @@ defmodule ForbiddenLandsWeb.Live.Admin.Event do
   end
 
   @impl Phoenix.LiveComponent
-  def handle_event("create_event", %{"event" => event}, %{assigns: %{topic: topic, instance: instance}} = socket) do
+  def handle_event(
+        "create_event",
+        %{"event" => event},
+        %{assigns: %{topic: topic, instance: instance, calendar: calendar, edit: false}} = socket
+      ) do
     event =
       %Event{}
       |> Event.create(event)
@@ -77,8 +115,37 @@ defmodule ForbiddenLandsWeb.Live.Admin.Event do
 
       socket =
         socket
-        |> assign(:changeset, Event.create(%Event{}, %{}))
+        |> assign(:changeset, Event.create(%Event{}, default_params(calendar)))
         |> put_flash(:info, "Événement créé")
+
+      {:noreply, socket}
+    else
+      false -> {:noreply, assign(socket, :changeset, event)}
+      {:error, _changeset} -> {:noreply, socket}
+    end
+  end
+
+  @impl Phoenix.LiveComponent
+  def handle_event(
+        "create_event",
+        %{"event" => event},
+        %{assigns: %{topic: topic, instance: instance, calendar: calendar, edit: true}} = socket
+      ) do
+    event =
+      instance.events
+      |> Enum.find(fn e -> e.id == String.to_integer(event["id"]) end)
+      |> Event.create(event)
+      |> Map.put(:action, :update)
+
+    with true <- event.valid?,
+         {:ok, _event} = Instances.update_event(event) do
+      ForbiddenLandsWeb.Endpoint.broadcast(topic, "update", %{})
+
+      socket =
+        socket
+        |> assign(edit: false)
+        |> assign(:changeset, Event.create(%Event{}, default_params(calendar)))
+        |> put_flash(:info, "Événement mis à jour")
 
       {:noreply, socket}
     else
@@ -92,9 +159,26 @@ defmodule ForbiddenLandsWeb.Live.Admin.Event do
     with event <- Enum.find(instance.events, fn event -> event.id == String.to_integer(event_id) end),
          {:ok, _instance} = Instances.remove_event(event) do
       ForbiddenLandsWeb.Endpoint.broadcast(topic, "update", %{})
-      {:noreply, put_flash(socket, :info, "Événement suppr.")}
+      {:noreply, put_flash(socket, :info, "Événement supprimé")}
     else
       {:error, _changeset} -> {:noreply, socket}
     end
+  end
+
+  @impl Phoenix.LiveComponent
+  def handle_event("edit_event", %{"id" => event_id}, %{assigns: %{instance: instance}} = socket) do
+    event = Enum.find(instance.events, fn event -> event.id == String.to_integer(event_id) end)
+    params = %{"human_datequarter" => Calendar.from_quarters(event.date) |> Calendar.to_datequarter()}
+
+    socket =
+      socket
+      |> assign(edit: true)
+      |> assign(changeset: Event.create(event, params))
+
+    {:noreply, socket}
+  end
+
+  defp default_params(calendar) do
+    %{"human_datequarter" => Calendar.to_datequarter(calendar)}
   end
 end
