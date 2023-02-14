@@ -82,10 +82,22 @@ defmodule ForbiddenLandsWeb.Live.Admin.Event do
             <div class="text-xs"><%= event.date |> Calendar.from_quarters() |> Calendar.format() %></div>
           </div>
           <div class="flex gap-3">
-            <button type="button" phx-click="edit_event" phx-value-id={event.id} phx-target={@myself}>
+            <button
+              type="button"
+              phx-click="edit_event"
+              phx-value-id={event.id}
+              phx-target={@myself}
+              onclick="window.scrollTo(0, 0)"
+            >
               <Heroicons.pencil_square class="h-6 w-6 " />
             </button>
-            <button type="button" phx-click="delete_event" phx-value-id={event.id} phx-target={@myself}>
+            <button
+              type="button"
+              phx-click="delete_event"
+              phx-value-id={event.id}
+              phx-target={@myself}
+              onclick="if (!window.confirm('Confirm delete?')) { event.stopPropagation(); }"
+            >
               <Heroicons.x_mark class="h-6 w-6 " />
             </button>
           </div>
