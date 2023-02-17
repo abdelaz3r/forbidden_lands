@@ -29,9 +29,8 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           |> assign(page_title: instance.name)
           |> assign(quarter_shift: quarter_shift)
           |> assign(topic: topic)
-          |> assign(instance: instance)
-          |> assign(calendar: calendar)
           |> assign(stronghold_open?: false)
+          |> base_assign(instance)
 
         {:ok, socket}
 
@@ -53,8 +52,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
         <div class="w-full h-full overflow-hidden">
           <.image path="map.jpg" alt="Carte des Forbiddens Land" class="object-cover h-full w-full" />
         </div>
-        <div class="absolute inset-0 shadow-[inset_0_0_60px_30px_rgba(0,0,0,0.6),_inset_0_0_10px_5px_rgba(0,0,0,0.2)] backdrop-hue-rotate-[15deg]">
-        </div>
+        <div class={[layer_classes(), layer_classes(@luminosity)]}></div>
       </div>
 
       <div class="h-screen flex flex-col bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
@@ -65,6 +63,12 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
     </div>
     """
   end
+
+  defp layer_classes(), do: "backdrop-hue-rotate-[15deg] transition-all duration-500 absolute inset-0"
+  defp layer_classes(:daylight), do: "shadow-daylight"
+  defp layer_classes(:ligthish), do: "shadow-ligthish backdrop-contrast-125 bg-slate-900/20"
+  defp layer_classes(:darkish), do: "shadow-darkish backdrop-contrast-125 bg-slate-900/40"
+  defp layer_classes(:dark), do: "shadow-dark backdrop-contrast-200 bg-slate-900/70"
 
   @impl Phoenix.LiveView
   def handle_event("toggle_stronghold", _params, socket) do
@@ -78,18 +82,18 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
 
   def handle_info(%{topic: topic, event: "update"}, socket) when topic == socket.assigns.topic do
     case Instances.get(socket.assigns.instance.id) do
-      {:ok, instance} ->
-        calendar = Calendar.from_quarters(instance.current_date)
-
-        socket =
-          socket
-          |> assign(instance: instance)
-          |> assign(calendar: calendar)
-
-        {:noreply, socket}
-
-      {:error, reason} ->
-        {:noreply, put_flash(socket, :error, "Erreur générale: (#{inspect(reason)})")}
+      {:ok, instance} -> {:noreply, base_assign(socket, instance)}
+      {:error, reason} -> {:noreply, put_flash(socket, :error, "Erreur générale: (#{inspect(reason)})")}
     end
+  end
+
+  defp base_assign(socket, instance) do
+    calendar = Calendar.from_quarters(instance.current_date)
+    luminosity = Calendar.luminosity(calendar).key
+
+    socket
+    |> assign(instance: instance)
+    |> assign(calendar: calendar)
+    |> assign(luminosity: luminosity)
   end
 end

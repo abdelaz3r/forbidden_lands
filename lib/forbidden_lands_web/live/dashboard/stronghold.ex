@@ -72,20 +72,20 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
       </div>
 
       <div class={[
-        "grid grid-cols-2 gap-4 absolute bottom-4 right-[416px] w-[620px] transition-all duration-500",
-        if(@open?, do: "opacity-100", else: "opacity-0")
+        "grid grid-cols-2 gap-4 absolute left-[-700px] w-[700px] transition-all duration-500 p-4",
+        if(@open?, do: "bottom-0 opacity-100", else: "bottom-[-1000px] opacity-0")
       ]}>
         <div class="flex flex-col justify-end gap-4">
-          <.bloc_content :if={@stronghold.items} underlined?={false} title="Trésor" content={@stronghold.items} />
-          <.bloc_content :if={@stronghold.hirelings} underlined?={true} title="Gens du châteaux" content={@stronghold.hirelings} />
+          <.bloc_content :if={@stronghold.items} underlined?={false} title="Trésor & Possessions" content={@stronghold.items} />
+          <.bloc_content :if={@stronghold.hirelings} underlined?={true} title="Gardes & Employés" content={@stronghold.hirelings} />
         </div>
         <div class="flex flex-col justify-end gap-4">
-          <.bloc_content :if={@stronghold.description} underlined?={false} title="Description" content={@stronghold.description} />
+          <.bloc_content :if={@stronghold.description} underlined?={false} content={@stronghold.description} />
           <.bloc_content :if={@stronghold.tools} underlined?={false} title="Outils" content={@stronghold.tools} />
           <.bloc_content
             :if={@stronghold.functions}
             underlined?={true}
-            title="Bâtiments/Dépendances"
+            title="Bâtiments & Dépendances"
             content={@stronghold.functions}
           />
         </div>
@@ -94,10 +94,10 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
     """
   end
 
-  defp bloc_content(%{title: _title, content: _content, underlined?: _underlined?} = assigns) do
+  defp bloc_content(%{content: _content, underlined?: _underlined?} = assigns) do
     ~H"""
-    <div class="p-4 border border-slate-900 shadow-lg bg-gradient-to-l from-slate-800 to-slate-900">
-      <h2 class="pb-2 border-b mb-2 border-slate-900 font-bold">
+    <div class="p-4 border border-slate-900/80 shadow-lg bg-slate-900/80 backdrop-blur">
+      <h2 :if={Map.get(assigns, :title)} class="pb-2 border-b mb-2 border-slate-900/80 font-bold">
         <%= @title %>
       </h2>
       <div class="text-sm space-y-1.5 text-slate-100/80">

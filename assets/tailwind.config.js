@@ -18,6 +18,10 @@ module.exports = {
       'xl': "0 0 25px 0 rgb(0 0 0 / 0.1), 0 0 10px 0 rgb(0 0 0 / 0.1)",
       '2xl': "0 0 50px 0 rgb(0 0 0 / 0.25)",
       'inner': "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
+      'daylight': "inset 0 0 20px 10px rgba(0, 0, 0, 0.3)",
+      'ligthish': "inset 0 0 30px 15px rgba(0, 0, 0, 0.4)",
+      'darkish': "inset 0 0 40px 20px rgba(0, 0, 0, 0.5)",
+      'dark': "inset 0 0 60px 30px rgba(0, 0, 0, 0.6)",
       'none': "0 0 #0000"
     },
     extend: {
