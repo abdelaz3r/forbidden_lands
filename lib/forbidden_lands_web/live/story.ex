@@ -40,7 +40,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="bg-stone-400 text-slate-900 font-title py-32">
+    <div class="text-slate-900 font-title py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover bg-[url('/images/story-background.jpg')]">
       <div class="relative w-[800px] mx-auto">
         <div class="absolute w-full -left-2 -top-3 h-[800px] bg-stone-100 shadow-xl -rotate-1 z-10"></div>
         <div class="absolute w-full left-1 -top-3 h-[600px] bg-stone-100 shadow-xl rotate-1 z-10"></div>
