@@ -20,6 +20,7 @@ defmodule ForbiddenLandsWeb.Router do
     live("/", Instances)
     live("/instance/new", CreateInstance)
     live("/instance/:id/dashboard", Dashboard)
+    live("/instance/:id/story", Story)
     live("/instance/:id/admin", Admin)
     live("/instance/:id/admin/:panel", Admin)
   end
