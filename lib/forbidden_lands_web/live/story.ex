@@ -40,22 +40,30 @@ defmodule ForbiddenLandsWeb.Live.Story do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="text-slate-900 font-title py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover bg-[url('/images/story-background.jpg')]">
-      <div class="relative w-[800px] mx-auto">
-        <div class={["absolute w-[300px] -right-16 -top-16 h-[600px] bg-stone-200 shadow-xl rotate-3 z-10", double_border()]}></div>
-        <div class={["absolute w-[300px] -left-20 top-32 h-[600px] bg-stone-200 shadow-xl -rotate-6 z-10", double_border()]}></div>
-        <div class="absolute w-full -left-2 -top-3 h-[800px] bg-stone-200 shadow-xl -rotate-1 z-10"></div>
-        <div class="absolute w-full left-1 -top-3 h-[600px] bg-stone-200 shadow-xl rotate-1 z-10"></div>
+    <div class="text-slate-900 font-title p-0 md:py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover md:bg-[url('/images/story-background.jpg')]">
+      <div class="relative max-w-[800px] mx-auto">
+        <div class={[
+          "hidden md:block absolute w-[300px] -right-16 -top-16 h-[600px] bg-stone-200 shadow-xl rotate-3 z-10",
+          double_border()
+        ]}>
+        </div>
+        <div class={[
+          "hidden md:block absolute w-[300px] -left-20 top-32 h-[600px] bg-stone-200 shadow-xl -rotate-6 z-10",
+          double_border()
+        ]}>
+        </div>
+        <div class="hidden md:block absolute w-full -left-2 -top-3 h-[800px] bg-stone-200 shadow-xl -rotate-1 z-10"></div>
+        <div class="hidden md:block absolute w-full left-1 -top-3 h-[600px] bg-stone-200 shadow-xl rotate-1 z-10"></div>
         <div class={["relative bg-stone-200 shadow-2xl p-5 z-20 pb-36", double_border()]}>
           <div class="text-center">
-            <header class="inline-block m-auto py-[25vh]">
+            <header class="inline-block m-auto px-4 py-[25vh]">
               <h2 class="inline-block pb-2 text-2xl text-slate-900/50">
                 The full story of the
               </h2>
               <br />
               <h1 class="
                 inline relative text-5xl font-bold first-letter:text-6xl text-stone-800
-                after:absolute after:-right-10 after:bottom-1 after:h-[2px] after:w-[200px] after:bg-slate-600/10 after:z-[-1]
+                after:hidden md:after:block after:absolute after:-right-10 after:bottom-1 after:h-[2px] after:w-[200px] after:bg-slate-600/10 after:z-[-1]
               ">
                 <%= @instance.name %>
               </h1>
@@ -69,13 +77,13 @@ defmodule ForbiddenLandsWeb.Live.Story do
           <div :for={{%{event: event, calendar: calendar}, i} <- Enum.with_index(@events)}>
             <div
               :if={i == 0 or Enum.at(@events, i - 1).calendar.month.number != calendar.month.number}
-              class="relative text-4xl font-bold px-36 py-10"
+              class="relative text-4xl font-bold px-16 md:px-36 py-10"
             >
               <%= String.capitalize(calendar.month.name) %>
               <%= calendar.year.number %>
             </div>
 
-            <section class="flex pl-20 pr-36">
+            <section class="flex pl-0 md:pl-20 pr-16 md:pr-36">
               <div class="relative flex-none w-16 text-center pt-4">
                 <div
                   :if={i == 0 or Enum.at(@events, i - 1).calendar.month.day != calendar.month.day}
