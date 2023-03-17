@@ -7,6 +7,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
 
   alias ForbiddenLands.Calendar
 
+  attr(:instance_id, :integer, required: true, doc: "todo")
   attr(:events, :map, required: true, doc: "todo")
   attr(:class, :string, default: "", doc: "todo")
 
@@ -26,9 +27,16 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
         <hr class="border-t border-slate-900/50" />
       </section>
 
-      <div :if={length(@events) == 0} class="p-24 text-center font-title text-lg text-slate-100/40">
+      <div :if={length(@events) == 0} class="p-16 text-center font-title text-lg text-slate-100/40">
         Commencez à écrire votre histoire.
       </div>
+
+      <.link
+        navigate={~p"/instance/#{@instance_id}/story"}
+        class="px-16 py-10 text-center font-title text-lg text-slate-100/40 hover:text-slate-100 transition-all"
+      >
+        La suite de l'histoire est ici !
+      </.link>
     </div>
     """
   end
