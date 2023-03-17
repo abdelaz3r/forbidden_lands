@@ -1,6 +1,6 @@
 defmodule ForbiddenLandsWeb.Live.Story do
   @moduledoc """
-  Dashboard of an instance.
+  Story of an instance.
   """
 
   use ForbiddenLandsWeb, :live_view
@@ -58,7 +58,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
           <div class="text-center">
             <header class="inline-block m-auto px-4 py-[25vh]">
               <h2 class="inline-block pb-2 text-2xl text-slate-900/50">
-                The full story of the
+                The full story of
               </h2>
               <br />
               <h1 class="
@@ -69,7 +69,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
               </h1>
               <br />
               <h2 class="inline-block pt-2 text-2xl">
-                And ... [subtitle]
+                [subtitle]
               </h2>
             </header>
           </div>
@@ -83,29 +83,26 @@ defmodule ForbiddenLandsWeb.Live.Story do
               <%= calendar.year.number %>
             </div>
 
-            <section class="flex pl-0 md:pl-20 pr-16 md:pr-36">
-              <div class="relative flex-none w-16 text-center pt-4">
+            <section class="px-4 md:px-36 space-y-2 pb-6">
+              <header class="relative flex items-center gap-4">
                 <div
                   :if={i == 0 or Enum.at(@events, i - 1).calendar.month.day != calendar.month.day}
-                  class="inline-flex justify-center items-center w-12 h-12 rounded-full text-2xl text-stone-700/70 bg-stone-100/30"
+                  class="md:absolute md:-left-14 md:top-2 flex-none inline-flex justify-center items-center w-12 h-12 rounded-full text-2xl border border-stone-300/80"
                 >
                   <%= calendar.month.day %>
                 </div>
-              </div>
-
-              <div class="space-y-2 pb-6">
-                <header>
+                <div class="">
                   <span class="relative text-xs text-stone-700/70 uppercase top-1">
                     <%= String.capitalize(calendar.quarter.name) %>
                   </span>
                   <h2 class="text-2xl font-bold">
                     <%= event.title %>
                   </h2>
-                </header>
-
-                <div :if={not is_nil(event.description)} class="text-lg space-y-2">
-                  <%= Helper.text_to_raw_html(event.description) |> raw() %>
                 </div>
+              </header>
+
+              <div :if={not is_nil(event.description)} class="text-lg space-y-2">
+                <%= Helper.text_to_raw_html(event.description) |> raw() %>
               </div>
             </section>
           </div>
