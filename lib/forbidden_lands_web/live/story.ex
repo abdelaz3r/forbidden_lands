@@ -10,23 +10,21 @@ defmodule ForbiddenLandsWeb.Live.Story do
 
   @impl Phoenix.LiveView
   def mount(%{"id" => id}, _session, socket) do
-    case Instances.get(id) do
-      {:ok, instance} ->
-        events =
-          instance.events
-          |> Enum.reverse()
-          |> Enum.map(fn event ->
-            %{event: event, calendar: Calendar.from_quarters(event.date)}
-          end)
+    with {:ok, instance} <- Instances.get(id),
+         events <- Instances.get_events(id) do
+      events =
+        Enum.map(events, fn event ->
+          %{event: event, calendar: Calendar.from_quarters(event.date)}
+        end)
 
-        socket =
-          socket
-          |> assign(page_title: instance.name)
-          |> assign(instance: instance)
-          |> assign(events: events)
+      socket =
+        socket
+        |> assign(page_title: instance.name)
+        |> assign(instance: instance)
+        |> assign(events: events)
 
-        {:ok, socket}
-
+      {:ok, socket}
+    else
       {:error, _reason} ->
         socket =
           socket

@@ -28,6 +28,18 @@ defmodule ForbiddenLands.Instances.Instances do
     Repo.all(Instance)
   end
 
+  @spec get_events(number()) :: [Event.t()]
+  def get_events(id) do
+    query =
+      from(
+        e in Event,
+        where: e.instance_id == ^id,
+        order_by: [asc: e.date, asc: e.id]
+      )
+
+    Repo.all(query)
+  end
+
   @spec create(map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
   def create(params) do
     %Instance{}
