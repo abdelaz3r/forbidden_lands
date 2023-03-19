@@ -6,22 +6,22 @@ defmodule ForbiddenLandsWeb.Live.Story do
   use ForbiddenLandsWeb, :live_view
 
   alias ForbiddenLands.Instances.Instances
+  alias ForbiddenLands.Instances.Event
   alias ForbiddenLands.Calendar
 
   @impl Phoenix.LiveView
   def mount(%{"id" => id}, _session, socket) do
     with {:ok, instance} <- Instances.get(id),
-         events <- Instances.get_events(id) do
-      events =
-        Enum.map(events, fn event ->
-          %{event: event, calendar: Calendar.from_quarters(event.date)}
-        end)
+         events <- Instances.get_events(id, Event.types()) do
+      events = add_calendar_to_events(events)
+      types = Enum.map(Event.types(), fn type -> %{type: type, active?: true} end)
 
       socket =
         socket
         |> assign(page_title: instance.name)
         |> assign(instance: instance)
         |> assign(events: events)
+        |> assign(types: types)
 
       {:ok, socket}
     else
@@ -40,19 +40,21 @@ defmodule ForbiddenLandsWeb.Live.Story do
     ~H"""
     <div class="text-slate-900 font-title p-0 md:py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover md:bg-[url('/images/story-background.jpg')]">
       <div class="relative max-w-[800px] mx-auto">
-        <div class={[
-          "hidden md:block absolute w-[300px] -right-16 -top-16 h-[600px] bg-stone-200 shadow-xl rotate-3 z-10",
-          double_border()
-        ]}>
+        <.background_sheets />
+
+        <div class="flex flex-col items-center gap-1 py-1 absolute bg-stone-200 z-10 w-10 -left-10 top-24 shadow-2xl">
+          <button
+            :for={%{type: type, active?: active?} <- @types}
+            type="button"
+            phx-click="update_types"
+            phx-value-type={type}
+            class={not active? && "opacity-20"}
+          >
+            <.event_type_icon type={type} />
+          </button>
         </div>
-        <div class={[
-          "hidden md:block absolute w-[300px] -left-20 top-32 h-[600px] bg-stone-200 shadow-xl -rotate-6 z-10",
-          double_border()
-        ]}>
-        </div>
-        <div class="hidden md:block absolute w-full -left-2 -top-3 h-[800px] bg-stone-200 shadow-xl -rotate-1 z-10"></div>
-        <div class="hidden md:block absolute w-full left-1 -top-3 h-[600px] bg-stone-200 shadow-xl rotate-1 z-10"></div>
-        <div class={["relative bg-stone-200 shadow-2xl p-5 z-20 pb-36", double_border()]}>
+
+        <div class={["relative bg-stone-200 shadow-2xl p-5 z-20 pb-36", border_classes()]}>
           <div class="text-center">
             <header class="inline-block m-auto px-4 py-[25vh]">
               <h2 class="inline-block pb-2 text-2xl text-slate-900/50">
@@ -110,7 +112,87 @@ defmodule ForbiddenLandsWeb.Live.Story do
     """
   end
 
-  defp double_border() do
+  @impl Phoenix.LiveView
+  def handle_event("update_types", %{"type" => type_param}, socket) do
+    type_param = String.to_existing_atom(type_param)
+
+    types =
+      Enum.map(socket.assigns.types, fn %{type: type, active?: active?} = item ->
+        if type == type_param,
+          do: %{item | active?: not active?},
+          else: item
+      end)
+
+    types_atom =
+      types
+      |> Enum.filter(fn %{active?: active?} -> active? end)
+      |> Enum.map(fn %{type: type} -> type end)
+
+    events =
+      socket.assigns.instance.id
+      |> Instances.get_events(types_atom)
+      |> add_calendar_to_events()
+
+    socket =
+      socket
+      |> assign(events: events)
+      |> assign(types: types)
+
+    {:noreply, socket}
+  end
+
+  defp add_calendar_to_events(events) do
+    Enum.map(events, fn event ->
+      %{event: event, calendar: Calendar.from_quarters(event.date)}
+    end)
+  end
+
+  defp background_sheets(assigns) do
+    ~H"""
+    <div class={["w-[300px] -right-16 -top-16 h-[600px] rotate-3", background_classes(), border_classes()]}></div>
+    <div class={["w-[300px] -left-20 top-32 h-[600px] -rotate-6", background_classes(), border_classes()]}></div>
+    <div class={["w-full -left-2 -top-3 h-[800px] -rotate-1", background_classes()]}></div>
+    <div class={["w-full left-1 -top-3 h-[600px] rotate-1", background_classes()]}></div>
+    """
+  end
+
+  defp background_classes() do
+    "hidden md:block absolute bg-stone-200 shadow-xl z-10"
+  end
+
+  defp border_classes() do
     "before:absolute before:inset-4 before:border before:border-4 before:border-double before:border-stone-300/80 before:z-[-1]"
   end
+
+  defp event_type_icon(%{type: :automatic} = assigns) do
+    ~H"""
+    <Heroicons.bars_2 class={[event_icon_class()]} />
+    """
+  end
+
+  defp event_type_icon(%{type: :normal} = assigns) do
+    ~H"""
+    <Heroicons.bars_3_bottom_left class={[event_icon_class()]} />
+    """
+  end
+
+  defp event_type_icon(%{type: :special} = assigns) do
+    ~H"""
+    <Heroicons.star class={[event_icon_class()]} />
+    """
+  end
+
+  defp event_type_icon(%{type: :legendary} = assigns) do
+    ~H"""
+    <Heroicons.sparkles class={[event_icon_class()]} />
+    """
+  end
+
+  defp event_type_icon(%{type: :death} = assigns) do
+    ~H"""
+    <Heroicons.hand_raised class={[event_icon_class()]} />
+    """
+  end
+
+  defp event_icon_class(), do: "w-8 p-1.5 rounded-full border text-slate-900/70 hover:text-slate-900"
 end

@@ -28,12 +28,13 @@ defmodule ForbiddenLands.Instances.Instances do
     Repo.all(Instance)
   end
 
-  @spec get_events(number()) :: [Event.t()]
-  def get_events(id) do
+  @spec get_events(number(), list()) :: [Event.t()]
+  def get_events(id, types) do
     query =
       from(
         e in Event,
         where: e.instance_id == ^id,
+        where: e.type in ^types,
         order_by: [asc: e.date, asc: e.id]
       )
 
