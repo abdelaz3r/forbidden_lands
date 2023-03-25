@@ -20,17 +20,20 @@ defmodule ForbiddenLandsWeb.Components.Generic.AudioPlayer do
     def mount(socket) do
       socket =
         socket
+        |> assign(:playing?, false)
         |> assign(:current_mood, "empty")
-        |> assign(:current_music, "")
 
       {:ok, socket}
     end
 
     def render(assigns) do
       ~H"""
-      <div class="flex gap-2">
-        <button phx-click="next" phx-target={@myself}>
-          Next music
+      <div phx-hook="audio-player" id="audio-player-hook" class="flex gap-2">
+        <button :if={@playing?} phx-click="pause" phx-target={@myself}>
+          Pause
+        </button>
+        <button :if={not @playing?} phx-click="play" phx-target={@myself}>
+          Play
         </button>
 
         <div>
@@ -40,34 +43,46 @@ defmodule ForbiddenLandsWeb.Components.Generic.AudioPlayer do
         <button :for={{mood, _music} <- moods()} phx-click="change-mood" phx-value-mood={mood} phx-target={@myself}>
           <%= mood %>
         </button>
-
-        <div phx-hook="audio-player" id="audio-player-hook" data-source={@current_music}></div>
       </div>
       """
+    end
+
+    def handle_event("play", _params, socket) do
+      socket =
+        socket
+        |> assign(:playing?, true)
+        |> play_current_mood()
+
+      {:noreply, socket}
+    end
+
+    def handle_event("pause", _params, socket) do
+      socket =
+        socket
+        |> assign(:playing?, false)
+        |> push_event("pause", %{})
+
+      {:noreply, socket}
     end
 
     def handle_event("change-mood", %{"mood" => mood}, socket) do
       socket =
         socket
         |> assign(:current_mood, mood)
-        |> next_music()
+        |> play_current_mood()
 
       {:noreply, socket}
     end
 
-    def handle_event("next", _params, socket) do
-      {:noreply, next_music(socket)}
-    end
-
     def handle_event("audio-ended", _params, socket) do
-      {:noreply, next_music(socket)}
+      {:noreply, play_current_mood(socket)}
     end
 
-    defp next_music(socket) do
+    defp play_current_mood(socket) do
       {mood, musics} = Enum.find(moods(), fn {mood, _musics} -> mood == socket.assigns.current_mood end)
       music = if length(musics) == 0, do: "", else: "/musics/#{mood}/#{Enum.random(musics)}"
 
-      assign(socket, :current_music, music)
+      push_event(socket, "play", %{music: music})
     end
 
     defp moods() do

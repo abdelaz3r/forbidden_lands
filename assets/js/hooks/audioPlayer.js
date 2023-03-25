@@ -1,19 +1,23 @@
 const AudioPlayer = {
   mounted() {
     this.player = null
-    this.play()
-  },
-  updated() {
-    this.play()
+
+    this.handleEvent("play", ({ music }) => {
+      this.play(music)
+    })
+
+    this.handleEvent("pause", ({}) => {
+      this.pause()
+    })
   },
   destroyed() {
     this.pause()
   },
-  play() {
-    if (this.el.dataset.source && this.el.dataset.source !== "") {
+  play(music) {
+    if (music && music !== "") {
       this.pause()
 
-      this.player = new Audio(this.el.dataset.source)
+      this.player = new Audio(music)
       this.player.play()
 
       this.player.addEventListener("ended", () => {
