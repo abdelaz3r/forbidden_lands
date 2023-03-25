@@ -5,7 +5,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
 
   use ForbiddenLandsWeb, :live_view
 
-  import ForbiddenLandsWeb.Components.Generic.Image
+  import ForbiddenLandsWeb.Components.Generic.{Image, AudioPlayer}
   import ForbiddenLandsWeb.Live.Dashboard.{Header, Stronghold, Timeline}
 
   alias ForbiddenLands.Calendar
@@ -56,6 +56,8 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
       </div>
 
       <div class="h-screen flex flex-col bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
+        <.audio_player />
+
         <.header date={@calendar} quarter_shift={@quarter_shift} />
         <.timeline instance_id={@instance.id} events={@instance.events} />
         <.stronghold stronghold={@instance.stronghold} open?={@stronghold_open?} />
