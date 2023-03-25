@@ -64,8 +64,8 @@ defmodule ForbiddenLandsWeb.Components.Generic.AudioPlayer do
     end
 
     defp next_music(socket) do
-      {_mood, musics} = Enum.find(moods(), fn {mood, _musics} -> mood == socket.assigns.current_mood end)
-      music = if length(musics) == 0, do: "", else: "/musics/#{Enum.random(musics)}"
+      {mood, musics} = Enum.find(moods(), fn {mood, _musics} -> mood == socket.assigns.current_mood end)
+      music = if length(musics) == 0, do: "", else: "/musics/#{mood}/#{Enum.random(musics)}"
 
       assign(socket, :current_music, music)
     end
