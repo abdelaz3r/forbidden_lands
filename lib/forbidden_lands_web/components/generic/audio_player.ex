@@ -56,7 +56,7 @@ defmodule ForbiddenLandsWeb.Components.Generic.AudioPlayer do
         "test2.mp3",
         "test3.mp3"
       ]
-      |> Enum.map(fn music -> "/images/#{music}" end)
+      |> Enum.map(fn music -> "/musics/#{music}" end)
     end
   end
 end
