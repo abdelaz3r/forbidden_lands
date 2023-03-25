@@ -10,7 +10,7 @@ const AudioPlayer = {
     this.pause()
   },
   play() {
-    if (this.el.dataset.source) {
+    if (this.el.dataset.source && this.el.dataset.source !== "") {
       this.pause()
 
       this.player = new Audio(this.el.dataset.source)

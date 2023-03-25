@@ -20,22 +20,39 @@ defmodule ForbiddenLandsWeb.Components.Generic.AudioPlayer do
     def mount(socket) do
       socket =
         socket
-        |> assign(:musics, musics())
-        |> assign(:current_music, 0)
+        |> assign(:current_mood, "empty")
+        |> assign(:current_music, "")
 
       {:ok, socket}
     end
 
     def render(assigns) do
       ~H"""
-      <div class="">
-        <div phx-hook="audio-player" id="audio-player-hook" data-source={Enum.at(assigns.musics, assigns.current_music)}></div>
-
+      <div class="flex gap-2">
         <button phx-click="next" phx-target={@myself}>
-          Next
+          Next music
         </button>
+
+        <div>
+          Current: <%= @current_mood %>
+        </div>
+
+        <button :for={{mood, _music} <- moods()} phx-click="change-mood" phx-value-mood={mood} phx-target={@myself}>
+          <%= mood %>
+        </button>
+
+        <div phx-hook="audio-player" id="audio-player-hook" data-source={@current_music}></div>
       </div>
       """
+    end
+
+    def handle_event("change-mood", %{"mood" => mood}, socket) do
+      socket =
+        socket
+        |> assign(:current_mood, mood)
+        |> next_music()
+
+      {:noreply, socket}
     end
 
     def handle_event("next", _params, socket) do
@@ -47,16 +64,18 @@ defmodule ForbiddenLandsWeb.Components.Generic.AudioPlayer do
     end
 
     defp next_music(socket) do
-      assign(socket, :current_music, rem(socket.assigns.current_music + 1, length(socket.assigns.musics)))
+      {_mood, musics} = Enum.find(moods(), fn {mood, _musics} -> mood == socket.assigns.current_mood end)
+      music = if length(musics) == 0, do: "", else: "/musics/#{Enum.random(musics)}"
+
+      assign(socket, :current_music, music)
     end
 
-    defp musics() do
-      [
-        "test1.mp3",
-        "test2.mp3",
-        "test3.mp3"
-      ]
-      |> Enum.map(fn music -> "/musics/#{music}" end)
+    defp moods() do
+      %{
+        "empty" => [],
+        "noises" => ["test1.mp3", "test2.mp3", "test3.mp3"],
+        "musics" => ["music1.mp3", "music2.mp3"]
+      }
     end
   end
 end
