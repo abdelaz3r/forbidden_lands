@@ -34,11 +34,19 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
           <%= dgettext("admin", "Afficher/cacher le château") %>
         </.button>
 
-        <div class="flex gap-3">
-          Current mood: <%= @instance.mood %>
-          <.button :for={{playlist, _music} <- @playlists} phx-click="update_mood" phx-value-mood={playlist} phx-target={@myself}>
-            <%= playlist %>
-          </.button>
+        <div class="border rounded p-2 bg-slate-100 border-slate-300">
+          <h2 class="pb-2 text-slate-600">Musiques d'ambiances</h2>
+          <div class="flex flex-wrap gap-2">
+            <.button
+              :for={{playlist, _music} <- @playlists}
+              phx-click="update_mood"
+              phx-value-mood={playlist}
+              phx-target={@myself}
+              class={playlist != @instance.mood && "opacity-80"}
+            >
+              <%= String.capitalize(playlist) %>
+            </.button>
+          </div>
         </div>
 
         <button

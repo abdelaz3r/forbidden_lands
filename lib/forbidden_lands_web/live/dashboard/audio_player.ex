@@ -88,7 +88,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.AudioPlayer do
       with true <- length(musics) > 0,
            music <- Enum.random(musics),
            music_url <- "/musics/#{playlist}/#{music}" do
-        [music_name, _ext] = String.split(music, ".")
+        [music_name, _ext] = String.split(music, ".mp3")
         music_name = String.replace(music_name, "_", " ")
 
         socket

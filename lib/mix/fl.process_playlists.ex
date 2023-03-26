@@ -36,6 +36,7 @@ defmodule Mix.Tasks.Fl.ProcessPlaylists do
 
         (File.cwd!() <> directory_path)
         |> File.ls!()
+        |> Enum.filter(fn file -> String.ends_with?(file, ".mp3") end)
         |> Enum.map(fn file ->
           Mix.shell().info("  Collect '#{file}'")
 
