@@ -17,6 +17,7 @@ defmodule ForbiddenLands.Instances.Instance do
           human_date: String.t() | nil,
           initial_date: integer() | nil,
           current_date: integer() | nil,
+          mood: String.t() | nil,
           stronghold: Stronghold.t() | nil
         }
   schema("instances") do
@@ -24,6 +25,7 @@ defmodule ForbiddenLands.Instances.Instance do
     field(:human_date, :string, virtual: true)
     field(:initial_date, :integer)
     field(:current_date, :integer)
+    field(:mood, :string)
     embeds_one(:stronghold, Stronghold, on_replace: :update)
     embeds_many(:resource_rules, ResourceRule, on_replace: :delete)
     has_many(:events, Event)
@@ -43,8 +45,8 @@ defmodule ForbiddenLands.Instances.Instance do
   @spec update(Instance.t(), map(), list()) :: Ecto.Changeset.t()
   def update(instance, params \\ %{}, resource_rules \\ []) do
     instance
-    |> cast(params, [:name, :current_date])
-    |> validate_required([:name, :current_date])
+    |> cast(params, [:name, :current_date, :mood])
+    |> validate_required([:name, :current_date, :mood])
     |> cast_embed(:stronghold, with: &Stronghold.changeset/2)
     |> put_embed(:resource_rules, resource_rules)
   end

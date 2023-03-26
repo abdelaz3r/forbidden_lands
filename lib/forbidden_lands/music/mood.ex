@@ -19,8 +19,6 @@ defmodule ForbiddenLands.Music.Mood do
           %{}
       end
 
-    t = Map.merge(%{"silence" => []}, playlists)
-    IO.inspect(t)
-    t
+    Map.merge(%{"silence" => []}, playlists)
   end
 end

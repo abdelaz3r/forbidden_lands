@@ -30,7 +30,6 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           |> assign(quarter_shift: quarter_shift)
           |> assign(topic: topic)
           |> assign(stronghold_open?: false)
-          |> assign(playlist: "silence")
           |> assign(playlists: ForbiddenLands.Music.Mood.playlists())
           |> base_assign(instance)
 
@@ -58,7 +57,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
       </div>
 
       <div class="absolute bottom-4 left-4">
-        <.audio_player playlist={@playlist} playlists={@playlists} />
+        <.audio_player playlist={@instance.mood} playlists={@playlists} />
       </div>
 
       <div class="h-screen flex flex-col bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">

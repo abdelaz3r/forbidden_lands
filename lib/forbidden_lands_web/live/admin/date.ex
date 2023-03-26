@@ -35,12 +35,8 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
         </.button>
 
         <div class="flex gap-3">
-          <.button
-            :for={{playlist, _music} <- @playlists}
-            phx-click="update_playlist"
-            phx-value-playlist={playlist}
-            phx-target={@myself}
-          >
+          Current mood: <%= @instance.mood %>
+          <.button :for={{playlist, _music} <- @playlists} phx-click="update_mood" phx-value-mood={playlist} phx-target={@myself}>
             <%= playlist %>
           </.button>
         </div>
@@ -81,9 +77,15 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
     {:noreply, socket}
   end
 
-  def handle_event("update_playlist", %{"playlist" => playlist}, %{assigns: %{topic: topic}} = socket) do
-    Endpoint.broadcast(topic, "update_playlist", %{playlist: playlist})
-    {:noreply, socket}
+  def handle_event("update_mood", %{"mood" => mood}, %{assigns: %{topic: topic, instance: instance}} = socket) do
+    case Instances.update(instance, %{mood: mood}) do
+      {:ok, _instance} ->
+        Endpoint.broadcast(topic, "update", %{})
+        {:noreply, socket}
+
+      {:error, reason} ->
+        {:noreply, put_flash(socket, :error, "Error: (#{inspect(reason)})")}
+    end
   end
 
   def handle_event(
