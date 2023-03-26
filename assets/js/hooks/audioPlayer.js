@@ -14,7 +14,7 @@ const AudioPlayer = {
     this.pause()
   },
   play(music) {
-    if (music && music !== "") {
+    if (music !== "") {
       this.pause()
 
       this.player = new Audio(music)
@@ -23,6 +23,8 @@ const AudioPlayer = {
       this.player.addEventListener("ended", () => {
         this.pushEventTo(this.el, "audio-ended")
       })
+    } else {
+      this.pause()
     }
   },
   pause() {

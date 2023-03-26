@@ -30,6 +30,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           |> assign(quarter_shift: quarter_shift)
           |> assign(topic: topic)
           |> assign(stronghold_open?: false)
+          |> assign(playlist: "silence")
           |> base_assign(instance)
 
         {:ok, socket}
@@ -56,7 +57,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
       </div>
 
       <div class="h-screen flex flex-col bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
-        <.audio_player />
+        <.audio_player playlist={@playlist} playlists={&ForbiddenLands.Mood.playlists/0} />
 
         <.header date={@calendar} quarter_shift={@quarter_shift} />
         <.timeline instance_id={@instance.id} events={@instance.events} />
@@ -80,6 +81,11 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   @impl Phoenix.LiveView
   def handle_info(%{topic: topic, event: "toggle_stronghold"}, socket) when topic == socket.assigns.topic do
     {:noreply, assign(socket, :stronghold_open?, not socket.assigns.stronghold_open?)}
+  end
+
+  def handle_info(%{topic: topic, event: "update_playlist", payload: %{playlist: playlist}}, socket)
+      when topic == socket.assigns.topic do
+    {:noreply, assign(socket, :playlist, playlist)}
   end
 
   def handle_info(%{topic: topic, event: "update"}, socket) when topic == socket.assigns.topic do
