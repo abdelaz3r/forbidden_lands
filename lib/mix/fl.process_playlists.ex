@@ -19,7 +19,7 @@ defmodule Mix.Tasks.Fl.ProcessPlaylists do
   def run(args) do
     source_directory = Enum.at(args, 0, "musics")
     directories_path = "/priv/static/" <> source_directory
-    output_path = Enum.at(args, 1, "/lib/forbidden_lands/music/mood.txt")
+    output_path = Enum.at(args, 1, "/priv/static/mood.txt")
 
     Mix.shell().info("Extract playlists from musics directory:")
     Mix.shell().info("Source: '#{directories_path}'")
@@ -47,10 +47,9 @@ defmodule Mix.Tasks.Fl.ProcessPlaylists do
       |> List.to_string()
       |> String.trim_trailing()
 
-    target_path = "/lib/forbidden_lands/music/mood.txt"
-    File.write(File.cwd!() <> target_path, target_content)
+    File.write(File.cwd!() <> output_path, target_content)
 
     Mix.shell().info("")
-    Mix.shell().info("Output written to '#{target_path}'")
+    Mix.shell().info("Output written to '#{output_path}'")
   end
 end

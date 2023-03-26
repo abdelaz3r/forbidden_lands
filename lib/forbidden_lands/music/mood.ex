@@ -5,7 +5,7 @@ defmodule ForbiddenLands.Music.Mood do
 
   @spec playlists() :: map()
   def playlists() do
-    file_path = File.cwd!() <> "/lib/forbidden_lands/music/mood.txt"
+    file_path = List.to_string(:code.priv_dir(:forbidden_lands)) <> "/static/mood.txt"
 
     playlists =
       with {:ok, file} <- File.read(file_path) do
