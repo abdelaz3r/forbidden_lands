@@ -1,4 +1,4 @@
-defmodule ForbiddenLandsWeb.Components.Generic.AudioPlayer do
+defmodule ForbiddenLandsWeb.Live.Dashboard.AudioPlayer do
   @moduledoc false
 
   use Phoenix.Component

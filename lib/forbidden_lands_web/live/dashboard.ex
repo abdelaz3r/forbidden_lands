@@ -5,8 +5,8 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
 
   use ForbiddenLandsWeb, :live_view
 
-  import ForbiddenLandsWeb.Components.Generic.{Image, AudioPlayer}
-  import ForbiddenLandsWeb.Live.Dashboard.{Header, Stronghold, Timeline}
+  import ForbiddenLandsWeb.Components.Generic.{Image}
+  import ForbiddenLandsWeb.Live.Dashboard.{AudioPlayer, Header, Stronghold, Timeline}
 
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.Instances
