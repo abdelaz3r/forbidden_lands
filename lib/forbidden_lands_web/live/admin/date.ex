@@ -11,7 +11,12 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
 
   @impl Phoenix.LiveComponent
   def mount(socket) do
-    {:ok, assign(socket, :show_more?, false)}
+    socket =
+      socket
+      |> assign(show_more?: false)
+      |> assign(playlists: ForbiddenLands.Music.Mood.playlists())
+
+    {:ok, socket}
   end
 
   @impl Phoenix.LiveComponent
@@ -31,7 +36,7 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
 
         <div class="flex gap-3">
           <.button
-            :for={{playlist, _music} <- ForbiddenLands.Mood.playlists()}
+            :for={{playlist, _music} <- @playlists}
             phx-click="update_playlist"
             phx-value-playlist={playlist}
             phx-target={@myself}

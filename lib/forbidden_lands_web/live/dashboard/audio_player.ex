@@ -4,7 +4,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.AudioPlayer do
   use Phoenix.Component
 
   attr(:playlist, :string, required: true, doc: "todo")
-  attr(:playlists, :atom, required: true, doc: "todo")
+  attr(:playlists, :list, required: true, doc: "todo")
 
   @spec audio_player(assigns :: map()) :: Phoenix.LiveView.Rendered.t()
   def audio_player(assigns) do
@@ -51,7 +51,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.AudioPlayer do
 
         <div
           :if={@playing? && @current_music != ""}
-          class="px-2 py-1 bg-slate-900/60 rounded transition-all opacity-0 peer-hover:opacity-100 font-title"
+          class="px-2 py-1 bg-slate-900/60 text-sm rounded transition-all opacity-0 peer-hover:opacity-100 font-title"
         >
           <%= @current_music %>
         </div>
@@ -82,10 +82,8 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.AudioPlayer do
     end
 
     defp maybe_play_current_playlist(socket) do
-      playlists = socket.assigns.playlists.()
-
       {playlist, musics} =
-        Enum.find(playlists, fn {playlist, _musics} -> playlist == socket.assigns.current_playlist end)
+        Enum.find(socket.assigns.playlists, fn {playlist, _musics} -> playlist == socket.assigns.current_playlist end)
 
       with true <- length(musics) > 0,
            music <- Enum.random(musics),
