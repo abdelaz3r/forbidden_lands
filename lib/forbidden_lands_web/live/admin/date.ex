@@ -7,10 +7,16 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
 
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.{Event, Stronghold, Instances}
+  alias ForbiddenLandsWeb.Endpoint
 
   @impl Phoenix.LiveComponent
   def mount(socket) do
-    {:ok, assign(socket, :show_more?, false)}
+    socket =
+      socket
+      |> assign(show_more?: false)
+      |> assign(playlists: ForbiddenLands.Music.Mood.playlists())
+
+    {:ok, socket}
   end
 
   @impl Phoenix.LiveComponent
@@ -27,6 +33,21 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
         <.button phx-click="toggle_stronghold" phx-target={@myself}>
           <%= dgettext("admin", "Afficher/cacher le château") %>
         </.button>
+
+        <div class="border rounded p-2 bg-slate-100 border-slate-300">
+          <h2 class="pb-2 text-slate-600">Musiques d'ambiances</h2>
+          <div class="flex flex-wrap gap-2">
+            <.button
+              :for={{playlist, _music} <- @playlists}
+              phx-click="update_mood"
+              phx-value-mood={playlist}
+              phx-target={@myself}
+              class={playlist != @instance.mood && "opacity-80"}
+            >
+              <%= String.capitalize(playlist) %>
+            </.button>
+          </div>
+        </div>
 
         <button
           type="button"
@@ -59,13 +80,22 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
     {:noreply, assign(socket, :show_more?, not socket.assigns.show_more?)}
   end
 
-  @impl Phoenix.LiveComponent
   def handle_event("toggle_stronghold", _params, %{assigns: %{topic: topic}} = socket) do
-    ForbiddenLandsWeb.Endpoint.broadcast(topic, "toggle_stronghold", %{})
+    Endpoint.broadcast(topic, "toggle_stronghold", %{})
     {:noreply, socket}
   end
 
-  @impl Phoenix.LiveComponent
+  def handle_event("update_mood", %{"mood" => mood}, %{assigns: %{topic: topic, instance: instance}} = socket) do
+    case Instances.update(instance, %{mood: mood}) do
+      {:ok, _instance} ->
+        Endpoint.broadcast(topic, "update", %{})
+        {:noreply, socket}
+
+      {:error, reason} ->
+        {:noreply, put_flash(socket, :error, "Error: (#{inspect(reason)})")}
+    end
+  end
+
   def handle_event(
         "move",
         %{"amount" => amount},
@@ -128,7 +158,7 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
 
     case Instances.update(instance, %{current_date: new_calendar.count.quarters}) do
       {:ok, _instance} ->
-        ForbiddenLandsWeb.Endpoint.broadcast(topic, "update", %{})
+        Endpoint.broadcast(topic, "update", %{})
         {:noreply, socket}
 
       {:error, reason} ->
