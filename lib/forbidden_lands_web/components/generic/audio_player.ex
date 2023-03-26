@@ -19,7 +19,12 @@ defmodule ForbiddenLandsWeb.Components.Generic.AudioPlayer do
     use Phoenix.LiveComponent
 
     def mount(socket) do
-      {:ok, assign(socket, :playing?, false)}
+      socket =
+        socket
+        |> assign(:playing?, false)
+        |> assign(:current_music, "")
+
+      {:ok, socket}
     end
 
     def update(assigns, socket) do
@@ -27,23 +32,28 @@ defmodule ForbiddenLandsWeb.Components.Generic.AudioPlayer do
         socket
         |> assign(:playlists, assigns.playlists)
         |> assign(:current_playlist, assigns.playlist)
-        |> play_current_playlist()
+        |> maybe_play_current_playlist()
 
       {:ok, socket}
     end
 
     def render(assigns) do
       ~H"""
-      <div phx-hook="audio-player" id="audio-player-hook" class="flex gap-2">
-        <button :if={@playing?} phx-click="pause" phx-target={@myself}>
-          Pause
-        </button>
-        <button :if={not @playing?} phx-click="play" phx-target={@myself}>
-          Play
+      <div phx-hook="audio-player" id="audio-player-hook" class="flex gap-2 items-center">
+        <button
+          phx-click={if(@playing?, do: "pause", else: "play")}
+          phx-target={@myself}
+          class="peer transition-all text-slate-100/60 hover:text-slate-100 rounded-full bg-black/20 shadow-2xl shadow-white"
+        >
+          <Heroicons.play_circle :if={not @playing?} class="w-10 h-10" />
+          <Heroicons.pause_circle :if={@playing?} class="w-10 h-10" />
         </button>
 
-        <div>
-          Current: <%= @current_playlist %>
+        <div
+          :if={@playing? && @current_music != ""}
+          class="px-2 py-1 bg-slate-900/60 rounded transition-all opacity-0 peer-hover:opacity-100 font-title"
+        >
+          <%= @current_music %>
         </div>
       </div>
       """
@@ -53,7 +63,7 @@ defmodule ForbiddenLandsWeb.Components.Generic.AudioPlayer do
       socket =
         socket
         |> assign(:playing?, true)
-        |> play_current_playlist()
+        |> maybe_play_current_playlist()
 
       {:noreply, socket}
     end
@@ -68,21 +78,32 @@ defmodule ForbiddenLandsWeb.Components.Generic.AudioPlayer do
     end
 
     def handle_event("audio-ended", _params, socket) do
-      {:noreply, play_current_playlist(socket)}
+      {:noreply, maybe_play_current_playlist(socket)}
     end
 
-    defp play_current_playlist(socket) do
+    defp maybe_play_current_playlist(socket) do
       playlists = socket.assigns.playlists.()
 
       {playlist, musics} =
         Enum.find(playlists, fn {playlist, _musics} -> playlist == socket.assigns.current_playlist end)
 
-      music = if length(musics) == 0, do: "", else: "/musics/#{playlist}/#{Enum.random(musics)}"
+      with true <- length(musics) > 0,
+           music <- Enum.random(musics),
+           music_url <- "/musics/#{playlist}/#{music}" do
+        [music_name, _ext] = String.split(music, ".")
+        music_name = String.replace(music_name, "_", " ")
 
-      if socket.assigns.playing? do
-        push_event(socket, "play", %{music: music})
-      else
         socket
+        |> push_event("play", %{music: music_url})
+        |> assign(:current_music, music_name)
+      else
+        false ->
+          socket
+          |> push_event("play", %{music: ""})
+          |> assign(:current_music, "")
+
+        _ ->
+          socket
       end
     end
   end

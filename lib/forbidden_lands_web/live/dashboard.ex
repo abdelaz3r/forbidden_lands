@@ -56,9 +56,11 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
         <div class={[layer_classes(), layer_classes(@luminosity)]}></div>
       </div>
 
-      <div class="h-screen flex flex-col bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
+      <div class="absolute bottom-4 left-4">
         <.audio_player playlist={@playlist} playlists={&ForbiddenLands.Mood.playlists/0} />
+      </div>
 
+      <div class="h-screen flex flex-col bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50">
         <.header date={@calendar} quarter_shift={@quarter_shift} />
         <.timeline instance_id={@instance.id} events={@instance.events} />
         <.stronghold stronghold={@instance.stronghold} open?={@stronghold_open?} />
