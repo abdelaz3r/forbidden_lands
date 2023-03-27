@@ -26,7 +26,7 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
 
     ~H"""
     <div class="p-6">
-      <section class="flex flex-col gap-5">
+      <section class="flex flex-col gap-3">
         <.button phx-click="move" phx-target={@myself} phx-value-amount={1} color={:blue}>
           <%= dgettext("admin", "Passer au prochain quarter") %>
         </.button>
@@ -35,14 +35,16 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
         </.button>
 
         <div class="border rounded p-2 bg-slate-100 border-slate-300">
-          <h2 class="pb-2 text-slate-600">Musiques d'ambiances</h2>
+          <h2 class="pb-1.5 text-xs text-slate-600 font-bold uppercase">
+            Musiques d'ambiances
+          </h2>
           <div class="flex flex-wrap gap-2">
             <.button
-              :for={{playlist, _music} <- @playlists}
+              :for={{playlist, _music} <- Enum.reverse(@playlists)}
               phx-click="update_mood"
               phx-value-mood={playlist}
               phx-target={@myself}
-              class={playlist != @instance.mood && "opacity-80"}
+              class={if(playlist == @instance.mood, do: "outline outline-3 outline-sky-500", else: "opacity-80")}
             >
               <%= String.capitalize(playlist) %>
             </.button>
@@ -51,7 +53,7 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
 
         <button
           type="button"
-          class="flex gap-2 justify-center opacity-50 hover:opacity-100"
+          class="flex gap-2 justify-center opacity-50 hover:opacity-100 my-2"
           phx-click="show_more"
           phx-target={@myself}
         >
