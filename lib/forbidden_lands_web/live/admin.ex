@@ -72,8 +72,9 @@ defmodule ForbiddenLandsWeb.Live.Admin do
         </nav>
 
         <div class="py-4 px-6">
-          <h1 class="text-2xl pb-2">
-            Campagne <strong><%= @instance.name %></strong>
+          <h1 class="flex flex-col md:flex-row md:gap-2 text-2xl pb-2">
+            <span>Campagne</span>
+            <strong><%= @instance.name %></strong>
           </h1>
           <h2>
             <%= Calendar.format(@calendar) %>
