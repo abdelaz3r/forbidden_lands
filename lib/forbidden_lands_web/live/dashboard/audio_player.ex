@@ -110,9 +110,10 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.AudioPlayer do
       {playlist, musics} =
         Enum.find(socket.assigns.playlists, fn {playlist, _musics} -> playlist == socket.assigns.current_playlist end)
 
-      with true <- length(musics) > 0,
-           music <- Enum.random(musics),
-           music_url <- "/musics/#{playlist}/#{music}" do
+      with true <- socket.assigns.playing?,
+           true <- length(musics) > 0,
+           music <- Enum.random(musics) do
+        music_url = "/musics/#{playlist}/#{music}"
         [music_name, _ext] = String.split(music, ".mp3")
         music_name = String.replace(music_name, "_", " ")
 
