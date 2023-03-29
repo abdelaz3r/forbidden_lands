@@ -42,7 +42,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.AudioPlayer do
       <div
         phx-hook="audio-player"
         id="audio-player-hook"
-        phx-window-keyup="test"
+        phx-window-keyup="toggle"
         phx-key=" "
         phx-target={@myself}
         class="flex gap-2 items-center"
@@ -84,7 +84,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.AudioPlayer do
       {:noreply, socket}
     end
 
-    def handle_event("test", _params, %{assigns: %{playing?: false}} = socket) do
+    def handle_event("toggle", _params, %{assigns: %{playing?: false}} = socket) do
       socket =
         socket
         |> assign(:playing?, true)
@@ -93,7 +93,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.AudioPlayer do
       {:noreply, socket}
     end
 
-    def handle_event("test", _params, %{assigns: %{playing?: true}} = socket) do
+    def handle_event("toggle", _params, %{assigns: %{playing?: true}} = socket) do
       socket =
         socket
         |> assign(:playing?, false)
