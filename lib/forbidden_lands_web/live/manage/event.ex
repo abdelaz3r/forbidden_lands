@@ -1,4 +1,4 @@
-defmodule ForbiddenLandsWeb.Live.Admin.Event do
+defmodule ForbiddenLandsWeb.Live.Manage.Event do
   @moduledoc """
   Dashboard of an instance.
   """
@@ -37,9 +37,9 @@ defmodule ForbiddenLandsWeb.Live.Admin.Event do
       <section>
         <h2 class="pb-3 text-xl font-bold">
           <%= if @edit do %>
-            <%= dgettext("admin", "Editer un événement") %>
+            <%= dgettext("manage", "Editer un événement") %>
           <% else %>
-            <%= dgettext("admin", "Ajouter un événement") %>
+            <%= dgettext("manage", "Ajouter un événement") %>
           <% end %>
         </h2>
 
@@ -48,23 +48,23 @@ defmodule ForbiddenLandsWeb.Live.Admin.Event do
             <.input :if={@edit} field={{f, :id}} type="hidden" />
           </div>
           <div class="grid grid-cols-2 gap-4">
-            <.input field={{f, :human_datequarter}} label={dgettext("admin", "Date (dd.mm.yyyy q/4)")} />
+            <.input field={{f, :human_datequarter}} label={dgettext("manage", "Date (dd.mm.yyyy q/4)")} />
             <.input
               field={{f, :type}}
               type="select"
               options={Event.types()}
-              label={dgettext("admin", "Type")}
+              label={dgettext("manage", "Type")}
               {if(@edit, do: %{}, else: %{value: "normal"})}
             />
           </div>
-          <.input field={{f, :title}} label={dgettext("admin", "Titre")} />
-          <.input field={{f, :description}} type="textarea" label={dgettext("admin", "Description")} />
+          <.input field={{f, :title}} label={dgettext("manage", "Titre")} />
+          <.input field={{f, :description}} type="textarea" label={dgettext("manage", "Description")} />
           <:actions>
             <.button color={:blue}>
               <%= if @edit do %>
-                <%= dgettext("admin", "Mettre à jour") %>
+                <%= dgettext("manage", "Mettre à jour") %>
               <% else %>
-                <%= dgettext("admin", "Ajouter") %>
+                <%= dgettext("manage", "Ajouter") %>
               <% end %>
             </.button>
           </:actions>
@@ -103,7 +103,7 @@ defmodule ForbiddenLandsWeb.Live.Admin.Event do
           </div>
         </div>
         <p :if={length(@instance.events) == 0}>
-          <%= dgettext("admin", "Aucun événements") %>
+          <%= dgettext("manage", "Aucun événements") %>
         </p>
       </section>
     </div>

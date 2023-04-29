@@ -1,6 +1,6 @@
-defmodule ForbiddenLandsWeb.Live.Admin do
+defmodule ForbiddenLandsWeb.Live.Manage do
   @moduledoc """
-  Admin view of an instance.
+  Instance management view of an instance.
   """
 
   use ForbiddenLandsWeb, :live_view
@@ -57,7 +57,7 @@ defmodule ForbiddenLandsWeb.Live.Admin do
             <.link
               :for={%{key: key, component: _component} <- panels()}
               class={["py-4 px-3 font-bold", @panel.key == key && "text-sky-800 underline"]}
-              patch={~p"/instance/#{@instance.id}/admin/#{key}"}
+              patch={~p"/adventure/#{@instance.id}/manage/#{key}"}
             >
               <span class="text-grey-600">
                 <.nav_icon key={key} class="w-6 h-6" />
@@ -65,7 +65,7 @@ defmodule ForbiddenLandsWeb.Live.Admin do
             </.link>
           </div>
           <div class="flex">
-            <.link navigate={~p"/instance/#{@instance.id}/dashboard"} class="py-4 px-6 font-bold">
+            <.link navigate={~p"/adventure/#{@instance.id}"} class="py-4 px-6 font-bold">
               <Heroicons.arrow_top_right_on_square class="w-6 h-6" />
             </.link>
           </div>
@@ -143,9 +143,9 @@ defmodule ForbiddenLandsWeb.Live.Admin do
 
   defp panels() do
     [
-      %{key: "date", component: ForbiddenLandsWeb.Live.Admin.Date},
-      %{key: "event", component: ForbiddenLandsWeb.Live.Admin.Event},
-      %{key: "stronghold", component: ForbiddenLandsWeb.Live.Admin.Stronghold}
+      %{key: "date", component: ForbiddenLandsWeb.Live.Manage.Date},
+      %{key: "event", component: ForbiddenLandsWeb.Live.Manage.Event},
+      %{key: "stronghold", component: ForbiddenLandsWeb.Live.Manage.Stronghold}
     ]
   end
 end
