@@ -33,7 +33,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
 
       <.link
         :if={length(@events) > 0}
-        navigate={~p"/instance/#{@instance_id}/story"}
+        navigate={~p"/adventure/#{@instance_id}/story"}
         class="px-16 py-10 text-center font-title text-lg text-slate-100/40 hover:text-slate-100 transition-all"
       >
         La suite de l'histoire est ici !

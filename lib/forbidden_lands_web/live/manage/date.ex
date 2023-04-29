@@ -1,4 +1,4 @@
-defmodule ForbiddenLandsWeb.Live.Admin.Date do
+defmodule ForbiddenLandsWeb.Live.Manage.Date do
   @moduledoc """
   Dashboard of an instance.
   """
@@ -28,10 +28,10 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
     <div class="p-6">
       <section class="flex flex-col gap-3">
         <.button phx-click="move" phx-target={@myself} phx-value-amount={1} color={:blue}>
-          <%= dgettext("admin", "Passer au prochain quarter") %>
+          <%= dgettext("manage", "Passer au prochain quarter") %>
         </.button>
         <.button phx-click="toggle_stronghold" phx-target={@myself}>
-          <%= dgettext("admin", "Afficher/cacher le château") %>
+          <%= dgettext("manage", "Afficher/cacher le château") %>
         </.button>
 
         <div class="border rounded p-2 bg-slate-100 border-slate-300">
@@ -57,19 +57,19 @@ defmodule ForbiddenLandsWeb.Live.Admin.Date do
           phx-click="show_more"
           phx-target={@myself}
         >
-          <%= dgettext("admin", "Plus d'options") %>
+          <%= dgettext("manage", "Plus d'options") %>
           <Heroicons.chevron_double_up class={["h-6 w-6 transition-all duration-500", not @show_more? && "rotate-180"]} />
         </button>
 
         <div :if={@show_more?} class="flex flex-col gap-3">
           <.button phx-click="move" phx-target={@myself} phx-value-amount={4}>
-            <%= dgettext("admin", "Avancer d'un jour") %>
+            <%= dgettext("manage", "Avancer d'un jour") %>
           </.button>
           <.button phx-click="move" phx-target={@myself} phx-value-amount={28}>
-            <%= dgettext("admin", "Avancer d'une semaine") %>
+            <%= dgettext("manage", "Avancer d'une semaine") %>
           </.button>
           <.button phx-click="move" phx-target={@myself} phx-value-amount={-1} color={:red}>
-            <%= dgettext("admin", "Reculer d'un quarter") %>
+            <%= dgettext("manage", "Reculer d'un quarter") %>
           </.button>
         </div>
       </section>

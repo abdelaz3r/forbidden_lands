@@ -84,7 +84,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
             </div>
 
             <section class="px-4 md:px-36 space-y-2 pb-6">
-              <a href={~p"/instance/#{@instance.id}/story#event-#{event.id}"} id={"event-#{event.id}"} class="relative flex items-center gap-4">
+              <a href={~p"/adventure/#{@instance.id}/story#event-#{event.id}"} id={"event-#{event.id}"} class="relative flex items-center gap-4">
                 <div
                   :if={i == 0 or Enum.at(@events, i - 1).calendar.month.day != calendar.month.day}
                   class="md:absolute md:-left-14 md:top-2 flex-none inline-flex justify-center items-center w-12 h-12 rounded-full text-2xl border border-stone-300/80"

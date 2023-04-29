@@ -17,13 +17,14 @@ defmodule ForbiddenLandsWeb.Router do
   scope "/", ForbiddenLandsWeb.Live do
     pipe_through(:browser)
 
-    live("/", Instances)
-    live("/instance/new", CreateInstance)
-    live("/instance/:id/dashboard", Dashboard)
-    live("/instance/:id/story", Story)
-    live("/instance/:id/story#:anchor", Story)
-    live("/instance/:id/admin", Admin)
-    live("/instance/:id/admin/:panel", Admin)
+    live("/", Landing)
+    live("/start-a-new-adventure", CreateInstance)
+    live("/adventure/:id", Dashboard)
+    live("/adventure/:id/story", Story)
+    live("/adventure/:id/story#:anchor", Story)
+    live("/adventure/:id/manage", Manage)
+    live("/adventure/:id/manage/:panel", Manage)
+    # live("/admin", Admin)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

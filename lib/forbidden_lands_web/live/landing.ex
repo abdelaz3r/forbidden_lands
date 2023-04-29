@@ -1,4 +1,4 @@
-defmodule ForbiddenLandsWeb.Live.Instances do
+defmodule ForbiddenLandsWeb.Live.Landing do
   @moduledoc """
   Home view.
   List all instances.
@@ -27,7 +27,7 @@ defmodule ForbiddenLandsWeb.Live.Instances do
     <div class="bg-white text-slate-900 max-w-[700px] mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
       <.link
         :for={instance <- @instances}
-        navigate={~p"/instance/#{instance.id}/dashboard"}
+        navigate={~p"/adventure/#{instance.id}"}
         class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all min-h-[134px]"
       >
         <h2 class="font-bold text-xl pb-4"><%= instance.name %></h2>
@@ -42,7 +42,7 @@ defmodule ForbiddenLandsWeb.Live.Instances do
       </.link>
 
       <.link
-        navigate={~p"/instance/new"}
+        navigate={~p"/start-a-new-adventure"}
         class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all min-h-[134px]"
       >
         <h2 class="font-bold text-xl pb-4">Créer une nouvelle instance</h2>
