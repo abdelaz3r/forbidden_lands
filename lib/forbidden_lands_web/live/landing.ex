@@ -6,6 +6,8 @@ defmodule ForbiddenLandsWeb.Live.Landing do
 
   use ForbiddenLandsWeb, :live_view
 
+  import ForbiddenLandsWeb.Components.Navbar
+
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.Instances
 
@@ -13,7 +15,12 @@ defmodule ForbiddenLandsWeb.Live.Landing do
   def mount(_params, _session, socket) do
     instances = Instances.get_all()
 
-    {:ok, assign(socket, page_title: "Liste des instances", instances: instances)}
+    socket =
+      socket
+      |> assign(instances: instances)
+      |> assign(page_title: "Liste des instances")
+
+    {:ok, socket}
   end
 
   @impl Phoenix.LiveView
@@ -24,7 +31,9 @@ defmodule ForbiddenLandsWeb.Live.Landing do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="bg-white text-slate-900 max-w-[700px] mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
+    <.navbar />
+
+    <div class="bg-white text-slate-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
       <.link
         :for={instance <- @instances}
         navigate={~p"/adventure/#{instance.id}"}

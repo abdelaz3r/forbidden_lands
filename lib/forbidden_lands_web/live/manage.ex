@@ -5,6 +5,8 @@ defmodule ForbiddenLandsWeb.Live.Manage do
 
   use ForbiddenLandsWeb, :live_view
 
+  import ForbiddenLandsWeb.Components.Navbar
+
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.Instances
 
@@ -50,7 +52,9 @@ defmodule ForbiddenLandsWeb.Live.Manage do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="bg-white text-slate-900 max-w-[700px] mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden">
+    <.navbar />
+
+    <div class="bg-white text-slate-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden">
       <header class="border-b">
         <nav class="flex justify-between border-b">
           <div class="flex px-3">
