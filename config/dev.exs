@@ -78,3 +78,8 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+# User and password for admin auth
+config :forbidden_lands,
+  username: "admin",
+  password: "1234"
