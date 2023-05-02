@@ -29,7 +29,7 @@ module.exports = {
         title: ['Lora']
       },
       colors: {
-        brand: "#FD4F00",
+        brand: "#FD4F00"
       }
     },
   },

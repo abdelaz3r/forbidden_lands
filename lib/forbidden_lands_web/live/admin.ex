@@ -5,6 +5,8 @@ defmodule ForbiddenLandsWeb.Live.Admin do
 
   use ForbiddenLandsWeb, :live_view
 
+  import ForbiddenLandsWeb.Components.Navbar
+
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
     username = Application.fetch_env!(:forbidden_lands, :username)
@@ -27,7 +29,9 @@ defmodule ForbiddenLandsWeb.Live.Admin do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="bg-white text-slate-900 max-w-[700px] mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
+    <.navbar />
+
+    <div class="bg-white text-slate-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
       Username: <%= @username %>
       Password: <%= @password %>
     </div>

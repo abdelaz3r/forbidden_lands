@@ -5,6 +5,8 @@ defmodule ForbiddenLandsWeb.Live.CreateInstance do
 
   use ForbiddenLandsWeb, :live_view
 
+  import ForbiddenLandsWeb.Components.Navbar
+
   alias ForbiddenLands.Instances.Instance
   alias ForbiddenLands.Instances.Instances
 
@@ -23,7 +25,9 @@ defmodule ForbiddenLandsWeb.Live.CreateInstance do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="bg-white text-slate-900 max-w-[700px] mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
+    <.navbar />
+
+    <div class="bg-white text-slate-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
       <h1 class="text-2xl font-bold">Nouvelle campagne</h1>
 
       <.simple_form :let={f} as={:create} for={@changeset} phx-submit="save">
