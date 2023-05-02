@@ -25,6 +25,12 @@ forbidden_lands-*.tar
 # Ignore assets that are produced by build tools.
 /priv/static/assets/
 
+# Ignore editor configuration files.
+/.vscode/
+
+# Ignore Elixir LS configuration file.
+/.elixir_ls/
+
 # Ignore digested assets cache.
 /priv/static/cache_manifest.json
 
