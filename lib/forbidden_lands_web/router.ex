@@ -1,6 +1,8 @@
 defmodule ForbiddenLandsWeb.Router do
   use ForbiddenLandsWeb, :router
 
+  alias ForbiddenLandsWeb.Plugs, as: Plugs
+
   pipeline(:browser) do
     plug(:accepts, ["html"])
     plug(:fetch_session)
@@ -13,14 +15,23 @@ defmodule ForbiddenLandsWeb.Router do
   scope("/", ForbiddenLandsWeb.Live) do
     pipe_through(:browser)
 
-    live("/", Landing)
-    live("/start-a-new-adventure", CreateInstance)
-    live("/adventure/:id", Dashboard)
-    live("/adventure/:id/story", Story)
-    live("/adventure/:id/story#:anchor", Story)
-    live("/adventure/:id/manage", Manage)
-    live("/adventure/:id/manage/:panel", Manage)
-    # live("/admin", Admin)
+    live_session(:public) do
+      live("/", Landing)
+      live("/adventure/:id", Dashboard)
+      live("/adventure/:id/story", Story)
+      live("/adventure/:id/story#:anchor", Story)
+      live("/adventure/:id/manage", Manage)
+      live("/adventure/:id/manage/:panel", Manage)
+    end
+  end
+
+  scope("/", ForbiddenLandsWeb.Live) do
+    pipe_through([:browser, Plugs.AdminAuth])
+
+    live_session (:admin) do
+      live("/admin", Admin)
+      live("/start-a-new-adventure", CreateInstance)
+    end
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
