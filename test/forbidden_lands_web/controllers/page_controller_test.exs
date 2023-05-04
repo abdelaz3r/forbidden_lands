@@ -3,6 +3,6 @@ defmodule ForbiddenLandsWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "Créer une nouvelle instance"
+    assert html_response(conn, 200) =~ "Liste des Aventures"
   end
 end

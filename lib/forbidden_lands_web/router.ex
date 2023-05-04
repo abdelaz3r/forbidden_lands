@@ -28,7 +28,7 @@ defmodule ForbiddenLandsWeb.Router do
   scope("/", ForbiddenLandsWeb.Live) do
     pipe_through([:browser, Plugs.AdminAuth])
 
-    live_session (:admin) do
+    live_session(:admin) do
       live("/admin", Admin)
       live("/start-a-new-adventure", CreateInstance)
     end

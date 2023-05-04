@@ -34,28 +34,39 @@ defmodule ForbiddenLandsWeb.Live.Landing do
     <.navbar />
 
     <div class="bg-white text-slate-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
-      <.link
-        :for={instance <- @instances}
-        navigate={~p"/adventure/#{instance.id}"}
-        class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all min-h-[134px]"
-      >
-        <h2 class="font-bold text-xl pb-4"><%= instance.name %></h2>
-        <p class="flex justify-between">
-          <span class="opacity-40">Date de départ</span>
-          <%= instance.initial_date |> Calendar.from_quarters() |> Calendar.format() %>
-        </p>
-        <p class="flex justify-between">
-          <span class="opacity-40">Date actuelle</span>
-          <%= instance.current_date |> Calendar.from_quarters() |> Calendar.format() %>
-        </p>
-      </.link>
+      <section :for={instance <- @instances} class="block p-5 border border-slate-200 rounded min-h-[134px]">
+        <header class="grid grid-cols-2">
+          <h2 class="font-bold text-xl pb-4">
+            <%= instance.name %>
+          </h2>
+          <div>
+            <p class="flex justify-between">
+              <span class="opacity-40">
+                Date de départ
+              </span>
+              <%= instance.initial_date |> Calendar.from_quarters() |> Calendar.format() %>
+            </p>
+            <p class="flex justify-between">
+              <span class="opacity-40">
+                Date actuelle
+              </span>
+              <%= instance.current_date |> Calendar.from_quarters() |> Calendar.format() %>
+            </p>
+          </div>
+        </header>
 
-      <.link
-        navigate={~p"/start-a-new-adventure"}
-        class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all min-h-[134px]"
-      >
-        <h2 class="font-bold text-xl pb-4">Créer une nouvelle instance</h2>
-      </.link>
+        <div class="grid grid-cols-3 gap-5 pt-5">
+          <.link navigate={~p"/adventure/#{instance.id}"} class="p-5 bg-slate-100">
+            Dashboard
+          </.link>
+          <.link navigate={~p"/adventure/#{instance.id}/story"} class="p-5 bg-slate-100">
+            Story
+          </.link>
+          <.link navigate={~p"/adventure/#{instance.id}/manage"} class="p-5 bg-slate-100">
+            Manage
+          </.link>
+        </div>
+      </section>
     </div>
     """
   end
