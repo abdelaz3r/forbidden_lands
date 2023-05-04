@@ -34,40 +34,47 @@ defmodule ForbiddenLandsWeb.Live.Landing do
     <.navbar />
 
     <div class="bg-white text-slate-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
-      <section :for={instance <- @instances} class="block p-5 border border-slate-200 rounded min-h-[134px]">
-        <header class="grid grid-cols-2">
-          <h2 class="font-bold text-xl pb-4">
+      <h1 class="font-bold text-xl">
+        Aventures actives
+      </h1>
+
+      <section :for={instance <- @instances} class="block p-5 border border-slate-200 bg-slate-100 rounded">
+        <header class="flex justify-between">
+          <h2 class="font-bold text-xl">
             <%= instance.name %>
           </h2>
+
           <div>
-            <p class="flex justify-between">
+            <p class="flex justify-between gap-5">
               <span class="opacity-40">
                 Date de départ
               </span>
-              <%= instance.initial_date |> Calendar.from_quarters() |> Calendar.format() %>
+              <%= instance.initial_date |> Calendar.from_quarters() |> Calendar.to_datequarter() %>
             </p>
-            <p class="flex justify-between">
+            <p class="flex justify-between gap-5">
               <span class="opacity-40">
                 Date actuelle
               </span>
-              <%= instance.current_date |> Calendar.from_quarters() |> Calendar.format() %>
+              <%= instance.current_date |> Calendar.from_quarters() |> Calendar.to_datequarter() %>
             </p>
           </div>
         </header>
 
-        <div class="grid grid-cols-3 gap-5 pt-5">
-          <.link navigate={~p"/adventure/#{instance.id}"} class="p-5 bg-slate-100">
+        <div class="flex gap-5 pt-5">
+          <.link navigate={~p"/adventure/#{instance.id}"} class={["grow", button_classes()]}>
             Dashboard
           </.link>
-          <.link navigate={~p"/adventure/#{instance.id}/story"} class="p-5 bg-slate-100">
-            Story
+          <.link navigate={~p"/adventure/#{instance.id}/story"} class={["grow", button_classes()]}>
+            Chroniques
           </.link>
-          <.link navigate={~p"/adventure/#{instance.id}/manage"} class="p-5 bg-slate-100">
-            Manage
+          <.link navigate={~p"/adventure/#{instance.id}/manage"} class={["flex-none w-[66px]", button_classes()]}>
+            <Heroicons.lock_closed class="w-6 h-6" />
           </.link>
         </div>
       </section>
     </div>
     """
   end
+
+  defp button_classes(), do: "p-5 bg-white rounded border border-slate-200 hover:shadow transition-all"
 end
