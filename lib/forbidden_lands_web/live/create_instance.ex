@@ -44,8 +44,8 @@ defmodule ForbiddenLandsWeb.Live.CreateInstance do
   @impl Phoenix.LiveView
   def handle_event("save", %{"create" => params}, socket) do
     case Instances.create(params) do
-      {:ok, instance} ->
-        {:noreply, push_navigate(socket, to: ~p"/adventure/#{instance.id}")}
+      {:ok, _instance} ->
+        {:noreply, push_navigate(socket, to: ~p"/admin")}
 
       {:error, changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
