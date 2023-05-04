@@ -32,7 +32,9 @@ defmodule ForbiddenLands.Calendar do
         |> String.split(".")
         |> Enum.map(fn number -> String.to_integer(number) - 1 end)
 
+      if year < 0, do: throw(:year_range_error)
       if month < 0 or month >= length(months()), do: throw(:month_range_error)
+
       month_data = Enum.at(months(), month)
 
       if day < 0 or day >= month_data.days_count, do: throw(:day_range_error)
@@ -59,18 +61,15 @@ defmodule ForbiddenLands.Calendar do
   def from_datequarter(datequarter) when is_binary(datequarter) do
     try do
       [date, quarter] = String.split(datequarter, " ")
-      [quarter, _] = String.split(quarter, "/")
+      [quarter, dividend] = String.split(quarter, "/")
       quarter = String.to_integer(quarter) - 1
 
+      if dividend != "#{@quarter_by_day}", do: throw(:format_error)
       if quarter < 0 or quarter >= @quarter_by_day, do: throw(:quarter_range_error)
 
       case from_date(date) do
-        {:ok, calendar} ->
-          calendar = add(calendar, quarter, :quarter)
-          {:ok, calendar}
-
-        {:error, reason} ->
-          {:error, reason}
+        {:ok, calendar} -> {:ok, add(calendar, quarter, :quarter)}
+        {:error, reason} -> {:error, reason}
       end
     rescue
       _ -> {:error, :format_error}
@@ -142,7 +141,7 @@ defmodule ForbiddenLands.Calendar do
   end
 
   @doc """
-  Move a calendar to the start of a certain calendar milestone.
+  Move a calendar to the start of a specific calendar milestone.
   """
   @spec start_of(Calendar.t(), :year | :month | :week | :day) :: Calendar.t()
   def start_of(%{year: %{day: year_day}, count: %{days: days}}, :year) do
@@ -157,28 +156,28 @@ defmodule ForbiddenLands.Calendar do
     from_days(days - week_day + 1)
   end
 
-  def start_of(calendar, :day) do
-    calendar
+  def start_of(%{count: %{days: days}}, :day) do
+    from_days(days)
   end
 
   @doc """
-  Move a calendar to the end of a certain calendar milestone.
+  Move a calendar to the end of a specific calendar milestone.
   """
   @spec end_of(Calendar.t(), :year | :month | :week | :day) :: Calendar.t()
-  def end_of(%{year: %{day: year_day}, count: %{days: days}}, :year) do
-    from_days(days - year_day + @day_by_year) |> add(3, :quarter)
+  def end_of(calendar, :year) do
+    calendar |> add(1, :year) |> start_of(:year) |> add(-1, :quarter)
   end
 
-  def end_of(calendar, :month) do
-    calendar
+  def end_of(%{month: %{day: current_day, days_count: total_days}} = calendar, :month) do
+    calendar |> add(total_days - current_day + 1, :day) |> start_of(:month) |> add(-1, :quarter)
   end
 
   def end_of(calendar, :week) do
-    calendar
+    calendar |> add(1, :week) |> start_of(:week) |> add(-1, :quarter)
   end
 
   def end_of(calendar, :day) do
-    calendar
+    calendar |> add(1, :day) |> start_of(:day) |> add(-1, :quarter)
   end
 
   @doc """
