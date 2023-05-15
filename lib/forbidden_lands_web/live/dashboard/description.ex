@@ -53,7 +53,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Description do
         <%= @title %>
       </h2>
       <div class="text-sm divide-y divide-slate-900/50 text-slate-100/80">
-        <%= Helper.text_to_raw_html(@content) %>
+        <%= Helper.text_to_raw_html(@content, "py-3") %>
       </div>
     </div>
     """
