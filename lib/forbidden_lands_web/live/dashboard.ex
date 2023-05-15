@@ -67,7 +67,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           <.stronghold stronghold={@instance.stronghold} open?={@stronghold_open?} />
         </div>
 
-        <.description stronghold={@instance.stronghold} open?={@stronghold_open?} />
+        <.description :if={@instance.stronghold} stronghold={@instance.stronghold} open?={@stronghold_open?} />
       </div>
     </div>
     """
