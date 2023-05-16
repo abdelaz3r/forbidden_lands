@@ -12,7 +12,7 @@ defmodule ForbiddenLandsWeb.Live.Manage do
 
   @impl Phoenix.LiveView
   def mount(%{"id" => id}, _session, socket) do
-    case Instances.get(id) do
+    case Instances.get(id, 1_000) do
       {:ok, instance} ->
         topic = "instance-#{instance.id}"
         calendar = Calendar.from_quarters(instance.current_date)

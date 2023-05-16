@@ -7,14 +7,14 @@ defmodule ForbiddenLands.Instances.Instances do
   alias ForbiddenLands.Instances.Instance
   alias ForbiddenLands.Repo
 
-  @spec get(number()) :: {:ok, Instance.t()} | {:error, :not_found}
-  def get(id) do
+  @spec get(number(), number()) :: {:ok, Instance.t()} | {:error, :not_found}
+  def get(id, event_limit \\ 50) do
     query =
       from(
         i in Instance,
         where: i.id == ^id,
         select: i,
-        preload: [events: ^from(e in Event, order_by: [desc: e.date, desc: e.id], limit: 50)]
+        preload: [events: ^from(e in Event, order_by: [desc: e.date, desc: e.id], limit: ^event_limit)]
       )
 
     case Repo.one(query) do
