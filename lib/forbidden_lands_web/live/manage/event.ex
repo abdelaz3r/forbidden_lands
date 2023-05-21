@@ -15,7 +15,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
 
   @impl Phoenix.LiveComponent
   def update(assigns, socket) do
-    changeset = Map.get(socket.assigns, :changeset, Event.create(%Event{}, default_params(assigns.calendar)))
+    changeset = Map.get(socket.assigns, :changeset, default_event(assigns.calendar))
 
     socket =
       socket
@@ -124,7 +124,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
 
       socket =
         socket
-        |> assign(:changeset, Event.create(%Event{}, default_params(calendar)))
+        |> assign(:changeset, default_event(calendar))
         |> put_flash(:info, "Événement créé")
 
       {:noreply, socket}
@@ -153,7 +153,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
       socket =
         socket
         |> assign(edit: false)
-        |> assign(:changeset, Event.create(%Event{}, default_params(calendar)))
+        |> assign(:changeset, default_event(calendar))
         |> put_flash(:info, "Événement mis à jour")
 
       {:noreply, socket}
@@ -187,7 +187,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
     {:noreply, socket}
   end
 
-  defp default_params(calendar) do
-    %{"human_datequarter" => Calendar.to_datequarter(calendar)}
+  defp default_event(calendar) do
+    Event.create(%Event{}, %{"human_datequarter" => Calendar.to_datequarter(calendar)})
   end
 end
