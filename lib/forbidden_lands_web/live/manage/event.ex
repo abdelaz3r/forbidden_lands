@@ -10,22 +10,19 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
 
   @impl Phoenix.LiveComponent
   def mount(socket) do
-    socket =
-      socket
-      |> assign(edit: false)
-      |> assign(changeset: Event.create(%Event{}, %{}))
-
-    {:ok, socket}
+    {:ok, assign(socket, edit: false)}
   end
 
   @impl Phoenix.LiveComponent
   def update(assigns, socket) do
+    changeset = Map.get(socket.assigns, :changeset, Event.create(%Event{}, default_params(assigns.calendar)))
+
     socket =
       socket
       |> assign(instance: assigns.instance)
       |> assign(topic: assigns.topic)
       |> assign(calendar: assigns.calendar)
-      |> assign(changeset: Event.create(%Event{}, default_params(assigns.calendar)))
+      |> assign(changeset: changeset)
 
     {:ok, socket}
   end
