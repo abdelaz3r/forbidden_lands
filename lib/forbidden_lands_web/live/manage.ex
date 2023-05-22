@@ -11,6 +11,8 @@ defmodule ForbiddenLandsWeb.Live.Manage do
   alias ForbiddenLands.Instances.Instances
   alias ForbiddenLandsWeb.Live.Manage, as: Panel
 
+  @events_limit 5_000
+
   defp panels() do
     [
       %{key: "date", component: Panel.Date},
@@ -22,7 +24,7 @@ defmodule ForbiddenLandsWeb.Live.Manage do
 
   @impl Phoenix.LiveView
   def mount(%{"id" => id}, _session, socket) do
-    case Instances.get(id, 1_000) do
+    case Instances.get(id, @events_limit) do
       {:ok, instance} ->
         topic = "instance-#{instance.id}"
         calendar = Calendar.from_quarters(instance.current_date)
@@ -111,7 +113,7 @@ defmodule ForbiddenLandsWeb.Live.Manage do
 
   @impl Phoenix.LiveView
   def handle_info(%{topic: topic, event: "update"}, socket) when topic == socket.assigns.topic do
-    case Instances.get(socket.assigns.instance.id) do
+    case Instances.get(socket.assigns.instance.id, @events_limit) do
       {:ok, instance} ->
         calendar = Calendar.from_quarters(instance.current_date)
 
