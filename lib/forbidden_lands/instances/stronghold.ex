@@ -31,6 +31,10 @@ defmodule ForbiddenLands.Instances.Stronghold do
     :herbs
   ]
 
+  @derive {ForbiddenLands.Export,
+           fields:
+             [:name, :description, :defense, :reputation, :functions, :hirelings, :tools, :items] ++
+               @resource_fields}
   @type t() :: %Stronghold{
           name: String.t() | nil,
           description: String.t() | nil,

@@ -11,6 +11,7 @@ defmodule ForbiddenLands.Instances.Event do
 
   @types [:automatic, :normal, :special, :legendary, :death]
 
+  @derive {ForbiddenLands.Export, fields: [:date, :type, :title, :description]}
   @type t() :: %Event{
           id: non_neg_integer() | nil,
           human_datequarter: String.t() | nil,

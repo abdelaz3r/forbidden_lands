@@ -11,6 +11,8 @@ defmodule ForbiddenLands.Instances.Instance do
   alias ForbiddenLands.Instances.ResourceRule
   alias ForbiddenLands.Instances.Stronghold
 
+  @derive {ForbiddenLands.Export,
+           fields: [:name, :initial_date, :current_date, :stronghold, :resource_rules, :events]}
   @type t() :: %Instance{
           id: non_neg_integer() | nil,
           name: String.t() | nil,

@@ -8,6 +8,7 @@ defmodule ForbiddenLands.Instances.ResourceRule do
   alias ForbiddenLands.Instances.ResourceRule
   alias ForbiddenLands.Instances.Stronghold
 
+  @derive {ForbiddenLands.Export, fields: [:name, :type, :amount]}
   @type t() :: %ResourceRule{
           name: String.t() | nil,
           type: atom() | nil,
