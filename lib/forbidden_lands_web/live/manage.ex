@@ -9,6 +9,16 @@ defmodule ForbiddenLandsWeb.Live.Manage do
 
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.Instances
+  alias ForbiddenLandsWeb.Live.Manage, as: Panel
+
+  defp panels() do
+    [
+      %{key: "date", component: Panel.Date},
+      %{key: "event", component: Panel.Event},
+      %{key: "stronghold", component: Panel.Stronghold},
+      %{key: "export", component: Panel.Export}
+    ]
+  end
 
   @impl Phoenix.LiveView
   def mount(%{"id" => id}, _session, socket) do
@@ -143,13 +153,5 @@ defmodule ForbiddenLandsWeb.Live.Manage do
     ~H"""
     <Heroicons.arrow_down_on_square class={@class} />
     """
-  end
-
-  defp panels() do
-    [
-      %{key: "date", component: ForbiddenLandsWeb.Live.Manage.Date},
-      %{key: "event", component: ForbiddenLandsWeb.Live.Manage.Event},
-      %{key: "stronghold", component: ForbiddenLandsWeb.Live.Manage.Stronghold}
-    ]
   end
 end
