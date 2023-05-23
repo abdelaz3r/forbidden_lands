@@ -65,13 +65,34 @@ defmodule ForbiddenLandsWeb.Live.Admin do
         <span>
           <%= instance.name %>
         </span>
-        <!--
-        <button type="button" phx-click="remove_rule">
+        <button
+          type="button"
+          phx-click="delete_instance"
+          phx-value-id={instance.id}
+          onclick="if (!window.confirm('Confirm delete?')) { event.stopPropagation(); }"
+        >
           <Heroicons.x_mark class="h-6 w-6 " />
         </button>
-        -->
       </div>
     </div>
     """
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("delete_instance", %{"id" => instance_id}, socket) do
+    instance = Enum.find(socket.assigns.instances, fn instance -> instance.id == String.to_integer(instance_id) end)
+
+    case Instances.remove(instance) do
+      {:ok, _instance} ->
+        socket =
+          socket
+          |> put_flash(:info, "Aventure supprimée")
+          |> assign(instances: Instances.get_all())
+
+        {:noreply, socket}
+
+      {:error, _reason} ->
+        {:noreply, socket}
+    end
   end
 end
