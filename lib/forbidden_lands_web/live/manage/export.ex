@@ -42,7 +42,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Export do
           </.button>
         </div>
 
-        <textarea :if={@export?} id="clipboard-target" class="w-full h-64" readonly={true}><%= export(@instance) %></textarea>
+        <textarea :if={@export?} id="clipboard-target" class="w-full h-64" readonly={true}><%= get_export(@instance) %></textarea>
       </section>
     </div>
     """
@@ -53,9 +53,9 @@ defmodule ForbiddenLandsWeb.Live.Manage.Export do
     {:noreply, assign(socket, export?: true)}
   end
 
-  defp export(instance) do
+  defp get_export(instance) do
     instance
     |> Export.export()
-    |> inspect(pretty: true, limit: :infinity)
+    |> Jason.encode!(pretty: true)
   end
 end
