@@ -10,6 +10,8 @@ defmodule ForbiddenLands.Instances.Event do
   alias ForbiddenLands.Instances.Instance
 
   @types [:automatic, :normal, :special, :legendary, :death]
+  @title_max_length 200
+  @description_max_length 10_000
 
   @derive {ForbiddenLands.Export, fields: [:date, :type, :title, :description]}
   @type t() :: %Event{
@@ -42,10 +44,20 @@ defmodule ForbiddenLands.Instances.Event do
     |> cast(params, [:human_datequarter, :type, :title, :description])
     |> validate_required([:human_datequarter, :type, :title])
     |> validate_inclusion(:type, @types)
-    |> validate_length(:title, max: 200)
-    |> validate_length(:description, max: 10_000)
+    |> validate_length(:title, max: @title_max_length)
+    |> validate_length(:description, max: @description_max_length)
     |> ForbiddenLands.Validation.validate_datequarter(:human_datequarter)
     |> put_date()
+  end
+
+  @spec create_from_export(Event.t(), map()) :: Ecto.Changeset.t()
+  def create_from_export(event, params \\ %{}) do
+    event
+    |> cast(params, [:date, :type, :title, :description])
+    |> validate_required([:date, :type, :title])
+    |> validate_inclusion(:type, @types)
+    |> validate_length(:title, max: @title_max_length)
+    |> validate_length(:description, max: @description_max_length)
   end
 
   defp put_date(instance) do

@@ -48,6 +48,13 @@ defmodule ForbiddenLands.Instances.Instances do
     |> Repo.insert()
   end
 
+  @spec create_from_export(map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
+  def create_from_export(params) do
+    %Instance{}
+    |> Instance.create_from_export(params)
+    |> Repo.insert()
+  end
+
   @spec update(Instance.t(), map(), list()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
   def update(instance, params, resource_rules \\ [])
 
