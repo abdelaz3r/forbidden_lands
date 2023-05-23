@@ -11,24 +11,26 @@ defmodule ForbiddenLands.Instances.Stronghold do
     :coins,
     :iron_ore,
     :iron,
+    :silver_ore,
     :silver,
+    :gold_ore,
     :gold,
     :stone,
-    :glass,
     :wood,
-    :fur,
     :leather,
-    :cloth,
+    :fur,
     :wool,
-    :food,
-    :water,
-    :flour,
+    :cloth,
     :grain,
+    :flour,
     :meat,
     :fish,
     :vegetables,
+    :food,
     :tallow,
-    :herbs
+    :herbs,
+    :glass,
+    :beer
   ]
 
   @derive {ForbiddenLands.Export,
@@ -47,24 +49,26 @@ defmodule ForbiddenLands.Instances.Stronghold do
           items: String.t() | nil,
           iron_ore: non_neg_integer() | nil,
           iron: non_neg_integer() | nil,
+          silver_ore: non_neg_integer() | nil,
           silver: non_neg_integer() | nil,
+          gold_ore: non_neg_integer() | nil,
           gold: non_neg_integer() | nil,
           stone: non_neg_integer() | nil,
-          glass: non_neg_integer() | nil,
           wood: non_neg_integer() | nil,
-          fur: non_neg_integer() | nil,
           leather: non_neg_integer() | nil,
-          cloth: non_neg_integer() | nil,
+          fur: non_neg_integer() | nil,
           wool: non_neg_integer() | nil,
-          food: non_neg_integer() | nil,
-          water: non_neg_integer() | nil,
-          flour: non_neg_integer() | nil,
+          cloth: non_neg_integer() | nil,
           grain: non_neg_integer() | nil,
+          flour: non_neg_integer() | nil,
           meat: non_neg_integer() | nil,
           fish: non_neg_integer() | nil,
           vegetables: non_neg_integer() | nil,
+          food: non_neg_integer() | nil,
           tallow: non_neg_integer() | nil,
-          herbs: non_neg_integer() | nil
+          herbs: non_neg_integer() | nil,
+          glass: non_neg_integer() | nil,
+          beer: non_neg_integer() | nil
         }
   embedded_schema do
     field(:name, :string)
@@ -78,24 +82,26 @@ defmodule ForbiddenLands.Instances.Stronghold do
     field(:items, :string)
     field(:iron_ore, :integer, default: 0)
     field(:iron, :integer, default: 0)
+    field(:silver_ore, :integer, default: 0)
     field(:silver, :integer, default: 0)
+    field(:gold_ore, :integer, default: 0)
     field(:gold, :integer, default: 0)
     field(:stone, :integer, default: 0)
-    field(:glass, :integer, default: 0)
     field(:wood, :integer, default: 0)
-    field(:fur, :integer, default: 0)
     field(:leather, :integer, default: 0)
-    field(:cloth, :integer, default: 0)
+    field(:fur, :integer, default: 0)
     field(:wool, :integer, default: 0)
-    field(:food, :integer, default: 0)
-    field(:water, :integer, default: 0)
-    field(:flour, :integer, default: 0)
+    field(:cloth, :integer, default: 0)
     field(:grain, :integer, default: 0)
+    field(:flour, :integer, default: 0)
     field(:meat, :integer, default: 0)
     field(:fish, :integer, default: 0)
     field(:vegetables, :integer, default: 0)
+    field(:food, :integer, default: 0)
     field(:tallow, :integer, default: 0)
     field(:herbs, :integer, default: 0)
+    field(:glass, :integer, default: 0)
+    field(:beer, :integer, default: 0)
   end
 
   @spec changeset(Stronghold.t(), map()) :: Ecto.Changeset.t()
@@ -146,10 +152,14 @@ defmodule ForbiddenLands.Instances.Stronghold do
   def resource_name(:iron_ore, _), do: " minerais de fer"
   def resource_name(:iron, x) when x <= 1, do: "lingot de fer"
   def resource_name(:iron, _), do: "lingots de fer"
-  def resource_name(:silver, x) when x <= 1, do: "minerai d'argent"
-  def resource_name(:silver, _), do: "minerais d'argent"
-  def resource_name(:gold, x) when x <= 1, do: "minerai d'or"
-  def resource_name(:gold, _), do: "minerais d'or"
+  def resource_name(:silver_ore, x) when x <= 1, do: "minerai d'argent"
+  def resource_name(:silver_ore, _), do: "minerais d'argent"
+  def resource_name(:silver, x) when x <= 1, do: "lingot d'argent"
+  def resource_name(:silver, _), do: "lingots d'argent"
+  def resource_name(:gold_ore, x) when x <= 1, do: "minerai d'or"
+  def resource_name(:gold_ore, _), do: "minerais d'or"
+  def resource_name(:gold, x) when x <= 1, do: "lingot d'or"
+  def resource_name(:gold, _), do: "lingots d'or"
   def resource_name(:stone, x) when x <= 1, do: "bloc de pierre"
   def resource_name(:stone, _), do: "blocs de pierre"
   def resource_name(:glass, x) when x <= 1, do: "unité de verre"
@@ -166,8 +176,6 @@ defmodule ForbiddenLands.Instances.Stronghold do
   def resource_name(:wool, _), do: "unités de laine"
   def resource_name(:food, x) when x <= 1, do: "ration"
   def resource_name(:food, _), do: "rations"
-  def resource_name(:water, x) when x <= 1, do: "unité d'eau"
-  def resource_name(:water, _), do: "unités d'eau"
   def resource_name(:flour, x) when x <= 1, do: "unité de farine"
   def resource_name(:flour, _), do: "unités de farine"
   def resource_name(:grain, x) when x <= 1, do: "unité de grain"
@@ -182,6 +190,8 @@ defmodule ForbiddenLands.Instances.Stronghold do
   def resource_name(:tallow, _), do: "bocaux de suif"
   def resource_name(:herbs, x) when x <= 1, do: "unité d'herbe"
   def resource_name(:herbs, _), do: "unités d'herbe"
+  def resource_name(:beer, x) when x <= 1, do: "tonneau de bière"
+  def resource_name(:beer, _), do: "tonneaux de bière"
   def resource_name(_type, _), do: "ressource inconnue"
 
   defp validate_resource_field(stronghold) do
