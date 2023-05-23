@@ -31,6 +31,7 @@ defmodule ForbiddenLandsWeb.Router do
     live_session(:admin) do
       live("/admin", Admin)
       live("/start-a-new-adventure", CreateInstance)
+      live("/import-adventure", ImportInstance)
     end
   end
 

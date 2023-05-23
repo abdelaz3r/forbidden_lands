@@ -32,14 +32,28 @@ defmodule ForbiddenLandsWeb.Live.Admin do
     <.navbar />
 
     <div class="bg-white text-slate-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
-      <.link
-        navigate={~p"/start-a-new-adventure"}
-        class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all"
-      >
-        <h2 class="font-bold text-xl pb-4">
-          Démarrer une nouvelle aventure
-        </h2>
-      </.link>
+      <div class="grid grid-cols-2 gap-5">
+        <.link
+          navigate={~p"/start-a-new-adventure"}
+          class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all"
+        >
+          <h2 class="font-bold text-xl pb-2">
+            Démarrer une nouvelle aventure
+          </h2>
+          <p class="text-slate-900/70">
+            Créer une nouvelle aventure avec une date de départ et un nom.
+          </p>
+        </.link>
+
+        <.link navigate={~p"/import-adventure"} class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all">
+          <h2 class="font-bold text-xl pb-2">
+            Importer une aventure
+          </h2>
+          <p class="text-slate-900/70">
+            Importer une aventure depuis le fichier d'export d'une autre aventure.
+          </p>
+        </.link>
+      </div>
 
       <hr />
 
