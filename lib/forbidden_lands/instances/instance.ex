@@ -44,6 +44,16 @@ defmodule ForbiddenLands.Instances.Instance do
     |> put_dates()
   end
 
+  @spec create_from_export(Instance.t(), map()) :: Ecto.Changeset.t()
+  def create_from_export(instance, params \\ %{}) do
+    instance
+    |> cast(params, [:name, :initial_date, :current_date])
+    |> validate_required([:name, :initial_date, :current_date])
+    |> cast_embed(:stronghold, with: &Stronghold.changeset/2)
+    |> cast_embed(:resource_rules, with: &ResourceRule.create/2)
+    |> cast_assoc(:events, with: &Event.create_from_export/2)
+  end
+
   @spec update(Instance.t(), map(), list()) :: Ecto.Changeset.t()
   def update(instance, params \\ %{}, resource_rules \\ []) do
     instance
