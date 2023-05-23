@@ -70,6 +70,11 @@ defmodule ForbiddenLands.Instances.Instances do
     |> Repo.update()
   end
 
+  @spec remove(map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
+  def remove(instance) do
+    Repo.delete(instance)
+  end
+
   @spec add_event(Instance.t(), map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
   def add_event(instance, event) do
     instance
