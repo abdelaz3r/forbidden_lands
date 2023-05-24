@@ -18,7 +18,8 @@ defmodule ForbiddenLandsWeb.Live.Manage do
       %{key: "date", component: Panel.Date},
       %{key: "event", component: Panel.Event},
       %{key: "stronghold", component: Panel.Stronghold},
-      %{key: "export", component: Panel.Export}
+      %{key: "export", component: Panel.Export},
+      %{key: "settings", component: Panel.Settings}
     ]
   end
 
@@ -154,6 +155,12 @@ defmodule ForbiddenLandsWeb.Live.Manage do
   defp nav_icon(%{key: "export"} = assigns) do
     ~H"""
     <Heroicons.arrow_down_on_square class={@class} />
+    """
+  end
+
+  defp nav_icon(%{key: "settings"} = assigns) do
+    ~H"""
+    <Heroicons.cog_8_tooth class={@class} />
     """
   end
 end
