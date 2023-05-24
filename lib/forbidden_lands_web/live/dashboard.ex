@@ -54,6 +54,12 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           <.image path="map.jpg" alt="Carte des Forbiddens Land" class="object-cover h-full w-full" />
         </div>
         <div class={[layer_classes(), layer_classes(@luminosity)]}></div>
+        <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-title font-bold text-xl drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
+          <.link navigate={~p"/"}>
+            <Heroicons.chevron_left class="h-6 w-6" />
+          </.link>
+          <%= @instance.name %>
+        </h1>
       </div>
 
       <div class="absolute bottom-4 left-4">
