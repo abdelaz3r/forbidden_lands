@@ -66,7 +66,7 @@ defmodule ForbiddenLands.Instances.Instance do
   @spec create_from_export(Instance.t(), map()) :: Ecto.Changeset.t()
   def create_from_export(instance, params \\ %{}) do
     instance
-    |> cast(params, [:name, :initial_date, :current_date])
+    |> cast(params, [:name, :initial_date, :current_date, :prepend_name, :append_name, :description, :introduction])
     |> validate_required([:name, :initial_date, :current_date])
     |> cast_embed(:stronghold, with: &Stronghold.changeset/2)
     |> cast_embed(:resource_rules, with: &ResourceRule.create/2)
@@ -76,7 +76,7 @@ defmodule ForbiddenLands.Instances.Instance do
   @spec update(Instance.t(), map(), list()) :: Ecto.Changeset.t()
   def update(instance, params \\ %{}, resource_rules \\ []) do
     instance
-    |> cast(params, [:name, :current_date, :mood])
+    |> cast(params, [:name, :current_date, :mood, :prepend_name, :append_name, :description, :introduction])
     |> validate_required([:name, :current_date, :mood])
     |> cast_embed(:stronghold, with: &Stronghold.changeset/2)
     |> put_embed(:resource_rules, resource_rules)

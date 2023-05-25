@@ -55,23 +55,24 @@ defmodule ForbiddenLandsWeb.Live.Story do
         </div>
 
         <div class={["relative bg-stone-200 shadow-2xl p-5 z-20 pb-36", border_classes()]}>
-          <div class="text-center">
-            <header class="inline-block m-auto px-4 py-[25vh]">
-              <h2 class="inline-block pb-2 text-2xl text-slate-900/50">
-                The full story of
+          <div class="text-center py-20 md:py-[25vh]">
+            <header class="inline-block m-auto px-4">
+              <h2 :if={@instance.prepend_name} class="inline-block pb-2 text-2xl text-slate-900/50">
+                <%= @instance.prepend_name %>
               </h2>
               <br />
-              <h1 class="
-                inline relative text-5xl font-bold first-letter:text-6xl text-stone-800
-                after:hidden md:after:block after:absolute after:-right-10 after:bottom-1 after:h-[2px] after:w-[200px] after:bg-slate-600/10 after:z-[-1]
-              ">
+              <h1 class="inline relative text-5xl font-bold first-letter:text-6xl text-stone-800">
                 <%= @instance.name %>
               </h1>
               <br />
-              <h2 class="inline-block pt-2 text-2xl">
-                [subtitle]
+              <h2 :if={@instance.append_name} class="inline-block pt-3 text-2xl">
+                <%= @instance.append_name %>
               </h2>
             </header>
+
+            <div :if={@instance.introduction} class="text-left pt-20 md:pt-[25vh] px-4 md:px-36 text-lg space-y-2 italic">
+              <%= @instance.introduction %>
+            </div>
           </div>
 
           <div :for={{%{event: event, calendar: calendar}, i} <- Enum.with_index(@events)}>
