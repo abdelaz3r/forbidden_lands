@@ -25,7 +25,9 @@ defmodule ForbiddenLands.Instances.Instances do
 
   @spec get_all() :: [Instance.t()]
   def get_all() do
-    Repo.all(Instance)
+    query = from(i in Instance, order_by: [asc: i.id])
+
+    Repo.all(query)
   end
 
   @spec get_events(number(), list()) :: [Event.t()]
