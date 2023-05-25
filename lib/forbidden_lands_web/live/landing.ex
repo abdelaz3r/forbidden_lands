@@ -39,12 +39,17 @@ defmodule ForbiddenLandsWeb.Live.Landing do
       </h1>
 
       <section :for={instance <- @instances} class="block p-5 border border-slate-200 bg-slate-100 rounded">
-        <header class="flex justify-between">
-          <h2 class="font-bold text-xl">
-            <%= instance.name %>
-          </h2>
+        <header class="grid grid-cols-10 gap-5">
+          <div class="col-span-6 flex flex-col gap-2">
+            <h2 class="font-bold text-xl">
+              <%= instance.name %>
+            </h2>
+            <p :if={instance.description}>
+              <%= instance.description %>
+            </p>
+          </div>
 
-          <div>
+          <div class="col-span-4">
             <p class="flex justify-between gap-5">
               <span class="opacity-40">
                 Date de départ
