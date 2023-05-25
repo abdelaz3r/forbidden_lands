@@ -12,13 +12,13 @@ defmodule ForbiddenLandsWeb.Components.Navbar do
         <h1 class="font-bold py-2 px-3 border-r text-brand">
           FLw
         </h1>
-        <.link patch={~p"/"} class={link_classes()}>
+        <.link navigate={~p"/"} class={link_classes()}>
           Liste des Aventures
         </.link>
       </nav>
 
       <nav class="flex">
-        <.link patch={~p"/admin"} class={link_classes()}>
+        <.link navigate={~p"/admin"} class={link_classes()}>
           <Heroicons.lock_closed class="w-6 h-6" />
         </.link>
       </nav>
