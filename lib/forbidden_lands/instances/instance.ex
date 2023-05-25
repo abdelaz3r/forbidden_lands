@@ -12,22 +12,41 @@ defmodule ForbiddenLands.Instances.Instance do
   alias ForbiddenLands.Instances.Stronghold
 
   @derive {ForbiddenLands.Export,
-           fields: [:name, :initial_date, :current_date, :stronghold, :resource_rules, :events]}
+           fields: [
+             :name,
+             :prepend_name,
+             :append_name,
+             :initial_date,
+             :current_date,
+             :description,
+             :introduction,
+             :stronghold,
+             :resource_rules,
+             :events
+           ]}
   @type t() :: %Instance{
           id: non_neg_integer() | nil,
           name: String.t() | nil,
+          prepend_name: String.t() | nil,
+          append_name: String.t() | nil,
           human_date: String.t() | nil,
           initial_date: integer() | nil,
           current_date: integer() | nil,
           mood: String.t() | nil,
+          description: String.t() | nil,
+          introduction: String.t() | nil,
           stronghold: Stronghold.t() | nil
         }
   schema("instances") do
     field(:name, :string)
+    field(:prepend_name, :string)
+    field(:append_name, :string)
     field(:human_date, :string, virtual: true)
     field(:initial_date, :integer)
     field(:current_date, :integer)
     field(:mood, :string)
+    field(:description, :string)
+    field(:introduction, :string)
     embeds_one(:stronghold, Stronghold, on_replace: :update)
     embeds_many(:resource_rules, ResourceRule, on_replace: :delete)
     has_many(:events, Event)
