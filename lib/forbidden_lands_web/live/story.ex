@@ -39,6 +39,13 @@ defmodule ForbiddenLandsWeb.Live.Story do
   def render(assigns) do
     ~H"""
     <div class="text-slate-900 font-title p-0 md:py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover md:bg-[url('/images/story-background.jpg')]">
+      <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-title font-bold text-white text-xl drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
+        <.link navigate={~p"/"}>
+          <Heroicons.chevron_left class="h-6 w-6" />
+        </.link>
+        <%= @instance.name %>
+      </h1>
+
       <div class="relative max-w-[800px] mx-auto">
         <.background_sheets />
 
