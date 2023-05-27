@@ -69,4 +69,12 @@ defmodule ForbiddenLands.Instances.Event do
       instance
     end
   end
+
+  @spec icon_by_type(atom()) :: atom()
+  def icon_by_type(:automatic), do: :minus
+  def icon_by_type(:normal), do: :list_minus
+  def icon_by_type(:special), do: :sparkle
+  def icon_by_type(:legendary), do: :sparkles
+  def icon_by_type(:death), do: :swords
+  def icon_by_type(_type), do: :dot
 end
