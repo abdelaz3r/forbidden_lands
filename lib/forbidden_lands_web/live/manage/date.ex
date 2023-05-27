@@ -58,7 +58,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
           phx-target={@myself}
         >
           <%= dgettext("manage", "Plus d'options") %>
-          <Heroicons.chevron_double_up class={["h-6 w-6 transition-all duration-500", not @show_more? && "rotate-180"]} />
+          <.icon name={:chevrons_up} class={"h-6 w-6 transition-all duration-500 #{not @show_more? && "rotate-180"}"} />
         </button>
 
         <div :if={@show_more?} class="flex flex-col gap-3">

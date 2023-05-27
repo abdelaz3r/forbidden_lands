@@ -90,7 +90,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Stronghold do
             <%= rule.name %> consomme <%= abs(rule.amount) %> <%= Stronghold.resource_name(rule.type, rule.amount) %> par semaine
           </span>
           <button type="button" phx-click="remove_rule" phx-value-id={rule.id} phx-target={@myself}>
-            <Heroicons.x_mark class="h-6 w-6 " />
+            <.icon name={:x} class="h-6 w-6 " />
           </button>
         </div>
 

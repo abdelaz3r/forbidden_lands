@@ -15,11 +15,11 @@ defmodule ForbiddenLandsWeb.Live.Manage do
 
   defp panels() do
     [
-      %{key: "date", component: Panel.Date},
-      %{key: "event", component: Panel.Event},
-      %{key: "stronghold", component: Panel.Stronghold},
-      %{key: "export", component: Panel.Export},
-      %{key: "settings", component: Panel.Settings}
+      %{key: "date", icon: :bookmark, component: Panel.Date},
+      %{key: "event", icon: :calendar_range, component: Panel.Event},
+      %{key: "stronghold", icon: :castle, component: Panel.Stronghold},
+      %{key: "export", icon: :download, component: Panel.Export},
+      %{key: "settings", icon: :settings, component: Panel.Settings}
     ]
   end
 
@@ -72,18 +72,18 @@ defmodule ForbiddenLandsWeb.Live.Manage do
         <nav class="flex justify-between border-b">
           <div class="flex px-3">
             <.link
-              :for={%{key: key, component: _component} <- panels()}
+              :for={%{key: key, icon: icon, component: _component} <- panels()}
               class={["py-4 px-3 font-bold", @panel.key == key && "text-sky-800 underline"]}
               patch={~p"/adventure/#{@instance.id}/manage/#{key}"}
             >
               <span class="text-grey-600">
-                <.nav_icon key={key} class="w-6 h-6" />
+                <.icon name={icon} class="w-6 h-6" />
               </span>
             </.link>
           </div>
           <div class="flex">
             <.link navigate={~p"/adventure/#{@instance.id}"} class="py-4 px-6 font-bold">
-              <Heroicons.arrow_top_right_on_square class="w-6 h-6" />
+              <.icon name={:corner_right_up} class="w-6 h-6" />
             </.link>
           </div>
         </nav>
@@ -132,35 +132,5 @@ defmodule ForbiddenLandsWeb.Live.Manage do
 
   def handle_info(%{topic: topic, event: _event}, socket) when topic == socket.assigns.topic do
     {:noreply, socket}
-  end
-
-  defp nav_icon(%{key: "date"} = assigns) do
-    ~H"""
-    <Heroicons.bookmark class={@class} />
-    """
-  end
-
-  defp nav_icon(%{key: "event"} = assigns) do
-    ~H"""
-    <Heroicons.calendar_days class={@class} />
-    """
-  end
-
-  defp nav_icon(%{key: "stronghold"} = assigns) do
-    ~H"""
-    <Heroicons.home class={@class} />
-    """
-  end
-
-  defp nav_icon(%{key: "export"} = assigns) do
-    ~H"""
-    <Heroicons.arrow_down_on_square class={@class} />
-    """
-  end
-
-  defp nav_icon(%{key: "settings"} = assigns) do
-    ~H"""
-    <Heroicons.cog_8_tooth class={@class} />
-    """
   end
 end

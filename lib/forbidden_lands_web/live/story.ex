@@ -41,7 +41,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
     <div class="text-slate-900 font-title p-0 md:py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover md:bg-[url('/images/story-background.jpg')]">
       <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-title font-bold text-white text-xl drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
         <.link navigate={~p"/"}>
-          <Heroicons.chevron_left class="h-6 w-6" />
+          <.icon name={:chevron_left} class="h-6 w-6" />
         </.link>
         <%= @instance.name %>
       </h1>
@@ -57,7 +57,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
             phx-value-type={type}
             class={not active? && "opacity-20"}
           >
-            <.event_type_icon type={type} />
+            <.icon name={Event.icon_by_type(type)} class={event_icon_class()} />
           </button>
         </div>
 
@@ -176,35 +176,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
     "before:absolute before:inset-4 before:border before:border-4 before:border-double before:border-stone-300/80 before:z-[-1]"
   end
 
-  defp event_type_icon(%{type: :automatic} = assigns) do
-    ~H"""
-    <Heroicons.bars_2 class={[event_icon_class()]} />
-    """
+  defp event_icon_class() do
+    "w-8 h-8 p-1.5 rounded-full border text-slate-900/70 hover:text-slate-900"
   end
-
-  defp event_type_icon(%{type: :normal} = assigns) do
-    ~H"""
-    <Heroicons.bars_3_bottom_left class={[event_icon_class()]} />
-    """
-  end
-
-  defp event_type_icon(%{type: :special} = assigns) do
-    ~H"""
-    <Heroicons.star class={[event_icon_class()]} />
-    """
-  end
-
-  defp event_type_icon(%{type: :legendary} = assigns) do
-    ~H"""
-    <Heroicons.sparkles class={[event_icon_class()]} />
-    """
-  end
-
-  defp event_type_icon(%{type: :death} = assigns) do
-    ~H"""
-    <Heroicons.hand_raised class={[event_icon_class()]} />
-    """
-  end
-
-  defp event_icon_class(), do: "w-8 p-1.5 rounded-full border text-slate-900/70 hover:text-slate-900"
 end
