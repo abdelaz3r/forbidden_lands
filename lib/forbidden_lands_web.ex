@@ -85,6 +85,7 @@ defmodule ForbiddenLandsWeb do
       # HTML escaping functionality
       import Phoenix.HTML
       # Core UI components and translation
+      import ForbiddenLandsWeb.Components.Generic.Icon
       import ForbiddenLandsWeb.CoreComponents
       import ForbiddenLandsWeb.Gettext
 
