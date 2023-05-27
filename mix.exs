@@ -39,7 +39,6 @@ defmodule ForbiddenLands.MixProject do
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.18.3"},
-      {:heroicons, "~> 0.5"},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.7.2"},
       {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
@@ -52,7 +51,8 @@ defmodule ForbiddenLands.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:lucide_live_view, git: "git@github.com:abdelaz3r/lucide_live_view.git", tag: "v1.1"}
     ]
   end
 
