@@ -6,6 +6,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
   use ForbiddenLandsWeb, :html
 
   alias ForbiddenLands.Calendar
+  alias ForbiddenLands.Instances.Event
 
   attr(:instance_id, :integer, required: true, doc: "todo")
   attr(:events, :map, required: true, doc: "todo")
@@ -17,7 +18,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
     <div class="grow overflow-y-auto flex flex-col gap-1.5 py-4 font-title">
       <section :for={event <- @events} class="space-y-2">
         <header class="px-4">
-          <.event_type_icon type={event.type} />
+          <.icon name={Event.icon_by_type(event.type)} class={event_type_class(event.type)} />
           <h2 class="font-bold"><%= event.title %></h2>
           <.event_date date={event.date} />
         </header>
@@ -59,35 +60,15 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
     """
   end
 
-  defp event_type_icon(%{type: :automatic} = assigns) do
-    ~H"""
-    <Heroicons.bars_2 class={[event_icon_class(), "bg-gray-500 border-gray-400 outline-gray-400/10"]} />
-    """
-  end
+  defp event_type_class(:automatic), do: "#{event_icon_class()} bg-gray-500 border-gray-400 outline-gray-400/10"
+  defp event_type_class(:normal), do: "#{event_icon_class()} bg-gray-500 border-gray-400 outline-gray-400/20"
 
-  defp event_type_icon(%{type: :normal} = assigns) do
-    ~H"""
-    <Heroicons.bars_3_bottom_left class={[event_icon_class(), "bg-gray-500 border-gray-400 outline-gray-400/20"]} />
-    """
-  end
+  defp event_type_class(:special),
+    do: "#{event_icon_class()} bg-emerald-600 border-emerald-400 outline-emerald-500/30"
 
-  defp event_type_icon(%{type: :special} = assigns) do
-    ~H"""
-    <Heroicons.star class={[event_icon_class(), "bg-emerald-600 border-emerald-400 outline-emerald-500/30"]} />
-    """
-  end
+  defp event_type_class(:legendary), do: "#{event_icon_class()} bg-amber-600 border-amber-400 outline-amber-500/40"
+  defp event_type_class(:death), do: "#{event_icon_class()} bg-purple-900 border-purple-700 outline-purple-800/40"
 
-  defp event_type_icon(%{type: :legendary} = assigns) do
-    ~H"""
-    <Heroicons.sparkles class={[event_icon_class(), "bg-amber-600 border-amber-400 outline-amber-500/40"]} />
-    """
-  end
-
-  defp event_type_icon(%{type: :death} = assigns) do
-    ~H"""
-    <Heroicons.hand_raised class={[event_icon_class(), "bg-purple-900 border-purple-700 outline-purple-800/40"]} />
-    """
-  end
-
-  defp event_icon_class(), do: "float-left w-8 my-2 mr-3 p-1.5 rounded-full border outline outline-offset-2 outline-2"
+  defp event_icon_class(),
+    do: "float-left w-8 h-8 my-2 mr-3 p-1.5 rounded-full border outline outline-offset-2 outline-2"
 end

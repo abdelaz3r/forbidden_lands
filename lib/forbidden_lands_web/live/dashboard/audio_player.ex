@@ -3,6 +3,8 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.AudioPlayer do
 
   use Phoenix.Component
 
+  import ForbiddenLandsWeb.Components.Generic.Icon
+
   attr(:playlist, :string, required: true, doc: "todo")
   attr(:playlists, :list, required: true, doc: "todo")
 
@@ -52,8 +54,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.AudioPlayer do
           phx-target={@myself}
           class="peer transition-all text-slate-100/60 hover:text-slate-100 rounded-full bg-black/20 shadow-2xl shadow-white"
         >
-          <Heroicons.play_circle :if={not @playing?} class="w-10 h-10" />
-          <Heroicons.pause_circle :if={@playing?} class="w-10 h-10" />
+          <.icon name={if(@playing?, do: :pause_circle, else: :play_circle)} class="w-8 h-8" />
         </button>
 
         <div

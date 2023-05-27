@@ -24,7 +24,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
       ]}
     >
       <button type="button" class="absolute -top-10 w-full p-2" phx-click="toggle_stronghold">
-        <Heroicons.chevron_double_up class={["h-6 w-6 m-auto transition-all duration-500", @open? && "rotate-180"]} />
+        <.icon name={:chevrons_up} class={"h-6 w-6 m-auto transition-all duration-500 #{@open? && "rotate-180"}"} />
       </button>
 
       <div class="p-4">
@@ -41,17 +41,20 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
         <div class="flex gap-4 mb-4">
           <div class="flex grow gap-2 border border-slate-800 p-4 bg-slate-900/60 justify-around">
             <div :for={type <- [:copper, :silver, :gold]} class="flex gap-2 items-center flex-none">
-              <Heroicons.circle_stack class={[
-                "float-left w-7 p-1 rounded-full border outline outline-offset-2 outline-2",
-                coins_class(type)
-              ]} />
+              <.icon
+                name={:coins}
+                class={"float-left w-7 h-7 p-1 rounded-full border outline outline-offset-2 outline-2 #{coins_class(type)}"}
+              />
               <span class="font-bold text-lg">
                 <%= Stronghold.coins_to_type(@stronghold.coins, type) %>
               </span>
             </div>
           </div>
           <div class="border border-slate-800 py-2 px-4 bg-slate-900/60 justify-around flex gap-2 items-center flex-none">
-            <Heroicons.chat_bubble_left_right class="float-left w-7 p-1 rounded-full border outline outline-offset-2 outline-2 bg-cyan-200 border-cyan-100 outline-cyan-100/10 text-cyan-700" />
+            <.icon
+              name={:messages_square}
+              class="float-left w-7 h-7 p-1 rounded-full border outline outline-offset-2 outline-2 bg-cyan-200 border-cyan-100 outline-cyan-100/10 text-cyan-700"
+            />
             <span class="text-xl font-bold">
               <%= @stronghold.reputation %>
             </span>

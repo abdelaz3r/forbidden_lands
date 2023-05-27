@@ -71,7 +71,7 @@ defmodule ForbiddenLandsWeb.Live.Admin do
           phx-value-id={instance.id}
           onclick="if (!window.confirm('Confirm delete?')) { event.stopPropagation(); }"
         >
-          <Heroicons.x_mark class="h-6 w-6 " />
+          <.icon name={:x} class="h-6 w-6 " />
         </button>
       </div>
     </div>

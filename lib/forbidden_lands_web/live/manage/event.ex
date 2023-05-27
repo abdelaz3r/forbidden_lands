@@ -86,7 +86,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
               phx-target={@myself}
               onclick="window.scrollTo(0, 0)"
             >
-              <Heroicons.pencil_square class="h-6 w-6 " />
+              <.icon name={:pencil} class="h-5 w-5 " />
             </button>
             <button
               type="button"
@@ -95,7 +95,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
               phx-target={@myself}
               onclick="if (!window.confirm('Confirm delete?')) { event.stopPropagation(); }"
             >
-              <Heroicons.x_mark class="h-6 w-6 " />
+              <.icon name={:x} class="h-5 w-5 " />
             </button>
           </div>
         </div>

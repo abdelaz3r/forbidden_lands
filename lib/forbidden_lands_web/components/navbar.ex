@@ -19,12 +19,12 @@ defmodule ForbiddenLandsWeb.Components.Navbar do
 
       <nav class="flex">
         <.link navigate={~p"/admin"} class={link_classes()}>
-          <Heroicons.lock_closed class="w-6 h-6" />
+          <.icon name={:lock} class="w-6 h-6" />
         </.link>
       </nav>
     </header>
     """
   end
 
-  def link_classes(), do: "py-2 px-3 hover:bg-slate-100 rounded"
+  defp link_classes(), do: "py-2 px-2 hover:bg-slate-100 rounded"
 end

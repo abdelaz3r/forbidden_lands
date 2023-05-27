@@ -42,10 +42,10 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Header do
               <%= @date.year.number %>
               <span class="text-slate-100/40">A.S.</span>
               <span>
-                <Heroicons.sparkles :if={@date.season.key == :spring} mini class="w-4 text-emerald-500" />
-                <Heroicons.sun :if={@date.season.key == :summer} mini class="w-4 text-amber-400" />
-                <Heroicons.bars_3_center_left :if={@date.season.key == :fall} mini class="w-4 text-amber-800" />
-                <Heroicons.cloud :if={@date.season.key == :winter} mini class="w-4 text-slate-300" />
+                <.icon :if={@date.season.key == :spring} name={:flower} class="w-4 text-emerald-500" />
+                <.icon :if={@date.season.key == :summer} name={:sun} class="w-4 text-amber-400" />
+                <.icon :if={@date.season.key == :fall} name={:leaf} class="w-4 text-amber-800" />
+                <.icon :if={@date.season.key == :winter} name={:snowflake} class="w-4 text-slate-300" />
               </span>
             </span>
           </div>
@@ -70,9 +70,9 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Header do
           <%= @date.moon.name |> String.capitalize() %>
           <span class="flex" style={"opacity: #{Calendar.moon_progression(@date)}%;"}>
             <span :if={@date.moon.key == :new} class="w-4 h-4 bg-amber-100 rounded-full"></span>
-            <Heroicons.moon :if={@date.moon.key == :first} mini class="w-4 text-amber-100" />
+            <.icon :if={@date.moon.key == :first} name={:moon} class="w-4 h-4 text-amber-100" />
             <span :if={@date.moon.key == :full} class="w-4 h-4 bg-amber-100 rounded-full"></span>
-            <Heroicons.moon :if={@date.moon.key == :last} mini class="w-4 text-amber-100 rotate-90" />
+            <.icon :if={@date.moon.key == :last} name={:moon} class="w-4 h-4 text-amber-100 rotate-90" />
           </span>
         </div>
       </div>

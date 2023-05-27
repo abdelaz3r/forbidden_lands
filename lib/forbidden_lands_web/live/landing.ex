@@ -41,7 +41,8 @@ defmodule ForbiddenLandsWeb.Live.Landing do
       <section :for={instance <- @instances} class="block p-5 border border-slate-200 bg-slate-100 rounded">
         <header class="grid grid-cols-10 gap-5">
           <div class="col-span-6 flex flex-col gap-2">
-            <h2 class="font-bold text-xl">
+            <h2 class="flex items-center gap-3 font-bold text-xl">
+              <.icon name={:bookmark} class="w-5 h-5" />
               <%= instance.name %>
             </h2>
             <p :if={instance.description}>
@@ -67,13 +68,15 @@ defmodule ForbiddenLandsWeb.Live.Landing do
 
         <div class="flex gap-5 pt-5">
           <.link navigate={~p"/adventure/#{instance.id}"} class={["grow", button_classes()]}>
-            Dashboard
+            <.icon name={:locate_fixed} class="w-6 h-6" />
+            <span>Dashboard</span>
           </.link>
           <.link navigate={~p"/adventure/#{instance.id}/story"} class={["grow", button_classes()]}>
-            Chroniques
+            <.icon name={:scroll_text} class="w-6 h-6" />
+            <span>Chroniques</span>
           </.link>
           <.link navigate={~p"/adventure/#{instance.id}/manage"} class={["flex-none w-[66px]", button_classes()]}>
-            <Heroicons.lock_closed class="w-6 h-6" />
+            <.icon name={:lock} class="w-6 h-6" />
           </.link>
         </div>
       </section>
@@ -81,5 +84,5 @@ defmodule ForbiddenLandsWeb.Live.Landing do
     """
   end
 
-  defp button_classes(), do: "p-5 bg-white rounded border border-slate-200 hover:shadow transition-all"
+  defp button_classes(), do: "flex gap-3 p-5 bg-white rounded border border-slate-200 hover:shadow transition-all"
 end
