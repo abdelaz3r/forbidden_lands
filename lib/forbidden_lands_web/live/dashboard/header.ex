@@ -21,7 +21,9 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Header do
     ]}>
       <div class="flex items-stretch gap-4 p-4">
         <div class="relative overflow-hidden w-16 h-16 flex-none flex items-center text-3xl justify-center bg-rose-500 border border-rose-500 shadow-inner shadow-rose-700 rounded-full outline outline-offset-2 outline-2 outline-rose-500/30">
-          <span class="absolute z-10 text-white font-bold"><%= @date.month.day %></span>
+          <span class="absolute z-10 text-white font-bold">
+            <%= @date.month.day %>
+          </span>
           <span
             class="absolute inset-0 transition-all duration-500"
             style={"transform: rotate(#{((@date.count.quarters - @quarter_shift) * 90) + 45}deg);"}
@@ -29,6 +31,10 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Header do
             <span class="absolute w-1/2 h-1/2 border border-rose-900 bg-rose-900/80 shadow-inner shadow-rose-900 top-0 right-0">
             </span>
           </span>
+          <div class="absolute inset-0 rotate-45">
+            <span class="absolute w-1/2 h-1/2 border border-rose-900/40 bottom-0 left-0"></span>
+            <span class="absolute w-1/2 h-1/2 border border-rose-900/40 top-0 right-0"></span>
+          </div>
         </div>
         <div class="grow">
           <div class="flex justify-between items-end text-lg font-bold">
@@ -42,10 +48,10 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Header do
               <%= @date.year.number %>
               <span class="text-slate-100/40">A.S.</span>
               <span>
-                <.icon :if={@date.season.key == :spring} name={:flower} class="w-4 text-emerald-500" />
-                <.icon :if={@date.season.key == :summer} name={:sun} class="w-4 text-amber-400" />
-                <.icon :if={@date.season.key == :fall} name={:leaf} class="w-4 text-amber-800" />
-                <.icon :if={@date.season.key == :winter} name={:snowflake} class="w-4 text-slate-300" />
+                <.icon :if={@date.season.key == :spring} name={:flower} class="w-4 h-4 text-emerald-500" />
+                <.icon :if={@date.season.key == :summer} name={:sun} class="w-4 h-4 text-amber-400" />
+                <.icon :if={@date.season.key == :fall} name={:leaf} class="w-4 h-4 text-amber-800" />
+                <.icon :if={@date.season.key == :winter} name={:snowflake} class="w-4 h-4 text-slate-300" />
               </span>
             </span>
           </div>

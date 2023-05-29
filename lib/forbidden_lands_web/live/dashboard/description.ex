@@ -17,15 +17,29 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Description do
       if(@open?, do: "right-[400px] opacity-100", else: "right-[-1000px] opacity-50")
     ]}>
       <.column partial?={true}>
-        <.bloc_content :if={@stronghold.description} title={@stronghold.name} content={@stronghold.description} />
-        <.bloc_content :if={@stronghold.items} title="Trésor & Possessions" content={@stronghold.items} />
-        <.bloc_content :if={@stronghold.tools} title="Outils" content={@stronghold.tools} />
+        <.bloc_content :if={@stronghold.description} content={@stronghold.description}>
+          <%= @stronghold.name %>
+        </.bloc_content>
+        <.bloc_content :if={@stronghold.items} content={@stronghold.items}>
+          <.icon name={:crown} class="w-6 h-6 opacity-50" />
+          <span>Trésor & Possessions</span>
+        </.bloc_content>
+        <.bloc_content :if={@stronghold.tools} content={@stronghold.tools}>
+          <.icon name={:hammer} class="w-6 h-6 opacity-50" />
+          <span>Outils</span>
+        </.bloc_content>
       </.column>
       <.column>
-        <.bloc_content :if={@stronghold.hirelings} title="Gardes & Employés" content={@stronghold.hirelings} />
+        <.bloc_content :if={@stronghold.hirelings} content={@stronghold.hirelings}>
+          <.icon name={:users} class="w-6 h-6 opacity-50" />
+          <span>Gardes & Employés</span>
+        </.bloc_content>
       </.column>
       <.column>
-        <.bloc_content :if={@stronghold.functions} title="Bâtiments & Dépendances" content={@stronghold.functions} />
+        <.bloc_content :if={@stronghold.functions} content={@stronghold.functions}>
+          <.icon name={:school} class="w-6 h-6 opacity-50" />
+          <span>Bâtiments & Dépendances</span>
+        </.bloc_content>
       </.column>
     </div>
     """
@@ -46,11 +60,17 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Description do
     """
   end
 
+  attr(:content, :string, required: true, doc: "todo")
+  slot(:inner_block, required: true, doc: "todo")
+
   defp bloc_content(%{content: _content} = assigns) do
     ~H"""
     <div class="px-4">
-      <h2 :if={Map.get(assigns, :title)} class="pt-4 text-xl first-letter:text-2xl font-title font-bold">
-        <%= @title %>
+      <h2
+        :if={render_slot(@inner_block) != []}
+        class="flex items-center gap-2 pt-4 text-xl first-letter:text-2xl font-title font-bold"
+      >
+        <%= render_slot(@inner_block) %>
       </h2>
       <div class="text-sm divide-y divide-slate-900/50 text-slate-100/80">
         <%= Helper.text_to_raw_html(@content, "py-3") %>

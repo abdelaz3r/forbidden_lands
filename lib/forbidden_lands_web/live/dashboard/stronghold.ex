@@ -14,7 +14,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
   @spec stronghold(assigns :: map()) :: Phoenix.LiveView.Rendered.t()
   def stronghold(assigns) do
     ~H"""
-    <div
+    <section
       :if={@stronghold}
       class={[
         "flex-none font-title border-t border-slate-900 shadow-2xl shadow-black/50 bg-gradient-to-l from-slate-800",
@@ -28,15 +28,16 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
       </button>
 
       <div class="p-4">
-        <h1 class="flex justify-between text-lg font-bold pb-4">
-          <div>
+        <header class="flex justify-between text-lg font-bold pb-4">
+          <h1 class="flex items-center gap-2">
+            <.icon name={:castle} class="w-5 h-5" />
             <%= @stronghold.name %>
-          </div>
-          <div>
-            <span class="uppercase text-slate-100/40 text-sm">def.</span>
+          </h1>
+          <div class="flex items-center gap-1">
             <%= @stronghold.defense %>
+            <.icon name={:shield} class="w-5 h-5" />
           </div>
-        </h1>
+        </header>
 
         <div class="flex gap-4 mb-4">
           <div class="flex grow gap-2 border border-slate-800 p-4 bg-slate-900/60 justify-around">
@@ -52,7 +53,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
           </div>
           <div class="border border-slate-800 py-2 px-4 bg-slate-900/60 justify-around flex gap-2 items-center flex-none">
             <.icon
-              name={:messages_square}
+              name={:message_circle}
               class="float-left w-7 h-7 p-1 rounded-full border outline outline-offset-2 outline-2 bg-cyan-200 border-cyan-100 outline-cyan-100/10 text-cyan-700"
             />
             <span class="text-xl font-bold">
@@ -73,7 +74,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
           </div>
         </div>
       </div>
-    </div>
+    </section>
     """
   end
 
