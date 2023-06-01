@@ -11,6 +11,8 @@ defimpl ForbiddenLands.Export, for: Any do
   defmacro __deriving__(module, _struct, options) do
     quote do
       defimpl ForbiddenLands.Export, for: unquote(module) do
+        alias ForbiddenLands.Export
+
         def export(data) do
           [fields: fields] = unquote(options)
 
@@ -21,10 +23,12 @@ defimpl ForbiddenLands.Export, for: Any do
             value =
               cond do
                 is_struct(value) ->
-                  ForbiddenLands.Export.export(value)
+                  Export.export(value)
 
                 is_list(value) ->
-                  Enum.map(value, fn item -> ForbiddenLands.Export.export(item) end)
+                  value
+                  |> Enum.map(fn item -> Export.export(item) end)
+                  |> Enum.reverse()
 
                 true ->
                   value
