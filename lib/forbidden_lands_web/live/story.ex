@@ -11,17 +11,17 @@ defmodule ForbiddenLandsWeb.Live.Story do
 
   @impl Phoenix.LiveView
   def mount(%{"id" => id}, _session, socket) do
-    with {:ok, instance} <- Instances.get(id),
-         events <- Instances.get_events(id, Event.types()) do
-      events = add_calendar_to_events(events)
+    with {:ok, instance} <- Instances.get(id, 0) do
       types = Enum.map(Event.types(), fn type -> %{type: type, active?: true} end)
 
       socket =
         socket
         |> assign(page_title: instance.name)
         |> assign(instance: instance)
-        |> assign(events: events)
         |> assign(types: types)
+        |> assign(page: 1)
+        |> assign(per_page: 10)
+        |> paginate_events()
 
       {:ok, socket}
     else
@@ -77,46 +77,54 @@ defmodule ForbiddenLandsWeb.Live.Story do
               </h2>
             </header>
 
-            <div :if={@instance.introduction} class="text-left pt-20 md:pt-[25vh] px-4 md:px-36 text-lg space-y-2 italic">
+            <section :if={@instance.introduction} class="text-left pt-20 md:pt-[25vh] px-4 md:px-36 text-lg space-y-2 italic">
               <%= @instance.introduction %>
-            </div>
+            </section>
           </div>
 
-          <div :for={{%{event: event, calendar: calendar}, i} <- Enum.with_index(@events)}>
+          <div
+            id="events"
+            phx-update="stream"
+            phx-viewport-top={@page > 1 && "prev-page"}
+            phx-viewport-bottom={!@end_of_timeline? && "next-page"}
+            phx-page-loading
+          >
             <div
-              :if={i == 0 or Enum.at(@events, i - 1).calendar.month.number != calendar.month.number}
-              class="relative text-4xl font-bold px-16 md:px-36 py-10"
+              :for={{id, %{event: event, with_day: with_day, with_month: with_month, calendar: calendar}} <- @streams.events}
+              id={id}
             >
-              <%= String.capitalize(calendar.month.name) %>
-              <%= calendar.year.number %>
-            </div>
-
-            <section class="px-4 md:px-36 space-y-2 pb-6">
-              <a
-                href={~p"/adventure/#{@instance.id}/story#event-#{event.id}"}
-                id={"event-#{event.id}"}
-                class="relative flex items-center gap-4"
-              >
-                <div
-                  :if={i == 0 or Enum.at(@events, i - 1).calendar.month.day != calendar.month.day}
-                  class="md:absolute md:-left-14 md:top-2 flex-none inline-flex justify-center items-center w-12 h-12 rounded-full text-2xl border border-stone-300/80"
-                >
-                  <%= calendar.month.day %>
-                </div>
-                <div class="">
-                  <span class="relative text-xs text-stone-700/70 uppercase top-1">
-                    <%= String.capitalize(calendar.quarter.name) %>
-                  </span>
-                  <h2 class="text-2xl font-bold">
-                    <%= event.title %>
-                  </h2>
-                </div>
-              </a>
-
-              <div :if={not is_nil(event.description)} class="text-lg space-y-2">
-                <%= Helper.text_to_raw_html(event.description) |> raw() %>
+              <div :if={with_month} class="relative text-4xl font-bold px-16 md:px-36 py-10">
+                <%= String.capitalize(calendar.month.name) %>
+                <%= calendar.year.number %>
               </div>
-            </section>
+
+              <section class="px-4 md:px-36 space-y-2 pb-6">
+                <a
+                  href={~p"/adventure/#{@instance.id}/story#event-#{event.id}"}
+                  id={"event-#{event.id}"}
+                  class="relative flex items-center gap-4"
+                >
+                  <div
+                    :if={with_day}
+                    class="md:absolute md:-left-14 md:top-2 flex-none inline-flex justify-center items-center w-12 h-12 rounded-full text-2xl border border-stone-300/80"
+                  >
+                    <%= calendar.month.day %>
+                  </div>
+                  <div>
+                    <span class="relative text-xs text-stone-700/70 uppercase top-1">
+                      <%= String.capitalize(calendar.quarter.name) %>
+                    </span>
+                    <h2 class="text-2xl font-bold">
+                      <%= event.title %>
+                    </h2>
+                  </div>
+                </a>
+
+                <div :if={not is_nil(event.description)} class="text-lg space-y-2">
+                  <%= Helper.text_to_raw_html(event.description) |> raw() %>
+                </div>
+              </section>
+            </div>
           </div>
         </div>
       </div>
@@ -135,27 +143,102 @@ defmodule ForbiddenLandsWeb.Live.Story do
           else: item
       end)
 
-    types_atom =
-      types
-      |> Enum.filter(fn %{active?: active?} -> active? end)
-      |> Enum.map(fn %{type: type} -> type end)
-
-    events =
-      socket.assigns.instance.id
-      |> Instances.get_events(types_atom)
-      |> add_calendar_to_events()
-
     socket =
       socket
-      |> assign(events: events)
       |> assign(types: types)
+      |> assign(page: 1)
+      |> paginate_events(page: 1, reset: true)
 
     {:noreply, socket}
   end
 
-  defp add_calendar_to_events(events) do
-    Enum.map(events, fn event ->
-      %{event: event, calendar: Calendar.from_quarters(event.date)}
+  @impl Phoenix.LiveView
+  def handle_event("next-page", _, socket) do
+    {:noreply, paginate_events(socket, page: socket.assigns.page + 1)}
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("prev-page", %{"_overran" => true}, socket) do
+    {:noreply, paginate_events(socket, page: 1)}
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("prev-page", _, socket) do
+    if socket.assigns.page > 1 do
+      {:noreply, paginate_events(socket, page: socket.assigns.page - 1)}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  defp paginate_events(socket, options \\ []) do
+    page = options[:page] || 1
+    reset = options[:reset] || false
+
+    %{instance: instance, types: types, per_page: per_page, page: cur_page} = socket.assigns
+
+    active_types =
+      types
+      |> Enum.filter(fn %{active?: active?} -> active? end)
+      |> Enum.map(fn %{type: type} -> type end)
+
+    {offset, limit} =
+      if page == 1 do
+        {0, per_page}
+      else
+        {(page - 1) * per_page - 1, per_page + 1}
+      end
+
+    events =
+      Instances.list_events(instance.id, types: active_types, offset: offset, limit: limit)
+      |> process_events()
+      |> remove_unnecessary_events(page)
+
+    {events, at, limit} =
+      if page >= cur_page do
+        {events, -1, per_page * 3 * -1}
+      else
+        {Enum.reverse(events), 0, per_page * 3}
+      end
+
+    case events do
+      [] ->
+        assign(socket, end_of_timeline?: at == -1)
+
+      [_ | _] = events ->
+        socket
+        |> assign(end_of_timeline?: false)
+        |> assign(:page, page)
+        |> stream(:events, events, at: at, limit: limit, reset: reset)
+    end
+  end
+
+  defp remove_unnecessary_events([], _), do: []
+  defp remove_unnecessary_events(events, 1), do: events
+
+  defp remove_unnecessary_events(events, _page) do
+    [_ | events] = events
+    events
+  end
+
+  defp process_events(events) do
+    events
+    |> Enum.with_index()
+    |> Enum.map(fn
+      {event, 0} ->
+        %{id: event.id, event: event, with_day: true, with_month: true, calendar: Calendar.from_quarters(event.date)}
+
+      {event, i} ->
+        current_calendar = Calendar.from_quarters(event.date)
+        prev_calendar = Calendar.from_quarters(Enum.at(events, i - 1).date)
+
+        %{
+          id: event.id,
+          event: event,
+          with_day: current_calendar.month.day != prev_calendar.month.day,
+          with_month: current_calendar.month.number != prev_calendar.month.number,
+          calendar: current_calendar
+        }
     end)
   end
 
