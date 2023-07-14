@@ -20,7 +20,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
         |> assign(instance: instance)
         |> assign(types: types)
         |> assign(page: 1)
-        |> assign(per_page: 10)
+        |> assign(per_page: 20)
         |> paginate_events()
 
       {:ok, socket}
@@ -39,14 +39,14 @@ defmodule ForbiddenLandsWeb.Live.Story do
   def render(assigns) do
     ~H"""
     <div class="text-slate-900 font-title p-0 md:py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover md:bg-[url('/images/story-background.jpg')]">
-      <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-title font-bold text-white text-xl drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
+      <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-title font-bold md:text-white text-xl md:drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
         <.link navigate={~p"/"}>
           <.icon name={:chevron_left} class="h-6 w-6" />
         </.link>
         <%= @instance.name %>
       </h1>
 
-      <div class="relative max-w-[800px] mx-auto">
+      <div class="relative max-w-[800px] mx-auto mt-16 md:mt-0">
         <.background_sheets />
 
         <div class="flex flex-col items-center gap-1 py-1 absolute bg-stone-200 z-10 w-10 -left-10 top-24 shadow-2xl">
@@ -61,7 +61,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
           </button>
         </div>
 
-        <div class={["relative bg-stone-200 shadow-2xl p-5 z-20 pb-36", border_classes()]}>
+        <div class={["relative bg-stone-200 shadow-2xl p-8 md:p-5 z-20 pb-36", border_classes()]}>
           <div class="text-center py-20 md:py-[25vh]">
             <header class="inline-block m-auto px-4">
               <h2 :if={@instance.prepend_name} class="inline-block pb-2 text-2xl text-slate-900/50">
@@ -93,12 +93,12 @@ defmodule ForbiddenLandsWeb.Live.Story do
               :for={{id, %{event: event, with_day: with_day, with_month: with_month, calendar: calendar}} <- @streams.events}
               id={id}
             >
-              <div :if={with_month} class="relative text-4xl font-bold px-16 md:px-36 py-10">
+              <div :if={with_month} class="text-4xl text-center md:text-left font-bold px-4 md:px-36 py-10">
                 <%= String.capitalize(calendar.month.name) %>
                 <%= calendar.year.number %>
               </div>
 
-              <section class="px-4 md:px-36 space-y-2 pb-6">
+              <section class="relative px-4 md:px-36 space-y-2 pb-6">
                 <a
                   href={~p"/adventure/#{@instance.id}/story#event-#{event.id}"}
                   id={"event-#{event.id}"}
@@ -106,7 +106,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
                 >
                   <div
                     :if={with_day}
-                    class="md:absolute md:-left-14 md:top-2 flex-none inline-flex justify-center items-center w-12 h-12 rounded-full text-2xl border border-stone-300/80"
+                    class="absolute -left-10 md:-left-14 top-6 md:top-2 flex-none inline-flex justify-center items-center w-8 h-8 md:w-12 md:h-12 rounded-full text-xl md:text-2xl bg-stone-200 md:border border-stone-300/80"
                   >
                     <%= calendar.month.day %>
                   </div>
@@ -256,7 +256,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
   end
 
   defp border_classes() do
-    "before:absolute before:inset-4 before:border before:border-4 before:border-double before:border-stone-300/80 before:z-[-1]"
+    "before:absolute before:inset-6 md:before:inset-4 before:border before:border-4 before:border-double before:border-stone-300/80 before:z-[-1]"
   end
 
   defp event_icon_class() do
