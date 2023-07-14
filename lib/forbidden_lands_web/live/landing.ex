@@ -40,7 +40,7 @@ defmodule ForbiddenLandsWeb.Live.Landing do
 
       <section :for={instance <- @instances} class="block p-5 border border-slate-200 bg-slate-100 rounded">
         <header class="grid grid-cols-10 gap-5">
-          <div class="col-span-6 flex flex-col gap-2">
+          <div class="col-span-10 md:col-span-6 flex flex-col gap-2">
             <h2 class="flex items-center gap-3 font-bold text-xl">
               <.icon name={:bookmark} class="w-5 h-5" />
               <%= instance.name %>
@@ -50,7 +50,7 @@ defmodule ForbiddenLandsWeb.Live.Landing do
             </p>
           </div>
 
-          <div class="col-span-4">
+          <div class="col-span-10 md:col-span-4">
             <p class="flex justify-between gap-5">
               <span class="opacity-40">
                 Date de départ
@@ -66,17 +66,18 @@ defmodule ForbiddenLandsWeb.Live.Landing do
           </div>
         </header>
 
-        <div class="flex gap-5 pt-5">
+        <div class="flex flex-col md:flex-row gap-5 pt-5">
           <.link navigate={~p"/adventure/#{instance.id}"} class={["grow", button_classes()]}>
             <.icon name={:locate_fixed} class="w-6 h-6" />
-            <span>Dashboard</span>
+            <span>Tableau de bord</span>
           </.link>
           <.link navigate={~p"/adventure/#{instance.id}/story"} class={["grow", button_classes()]}>
             <.icon name={:scroll_text} class="w-6 h-6" />
             <span>Chroniques</span>
           </.link>
-          <.link navigate={~p"/adventure/#{instance.id}/manage"} class={["flex-none w-[66px]", button_classes()]}>
+          <.link navigate={~p"/adventure/#{instance.id}/manage"} class={["grow md:flex-none md:w-[66px]", button_classes()]}>
             <.icon name={:lock} class="w-6 h-6" />
+            <span class="md:hidden">Espace MJ</span>
           </.link>
         </div>
       </section>
