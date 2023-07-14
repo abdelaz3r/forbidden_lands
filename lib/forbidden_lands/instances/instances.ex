@@ -30,14 +30,20 @@ defmodule ForbiddenLands.Instances.Instances do
     Repo.all(query)
   end
 
-  @spec get_events(number(), list()) :: [Event.t()]
-  def get_events(id, types) do
+  @spec list_events(number(), list()) :: [Event.t()]
+  def list_events(iid, options \\ []) do
+    types = options[:types] || []
+    offset = options[:offset] || 0
+    limit = options[:limit] || 50
+
     query =
       from(
         e in Event,
-        where: e.instance_id == ^id,
+        where: e.instance_id == ^iid,
         where: e.type in ^types,
-        order_by: [asc: e.date, asc: e.id]
+        order_by: [asc: e.date, asc: e.id],
+        offset: ^offset,
+        limit: ^limit
       )
 
     Repo.all(query)
