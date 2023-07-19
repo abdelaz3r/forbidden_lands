@@ -65,17 +65,46 @@ defmodule ForbiddenLandsWeb.Live.Admin do
         <span>
           <%= instance.name %>
         </span>
-        <button
-          type="button"
-          phx-click="delete_instance"
-          phx-value-id={instance.id}
-          onclick="if (!window.confirm('Confirm delete?')) { event.stopPropagation(); }"
-        >
-          <.icon name={:x} class="h-6 w-6 " />
-        </button>
+        <span class="flex gap-2">
+          <button
+            type="button"
+            phx-click="reset_login"
+            phx-value-id={instance.id}
+            title="Reset login infos"
+            onclick="if (!window.confirm('Reset login infos?')) { event.stopPropagation(); }"
+          >
+            <.icon name={:key} class="h-6 w-6 " />
+          </button>
+          <button
+            type="button"
+            phx-click="delete_instance"
+            phx-value-id={instance.id}
+            onclick="if (!window.confirm('Confirm delete?')) { event.stopPropagation(); }"
+          >
+            <.icon name={:x} class="h-6 w-6 " />
+          </button>
+        </span>
       </div>
     </div>
     """
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("reset_login", %{"id" => instance_id}, socket) do
+    instance = Enum.find(socket.assigns.instances, fn instance -> instance.id == String.to_integer(instance_id) end)
+
+    case Instances.update(instance, %{"username" => "", "password" => ""}) do
+      {:ok, _instance} ->
+        socket =
+          socket
+          |> put_flash(:info, "Information de connection réinitialisée")
+          |> assign(instances: Instances.get_all())
+
+        {:noreply, socket}
+
+      {:error, _reason} ->
+        {:noreply, socket}
+    end
   end
 
   @impl Phoenix.LiveView
