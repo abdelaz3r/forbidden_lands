@@ -21,7 +21,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Settings do
   @impl Phoenix.LiveComponent
   def render(assigns) do
     ~H"""
-    <div class="p-6">
+    <div class="flex flex-col gap-6 p-6">
       <section>
         <.simple_form :let={f} as={:instance} for={@changeset} phx-submit="update" phx-target={@myself}>
           <h2 class="pb-3 text-xl font-bold">
@@ -58,6 +58,23 @@ defmodule ForbiddenLandsWeb.Live.Manage.Settings do
           </aside>
 
           <.input field={{f, :introduction}} label={dgettext("manage", "Introduction")} type="textarea" style="height: 120px;" />
+
+          <:actions>
+            <.button>
+              <%= dgettext("manage", "Enregistrer") %>
+            </.button>
+          </:actions>
+        </.simple_form>
+      </section>
+
+      <section>
+        <.simple_form :let={f} as={:instance} for={@changeset} phx-submit="update" phx-target={@myself}>
+          <h2 class="pb-3 text-xl font-bold">
+            <%= dgettext("manage", "Paramètres de login") %>
+          </h2>
+
+          <.input field={{f, :username}} label={dgettext("manage", "Nom d'utilisateur")} />
+          <.input field={{f, :password}} label={dgettext("manage", "Nouveau mot de passe")} />
 
           <:actions>
             <.button>
