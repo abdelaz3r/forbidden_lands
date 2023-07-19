@@ -20,6 +20,13 @@ defmodule ForbiddenLandsWeb.Router do
       live("/adventure/:id", Dashboard)
       live("/adventure/:id/story", Story)
       live("/adventure/:id/story#:anchor", Story)
+    end
+  end
+
+  scope("/", ForbiddenLandsWeb.Live) do
+    pipe_through([:browser, Plugs.UserAuth])
+
+    live_session(:private) do
       live("/adventure/:id/manage", Manage)
       live("/adventure/:id/manage/:panel", Manage)
     end

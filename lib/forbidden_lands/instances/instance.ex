@@ -113,6 +113,16 @@ defmodule ForbiddenLands.Instances.Instance do
     |> maybe_hash_password()
   end
 
+  @spec verify_credential(Instance.t(), String.t(), String.t()) :: boolean()
+  def verify_credential(%{username: username, hashed_password: password}, _username, _password)
+      when is_nil(username) or is_nil(password),
+      do: true
+
+  def verify_credential(instance, username, password) do
+    Plug.Crypto.secure_compare(instance.username, username) and
+      Bcrypt.verify_pass(password, instance.hashed_password)
+  end
+
   defp put_dates(instance) do
     if not is_nil(get_change(instance, :human_date)) and not Keyword.has_key?(instance.errors, :human_date) do
       {:ok, calendar} = Calendar.from_date(get_field(instance, :human_date))
