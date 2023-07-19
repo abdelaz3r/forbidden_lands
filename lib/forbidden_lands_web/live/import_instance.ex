@@ -29,6 +29,16 @@ defmodule ForbiddenLandsWeb.Live.ImportInstance do
 
       <.simple_form :let={f} as={:create} for={@changeset} phx-submit="save">
         <.input field={{f, :data}} type="textarea" label="Data" />
+
+        <h2 class="pb-3 text-xl font-bold">
+          Login pour le maître du jeu
+        </h2>
+
+        <div class="grid grid-cols-2 gap-4">
+          <.input field={{f, :username}} label="Nom d'utilisateur" />
+          <.input field={{f, :password}} type="password" label="Mot de passe" />
+        </div>
+
         <:actions>
           <.button>Créer la campagne</.button>
         </:actions>
@@ -40,6 +50,8 @@ defmodule ForbiddenLandsWeb.Live.ImportInstance do
   @impl Phoenix.LiveView
   def handle_event("save", %{"create" => params}, socket) do
     with {:ok, data} <- Jason.decode(params["data"]),
+         data <- Map.put(data, "username", params["user"]),
+         data <- Map.put(data, "password", params["password"]),
          {:ok, _instance} <- Instances.create_from_export(data) do
       {:noreply, push_navigate(socket, to: ~p"/admin")}
     else
