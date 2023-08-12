@@ -2,13 +2,18 @@ defmodule Mix.Tasks.Fl.ProcessPlaylists do
   @shortdoc "Extract playlists from given directory."
 
   @moduledoc """
-  Extract playlists from args[0] directory and write to output to the args[1] file.
+  Extract playlists from args[0] directory and write to output to the args[1]
+  file.
 
-  Default source directory is "musics".
-  Default output file is "/lib/forbidden_lands/music/mood.txt".
+  Default source directory is "/priv/static/musics".
+  Default output file is "/priv/static/mood.txt".
 
   This task may fail if the musics directory is not found.
   This task will overwrite the mood.txt file.
+
+  Every subdirectory of the musics directory is considered as a playlist (a
+  musics mood). The name of that subdirectory is the name of the playlist and
+  will be used as the mood name. Musics must be in mp3 format.
   """
 
   use Mix.Task
