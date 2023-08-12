@@ -1,0 +1,44 @@
+# This is an example of configuration file for deployment on fly.io
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+# Replace {app_name} with the name of your app and it may work out of the box.
+
+app = "{app_name}"
+primary_region = "fra"
+kill_signal = "SIGTERM"
+kill_timeout = "5s"
+
+[experimental]
+auto_rollback = true
+
+[deploy]
+release_command = "/app/bin/migrate"
+
+[env]
+PHX_HOST = "{app_name}.fly.dev"
+PORT = "8080"
+
+[[services]]
+protocol = "tcp"
+internal_port = 8080
+min_machines_running = 0
+processes = ["app"]
+
+[[services.ports]]
+port = 80
+handlers = ["http"]
+force_https = true
+
+[[services.ports]]
+port = 443
+handlers = ["tls", "http"]
+
+[services.concurrency]
+type = "connections"
+hard_limit = 1000
+soft_limit = 1000
+
+[[services.tcp_checks]]
+interval = "15s"
+timeout = "2s"
+grace_period = "1s"
+restart_limit = 0
