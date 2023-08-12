@@ -51,15 +51,13 @@ defmodule ForbiddenLands.Instances.Instances do
 
   @spec create(map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
   def create(params) do
-    %Instance{}
-    |> Instance.create(params)
+    Instance.create(params)
     |> Repo.insert()
   end
 
   @spec create_from_export(map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
   def create_from_export(params) do
-    %Instance{}
-    |> Instance.create_from_export(params)
+    Instance.create_from_export(params)
     |> Repo.insert()
   end
 

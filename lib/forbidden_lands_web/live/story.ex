@@ -5,9 +5,9 @@ defmodule ForbiddenLandsWeb.Live.Story do
 
   use ForbiddenLandsWeb, :live_view
 
-  alias ForbiddenLands.Instances.Instances
-  alias ForbiddenLands.Instances.Event
   alias ForbiddenLands.Calendar
+  alias ForbiddenLands.Instances.Event
+  alias ForbiddenLands.Instances.Instances
 
   @impl Phoenix.LiveView
   def mount(%{"id" => id}, _session, socket) do

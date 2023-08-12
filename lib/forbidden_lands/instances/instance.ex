@@ -11,19 +11,20 @@ defmodule ForbiddenLands.Instances.Instance do
   alias ForbiddenLands.Instances.ResourceRule
   alias ForbiddenLands.Instances.Stronghold
 
-  @derive {ForbiddenLands.Export,
-           fields: [
-             :name,
-             :prepend_name,
-             :append_name,
-             :initial_date,
-             :current_date,
-             :description,
-             :introduction,
-             :stronghold,
-             :resource_rules,
-             :events
-           ]}
+  @exported_fields [
+    :name,
+    :prepend_name,
+    :append_name,
+    :initial_date,
+    :current_date,
+    :description,
+    :introduction,
+    :stronghold,
+    :resource_rules,
+    :events
+  ]
+
+  @derive {ForbiddenLands.Export, fields: @exported_fields}
   @type t() :: %Instance{
           id: non_neg_integer() | nil,
           name: String.t() | nil,
@@ -39,7 +40,7 @@ defmodule ForbiddenLands.Instances.Instance do
           description: String.t() | nil,
           introduction: String.t() | nil,
           stronghold: Stronghold.t() | nil,
-          resource_rules: [ResourceRule.t()] | nil,
+          resource_rules: [ResourceRule.t()] | %Ecto.Association.NotLoaded{} | nil,
           events: [Event.t()] | nil
         }
   schema("instances") do
@@ -62,9 +63,9 @@ defmodule ForbiddenLands.Instances.Instance do
     timestamps(type: :naive_datetime_usec)
   end
 
-  @spec create(Instance.t(), map()) :: Ecto.Changeset.t()
-  def create(instance, params \\ %{}) do
-    instance
+  @spec create(map()) :: Ecto.Changeset.t()
+  def create(params \\ %{}) do
+    %Instance{}
     |> cast(params, [:name, :username, :password, :human_date])
     |> validate_required([:name, :username, :password, :human_date])
     |> ForbiddenLands.Validation.validate_date(:human_date)
@@ -72,9 +73,9 @@ defmodule ForbiddenLands.Instances.Instance do
     |> maybe_hash_password()
   end
 
-  @spec create_from_export(Instance.t(), map()) :: Ecto.Changeset.t()
-  def create_from_export(instance, params \\ %{}) do
-    instance
+  @spec create_from_export(map()) :: Ecto.Changeset.t()
+  def create_from_export(params \\ %{}) do
+    %Instance{}
     |> cast(params, [
       :name,
       :username,

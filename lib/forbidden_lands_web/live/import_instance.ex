@@ -50,15 +50,17 @@ defmodule ForbiddenLandsWeb.Live.ImportInstance do
   @impl Phoenix.LiveView
   def handle_event("save", %{"create" => params}, socket) do
     with {:ok, data} <- Jason.decode(params["data"]),
-         data <- Map.put(data, "username", params["user"]),
+         data <- Map.put(data, "username", params["username"]),
          data <- Map.put(data, "password", params["password"]),
          {:ok, _instance} <- Instances.create_from_export(data) do
       {:noreply, push_navigate(socket, to: ~p"/admin")}
     else
       {:error, %Jason.DecodeError{} = _data} ->
+        #  TODO: do something with the error
         {:noreply, socket}
 
       {:error, changeset} ->
+        #  TODO: do something with the error
         {:noreply, assign(socket, :changeset, changeset)}
     end
   end

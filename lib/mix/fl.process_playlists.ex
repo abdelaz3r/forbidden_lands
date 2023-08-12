@@ -1,8 +1,4 @@
 defmodule Mix.Tasks.Fl.ProcessPlaylists do
-  use Mix.Task
-
-  require Logger
-
   @shortdoc "Extract playlists from given directory."
 
   @moduledoc """
@@ -14,6 +10,10 @@ defmodule Mix.Tasks.Fl.ProcessPlaylists do
   This task may fail if the musics directory is not found.
   This task will overwrite the mood.txt file.
   """
+
+  use Mix.Task
+
+  require Logger
 
   @impl Mix.Task
   def run(args) do

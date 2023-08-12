@@ -6,7 +6,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
   use ForbiddenLandsWeb, :live_component
 
   alias ForbiddenLands.Calendar
-  alias ForbiddenLands.Instances.{Event, Stronghold, Instances}
+  alias ForbiddenLands.Instances.{Event, Instances, Stronghold}
   alias ForbiddenLands.Music.Mood
   alias ForbiddenLandsWeb.Endpoint
 
@@ -22,9 +22,6 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
 
   @impl Phoenix.LiveComponent
   def render(assigns) do
-    # MAYBE ADD:
-    # stats. (?)
-
     ~H"""
     <div class="p-6">
       <section class="flex flex-col gap-3">
@@ -111,7 +108,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
       if not is_nil(instance.stronghold) and weeks_diff > 0 do
         rules =
           instance.resource_rules
-          |> Enum.map(fn %{name: name, type: type, amount: amount} ->
+          |> Enum.map_join("\r\n", fn %{name: name, type: type, amount: amount} ->
             gettext_data = [
               name: String.capitalize(name),
               amount: abs(amount * weeks_diff),
@@ -122,7 +119,6 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
               do: dgettext("events", "— %{name} produit %{amount} %{resource}", gettext_data),
               else: dgettext("events", "— %{name} consomme %{amount} %{resource}", gettext_data)
           end)
-          |> Enum.join("\r\n")
 
         event =
           Event.create(%Event{}, %{

@@ -5,7 +5,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Stronghold do
 
   use ForbiddenLandsWeb, :live_component
 
-  alias ForbiddenLands.Instances.{Instances, Stronghold, ResourceRule}
+  alias ForbiddenLands.Instances.{Instances, ResourceRule, Stronghold}
 
   @impl Phoenix.LiveComponent
   def update(assigns, socket) do
@@ -134,9 +134,10 @@ defmodule ForbiddenLandsWeb.Live.Manage.Stronghold do
   @impl Phoenix.LiveComponent
   def handle_event("create_rule", %{"rule" => rule}, %{assigns: %{topic: topic, instance: instance}} = socket) do
     changeset = Map.put(ResourceRule.create(%ResourceRule{}, rule), :action, :update)
+    rules = [changeset.changes | Enum.reverse(instance.resource_rules)] |> Enum.reverse()
 
     with true <- changeset.valid?,
-         {:ok, _instance} = Instances.update(instance, %{}, instance.resource_rules ++ [changeset.changes]) do
+         {:ok, _instance} = Instances.update(instance, %{}, rules) do
       ForbiddenLandsWeb.Endpoint.broadcast(topic, "update", %{})
       {:noreply, socket}
     else

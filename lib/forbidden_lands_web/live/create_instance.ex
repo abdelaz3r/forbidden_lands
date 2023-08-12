@@ -14,10 +14,12 @@ defmodule ForbiddenLandsWeb.Live.CreateInstance do
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
+    base_instance = Instance.create(%{human_date: @default_date})
+
     socket =
       socket
       |> assign(page_title: "Créer une instance")
-      |> assign(changeset: Instance.create(%Instance{}, %{human_date: @default_date}))
+      |> assign(changeset: base_instance)
 
     {:ok, socket}
   end
