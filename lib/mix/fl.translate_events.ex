@@ -12,15 +12,23 @@ defmodule Mix.Tasks.Fl.TranslateEvents do
 
   Available options are:
   * `--instance`: the instance id to translate (required)
+  * `--auth-key`: the DeepL API authentication key (required)
   * `--offset`: the offset of the first event to translate (default: 0)
   * `--limit`: the maximum number of events to translate (default: 1000)
   * `--source`: the source language (default: FR)
   * `--target`: the target language (default: EN-GB)
+
+  The list of supported languages can be found here:
+  https://www.deepl.com/docs-api/translate-text/translate-text
+
+  Usage example:
+  ```
+  mix fl.translate_events --instance 3 --auth-key "my-api-key" --limit 30 \\
+    --offset 5 --source "EN" --target "FR"
+  ```
   """
 
   use Mix.Task
-
-  require Logger
 
   alias ForbiddenLands.Instances.Event
   alias ForbiddenLands.Instances.Instances
@@ -31,7 +39,14 @@ defmodule Mix.Tasks.Fl.TranslateEvents do
   def run(args) do
     {options, _, _} =
       OptionParser.parse(args,
-        strict: [instance: :integer, offset: :integer, limit: :integer, source: :string, target: :string]
+        strict: [
+          instance: :integer,
+          auth_key: :string,
+          offset: :integer,
+          limit: :integer,
+          source: :string,
+          target: :string
+        ]
       )
 
     unless Keyword.has_key?(options, :instance) do
@@ -39,12 +54,20 @@ defmodule Mix.Tasks.Fl.TranslateEvents do
       exit(1)
     end
 
+    unless Keyword.has_key?(options, :auth_key) do
+      Mix.shell().error("A Deepl API authentication key is required.")
+      exit(1)
+    end
+
     # Default options
     instance_id = Keyword.fetch!(options, :instance)
+    auth_key = Keyword.fetch!(options, :auth_key)
     offset = Keyword.get(options, :offset, 0)
     limit = Keyword.get(options, :limit, 1000)
     source_lang = Keyword.get(options, :source, "FR")
     target_lang = Keyword.get(options, :target, "EN-GB")
+
+    options = [source_lang: source_lang, target_lang: target_lang, auth_key: auth_key]
 
     Mix.shell().info("Translate events of instance ##{instance_id}:")
     Mix.shell().info("Source lang: '#{source_lang}'")
@@ -58,8 +81,27 @@ defmodule Mix.Tasks.Fl.TranslateEvents do
     translated_events_count =
       instance_id
       |> Instances.list_events(types: Event.types(), offset: offset, limit: limit)
-      |> Enum.map(fn event ->
-        {event, params} = translate_event(event, source_lang, target_lang)
+      |> Enum.map(fn event -> translate_event(event, options) end)
+      |> Enum.filter(fn status -> status == :translated end)
+      |> Enum.count()
+
+    Mix.shell().info("")
+    Mix.shell().info("#{translated_events_count} events translated.")
+  end
+
+  defp translate_event(%{title: title, description: description} = event, options) do
+    texts =
+      if description,
+        do: [title, description],
+        else: [title]
+
+    case do_request(texts, options) do
+      {:ok, content} ->
+        params =
+          case content do
+            [title, description] -> %{"title" => title, "description" => description}
+            [title] -> %{"title" => title}
+          end
 
         event
         |> Event.create_from_export(params)
@@ -67,24 +109,20 @@ defmodule Mix.Tasks.Fl.TranslateEvents do
         |> Instances.update_event()
 
         Mix.shell().info("* Event ##{event.id} translated")
-      end)
-      |> Enum.count()
+        :translated
 
-    Mix.shell().info("")
-    Mix.shell().info("#{translated_events_count} events translated.")
+      {:error, error} ->
+        Mix.shell().error("Error on http request (the event will not be updated):")
+        Mix.shell().error(inspect(error, pretty: true))
+        :not_translated
+    end
   end
 
-  defp translate_event(%{title: title, description: nil} = event, source_lang, target_lang) do
-    [title] = do_request([title], source_lang, target_lang)
-    {event, %{"title" => title}}
-  end
+  defp do_request(texts, options) do
+    source_lang = Keyword.fetch!(options, :source_lang)
+    target_lang = Keyword.fetch!(options, :target_lang)
+    auth_key = Keyword.fetch!(options, :auth_key)
 
-  defp translate_event(%{title: title, description: description} = event, source_lang, target_lang) do
-    [title, description] = do_request([title, description], source_lang, target_lang)
-    {event, %{"title" => title, "description" => description}}
-  end
-
-  defp do_request(texts, source_lang, target_lang) do
     request = %HTTPoison.Request{
       method: :post,
       url: "https://api-free.deepl.com/v2/translate",
@@ -96,7 +134,7 @@ defmodule Mix.Tasks.Fl.TranslateEvents do
           preserve_formatting: true
         }),
       headers: [
-        {"Authorization", "DeepL-Auth-Key my-api-key"},
+        {"Authorization", "DeepL-Auth-Key #{auth_key}"},
         {"Content-Type", "application/json"},
         {"Accept", "application/json"}
       ]
@@ -105,15 +143,11 @@ defmodule Mix.Tasks.Fl.TranslateEvents do
     with {:ok, %HTTPoison.Response{status_code: 200, body: body}} <- HTTPoison.request(request),
          {:ok, response} <- Poison.decode(body),
          %{"translations" => translatations} <- response do
-      Enum.map(translatations, fn %{"text" => text} -> text end)
+      texts = Enum.map(translatations, fn %{"text" => text} -> text end)
+      {:ok, texts}
     else
-      {:error, error} ->
-        Logger.error("Error on http request:")
-        IO.inspect(error)
-
-      error ->
-        Logger.error("Error:")
-        IO.inspect(error)
+      {:error, error} -> {:error, error}
+      error -> {:error, error}
     end
   end
 end
