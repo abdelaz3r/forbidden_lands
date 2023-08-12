@@ -10,6 +10,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
 
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.Instances
+  alias ForbiddenLands.Music.Mood
 
   @impl Phoenix.LiveView
   def mount(%{"id" => id}, _session, socket) do
@@ -30,7 +31,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           |> assign(quarter_shift: quarter_shift)
           |> assign(topic: topic)
           |> assign(stronghold_open?: false)
-          |> assign(playlists: ForbiddenLands.Music.Mood.playlists())
+          |> assign(playlists: Mood.playlists())
           |> base_assign(instance)
 
         {:ok, socket}

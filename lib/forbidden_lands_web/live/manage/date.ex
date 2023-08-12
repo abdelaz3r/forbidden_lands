@@ -7,6 +7,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
 
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.{Event, Stronghold, Instances}
+  alias ForbiddenLands.Music.Mood
   alias ForbiddenLandsWeb.Endpoint
 
   @impl Phoenix.LiveComponent
@@ -14,7 +15,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
     socket =
       socket
       |> assign(show_more?: false)
-      |> assign(playlists: ForbiddenLands.Music.Mood.playlists())
+      |> assign(playlists: Mood.playlists())
 
     {:ok, socket}
   end

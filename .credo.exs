@@ -51,7 +51,7 @@
           {Credo.Check.Readability.AliasOrder, []},
           {Credo.Check.Readability.FunctionNames, []},
           {Credo.Check.Readability.ImplTrue, []},
-          {Credo.Check.Readability.LargeNumbers, []},
+          {Credo.Check.Readability.LargeNumbers, false},
           {Credo.Check.Readability.MaxLineLength, [priority: :low, max_length: 120]},
           {Credo.Check.Readability.ModuleAttributeNames, []},
           {Credo.Check.Readability.ModuleNames, []},
@@ -64,7 +64,7 @@
           {Credo.Check.Readability.Semicolons, []},
           {Credo.Check.Readability.SeparateAliasRequire, []},
           {Credo.Check.Readability.SingleFunctionToBlockPipe, []},
-          {Credo.Check.Readability.SinglePipe, []},
+          {Credo.Check.Readability.SinglePipe, false},
           {Credo.Check.Readability.SpaceAfterCommas, []},
           {Credo.Check.Readability.Specs, []},
           {Credo.Check.Readability.StrictModuleLayout, []},
@@ -74,7 +74,7 @@
           {Credo.Check.Readability.UnnecessaryAliasExpansion, []},
           {Credo.Check.Readability.VariableNames, []},
           {Credo.Check.Readability.WithCustomTaggedTuple, []},
-          {Credo.Check.Readability.WithSingleClause, []},
+          {Credo.Check.Readability.WithSingleClause, false},
 
           #
           ## Refactoring Opportunities
@@ -94,12 +94,12 @@
           {Credo.Check.Refactor.MatchInCondition, []},
           {Credo.Check.Refactor.NegatedConditionsInUnless, []},
           {Credo.Check.Refactor.NegatedConditionsWithElse, []},
-          {Credo.Check.Refactor.Nesting, [max_nesting: 3]},
+          {Credo.Check.Refactor.Nesting, [max_nesting: 4]},
           {Credo.Check.Refactor.RedundantWithClauseResult, []},
           {Credo.Check.Refactor.RejectFilter, []},
           {Credo.Check.Refactor.RejectReject, []},
           {Credo.Check.Refactor.UnlessWithElse, []},
-          {Credo.Check.Refactor.WithClauses, []},
+          {Credo.Check.Refactor.WithClauses, false},
 
           #
           ## Warnings

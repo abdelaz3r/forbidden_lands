@@ -1,4 +1,6 @@
 defmodule ForbiddenLandsWeb.CoreComponents do
+  # credo:disable-for-this-file
+
   @moduledoc """
   Provides core UI components.
 

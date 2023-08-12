@@ -142,10 +142,12 @@ defmodule ForbiddenLands.Instances.Stronghold do
     {copper, silver, gold}
   end
 
+  @spec resource_fields() :: [atom()]
   def resource_fields() do
     @resource_fields
   end
 
+  @spec resource_name(atom(), integer()) :: String.t()
   def resource_name(:coins, x) when x <= 1, do: "pièce de cuivre"
   def resource_name(:coins, _), do: "pièces de cuivre"
   def resource_name(:iron_ore, x) when x <= 1, do: "minerai de fer"
