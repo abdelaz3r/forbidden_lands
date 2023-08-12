@@ -1,6 +1,8 @@
 # Forbidden Lands RPG Companion App
 
-Welcome to the Forbidden Lands RPG Companion App documentation! This repository hosts a personal project aimed at enhancing your experience while playing the thrilling role-playing game [Forbidden Lands](https://freeleaguepublishing.com/en/games/forbidden-lands/). Whether you're a player or a Game Master (GM), this app is designed to enrich your sessions and streamline certain aspects of gameplay.
+Welcome to the Forbidden Lands RPG Companion App documentation!
+
+This repository hosts a personal project aimed at enhancing your experience while playing the thrilling role-playing game [Forbidden Lands](https://freeleaguepublishing.com/en/games/forbidden-lands/). Whether you're a player or a Game Master (GM), this app is designed to enrich your sessions and streamline certain aspects of gameplay.
 
 # About the Project
 
@@ -8,17 +10,23 @@ This project is created with a passion for the Forbidden Lands universe. While i
 
 ## Contributions
 
-Contributions to this project are more than welcome! If you're interested in adding your expertise and insights, please ensure that your contributions align with the project's guidelines. Let's work together to make this app a fantastic resource for the Forbidden Lands community.
+Contributions to this project are more than welcome! If you're interested in adding your expertise and insights, please ensure that your contributions align with the project's guidelines.
 
 ## Features
 
-During your Forbidden Lands RPG sessions, the app shines as a versatile tool:
-- Manage View for GMs: Keep track of game time, set the perfect ambiance with background music, and manage stronghold resources to enhance the immersive experience.
-- Dashboard View for Players: For players, the app provides a comprehensive map view and the ability to immerse themselves in the ambiance. This view is ideally suited for projection using a beamer, making your game world come to life.
+During your Forbidden Lands RPG sessions:
+- Manage View for GMs:
+  - Keep track of game time (I implemented the custom Forbidden Lands calendar as described [here](https://www.darkforesttales.com/post/keeping-time-in-the-forbidden-lands)),
+  - Set the perfect ambiance with background music (music not included),
+  - Manage stronghold sheet,
+  - Manage stronghold resources with custom rules,
+  - Register group events.
+- Dashboard View for Players: For players, the app provides a wide map view, the ability to immerse themselves in the ambiance, and a clear way of the calendar. This view is ideally suited for projection using a beamer or a computer screen, making your game world come to life.
 
 Beyond the tabletop sessions:
 - Event Tracking: Easily record and keep track of events that unfold throughout your campaign. Stay organized and never miss a pivotal moment.
 - Event Browsing: Browse through past events, reminisce about your adventures, and use this feature as a reference for your ongoing gameplay.
+- Adventure Sharing: Share the story of your adventure to the world.
 
 # Installation
 
@@ -36,16 +44,16 @@ You can access the app by visiting [`localhost:4000`](http://localhost:4000) in 
 
 ## Adding Music Playlists
 
-Please note that due to copyright issues, no music files are provided. You can set up your own playlist:
+Please note that due to copyright issues, no music files are provided in that repo. You can set up your own playlist:
 
 1. Create a `musics` folder within the `priv/static` directory.
 2. Inside the `musics` folder, create subdirectories for each playlist. The name of each subdirectory will be the name of the playlist.
-3. Place your MP3 files within these subdirectories to represent the music for each playlist.
+3. Place your mp3 files within these subdirectories to represent the music for each playlist.
 
 After setting up your playlist folders, run the following mix command to generate the `mood.txt` file:
 
 ```bash
-mix fl.process_playlists [input_directory] [output_file]
+mix fl.process_playlists --source [source_directory] --target [target_file]
 ```
 
 ## Accessing the Admin Panel
@@ -62,7 +70,7 @@ config :forbidden_lands,
 
 If you intend to deploy the app, please refer to the [official Phoenix deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
-However, the app is already configured for fast deployment on [fly.io](https://fly.io/).
+However, the app is already configured for fast deployment on [fly.io](https://fly.io/). An example `fly.toml` configuration file can be found.
 
 ## Admin Panel Access in Production
 
