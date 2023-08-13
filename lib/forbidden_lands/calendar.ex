@@ -1,5 +1,58 @@
 defmodule ForbiddenLands.Calendar do
-  @moduledoc false
+  @moduledoc """
+  Implementation of the Forbidden Lands calendar as defined in this article
+  https://www.darkforesttales.com/post/keeping-time-in-the-forbidden-lands
+  and in the related pdf file.
+
+  The calendar is represented as a struct with precomputed values. Internally,
+  it stores the current date as a number of quarters. The number a quarter is
+  the smallest unit of time accessible.
+
+  This calendars metrics are:
+  * 4 quarters per day
+  * 7 days per week
+  * 365 days per year
+  * 8 months of 45 or 46 days per year
+  * 4 seasons per year
+  * a moon cycle tracker of 28 days
+  * a luminosity tracker (based on the season and the quarter day)
+
+  The calendar starts at 1.1.1 1/4. It does not work properly before this date.
+  The moon cycle, at this date, is on "new moon". The beginning of a day is set
+  to the "morning" quarter. Which mean that the day starts at something like
+  6am.
+
+  To create a new calendar you can use the following methods:
+  * `from_date/1` to create a calendar from a human-readable string
+  * `from_datequarter/1` to create a calendar from a human-readable string
+  * `from_days/1` to create a calendar from a number of days
+  * `from_quarters/1` to create a calendar from a number of quarters
+
+  These two last methods are meant to be used for storage (eg. in a database).
+
+  You can export a calendar with the following methods:
+  * `to_date/1` to export a calendar to a human-readable string
+  * `to_datequarter/1` to export a calendar to a human-readable string
+  * `format/1` to export a calendar to a custom long string
+
+  To get the number of quarters of a calendar you can simple access it using
+  `calendar.count.quarters`.
+
+  Usage example:
+  ```
+  iex> ForbiddenLands.Calendar.from_date("23.3.850")
+  {:ok, %ForbiddenLands.Calendar{}}
+
+  iex> ForbiddenLands.Calendar.from_datequarter("23.3.850 3/4")
+  {:ok, %ForbiddenLands.Calendar{}}
+
+  iex> ForbiddenLands.Calendar.add(calendar, 10, :day)
+  calendar
+
+  iex> ForbiddenLands.Calendar.to_date(calendar)
+  "33.3.850"
+  ```
+  """
 
   alias ForbiddenLands.Calendar
 
@@ -23,6 +76,13 @@ defmodule ForbiddenLands.Calendar do
 
   @doc """
   Create a calendar form a given string-format date following the format `d.m.y`.
+
+  ## Examples
+
+    ```
+    iex> Calendar.from_date("23.3.850")
+    {:ok, %ForbiddenLands.Calendar{}}
+    ```
   """
   @spec from_date(String.t()) :: {:ok, Calendar.t()} | {:error, :atom}
   def from_date(date) when is_binary(date) do
@@ -56,6 +116,13 @@ defmodule ForbiddenLands.Calendar do
 
   @doc """
   Create a calendar form a given string-format datequarter following the format `d.m.y q/4`.
+
+  ## Examples
+
+    ```
+    iex> Calendar.from_datequarter("23.3.850 3/4")
+    {:ok, %ForbiddenLands.Calendar{}}
+    ```
   """
   @spec from_datequarter(String.t()) :: {:ok, Calendar.t()} | {:error, :atom}
   def from_datequarter(datequarter) when is_binary(datequarter) do
@@ -81,6 +148,13 @@ defmodule ForbiddenLands.Calendar do
   @doc """
   Create a calendar from a given number of days.
   The calendar will automatically starts at the beginning of a day (first quarter).
+
+  ## Examples
+
+    ```
+    iex> Calendar.from_days(424_997)
+    %ForbiddenLands.Calendar{}
+    ```
   """
   @spec from_days(integer) :: Calendar.t()
   def from_days(days) do
@@ -89,6 +163,13 @@ defmodule ForbiddenLands.Calendar do
 
   @doc """
   Create a calendar from a given number of quarter.
+
+  ## Examples
+
+    ```
+    iex> Calendar.from_quarters(1_699_986)
+    %ForbiddenLands.Calendar{}
+    ```
   """
   @spec from_quarters(integer) :: Calendar.t()
   def from_quarters(quarters) do
@@ -97,6 +178,13 @@ defmodule ForbiddenLands.Calendar do
 
   @doc """
   Create string-format date following the format `d.m.y`.
+
+  ## Examples
+
+    ```
+    iex> Calendar.to_date(calendar)
+    "33.3.850"
+    ```
   """
   @spec to_date(Calendar.t()) :: String.t()
   def to_date(%{} = calendar) do
@@ -105,6 +193,13 @@ defmodule ForbiddenLands.Calendar do
 
   @doc """
   Create string-format datequarter following the format `d.m.y q/4`.
+
+  ## Examples
+
+    ```
+    iex> Calendar.to_datequarter(calendar)
+    "33.3.850 3/4"
+    ```
   """
   @spec to_datequarter(Calendar.t()) :: String.t()
   def to_datequarter(%{} = calendar) do
@@ -113,6 +208,13 @@ defmodule ForbiddenLands.Calendar do
 
   @doc """
   Create string-format datequarter following the format `d month_name y, quarter_name`.
+
+  ## Examples
+
+    ```
+    iex> Calendar.format(calendar)
+    "33 summerrise 850, matinée"
+    ```
   """
   @spec format(Calendar.t()) :: String.t()
   def format(%{} = calendar) do
@@ -122,6 +224,13 @@ defmodule ForbiddenLands.Calendar do
   @doc """
   Add a certain amount of [:year | :week | :day | :quarter] to a calendar.
   The amount can be negative, positive, or null.
+
+  ## Examples
+
+    ```
+    iex> Calendar.add(calendar, 10, :day)
+    %ForbiddenLands.Calendar{}
+    ```
   """
   @spec add(Calendar.t(), number(), :year | :week | :day | :quarter) :: Calendar.t()
   def add(%{count: %{quarters: quarters}}, amount, :year) do
@@ -142,6 +251,13 @@ defmodule ForbiddenLands.Calendar do
 
   @doc """
   Move a calendar to the start of a specific calendar milestone.
+
+  ## Examples
+
+    ```
+    iex> Calendar.start_of(calendar, :month)
+    %ForbiddenLands.Calendar{}
+    ```
   """
   @spec start_of(Calendar.t(), :year | :month | :week | :day) :: Calendar.t()
   def start_of(%{year: %{day: year_day}, count: %{days: days}}, :year) do
@@ -162,6 +278,13 @@ defmodule ForbiddenLands.Calendar do
 
   @doc """
   Move a calendar to the end of a specific calendar milestone.
+
+  ## Examples
+
+    ```
+    iex> Calendar.end_of(calendar, :year)
+    %ForbiddenLands.Calendar{}
+    ```
   """
   @spec end_of(Calendar.t(), :year | :month | :week | :day) :: Calendar.t()
   def end_of(calendar, :year) do
@@ -182,6 +305,13 @@ defmodule ForbiddenLands.Calendar do
 
   @doc """
   Return the months progression in percent.
+
+  ## Examples
+
+    ```
+    iex> calendar = Calendar.month_progression(calendar)
+    71.11111111111111
+    ```
   """
   @spec month_progression(Calendar.t()) :: float()
   def month_progression(%{month: %{day: day, days_count: days_count}}) do
@@ -190,6 +320,13 @@ defmodule ForbiddenLands.Calendar do
 
   @doc """
   Return the moon progression in percent where new moon equals 0% and full moon equals 100%.
+
+  ## Examples
+
+    ```
+    iex> calendar = Calendar.moon_progression(calendar)
+    64.28571428571428
+    ```
   """
   @spec moon_progression(Calendar.t()) :: float()
   def moon_progression(%{moon: %{number: number}}) do
@@ -205,6 +342,13 @@ defmodule ForbiddenLands.Calendar do
 
   @doc """
   Return the luminosity struct from a calendar.
+
+  ## Examples
+
+    ```
+    iex> calendar = Calendar.luminosity(calendar)
+    %{key: :darkish, name: "sombre", threshold: 2}
+    ```
   """
   @spec luminosity(Calendar.t()) :: map()
   def luminosity(%{quarter: %{luminosity: luminosity}, season: %{luminosity_shift: luminosity_shift}}) do

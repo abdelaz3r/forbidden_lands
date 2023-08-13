@@ -9,11 +9,11 @@ defmodule ForbiddenLands.CalendarTest do
 
       assert calendar.count.days == 424_997
       assert calendar.count.quarters == 1_699_985
-      assert calendar.count.weeks == 60714
+      assert calendar.count.weeks == 60_714
 
       assert calendar.month.day == 1
       assert calendar.month.number == 4
-      assert calendar.year.number == 1165
+      assert calendar.year.number == 1_165
 
       assert calendar.quarter.number == 1
       assert calendar.day.number == 6
@@ -26,19 +26,19 @@ defmodule ForbiddenLands.CalendarTest do
 
       assert calendar.month.day == 1
       assert calendar.month.number == 1
-      assert calendar.year.number == 1165
+      assert calendar.year.number == 1_165
 
       assert {:ok, calendar} = Calendar.from_date("45.1.1165")
 
       assert calendar.month.day == 45
       assert calendar.month.number == 1
-      assert calendar.year.number == 1165
+      assert calendar.year.number == 1_165
 
       assert {:ok, calendar} = Calendar.from_date("46.8.1165")
 
       assert calendar.month.day == 46
       assert calendar.month.number == 8
-      assert calendar.year.number == 1165
+      assert calendar.year.number == 1_165
     end
 
     test "returns an error tuple for an invalid date string" do
@@ -77,11 +77,11 @@ defmodule ForbiddenLands.CalendarTest do
 
       assert calendar.count.days == 424_997
       assert calendar.count.quarters == 1_699_986
-      assert calendar.count.weeks == 60714
+      assert calendar.count.weeks == 60_714
 
       assert calendar.month.day == 1
       assert calendar.month.number == 4
-      assert calendar.year.number == 1165
+      assert calendar.year.number == 1_165
 
       assert calendar.quarter.number == 2
       assert calendar.day.number == 6
