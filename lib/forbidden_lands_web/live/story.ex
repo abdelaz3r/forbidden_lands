@@ -203,7 +203,9 @@ defmodule ForbiddenLandsWeb.Live.Story do
 
     case events do
       [] ->
-        assign(socket, end_of_timeline?: at == -1)
+        socket
+        |> stream(:events, [], reset: reset)
+        |> assign(end_of_timeline?: at == -1)
 
       [_ | _] = events ->
         socket
