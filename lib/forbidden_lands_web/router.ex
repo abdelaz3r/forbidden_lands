@@ -5,6 +5,7 @@ defmodule ForbiddenLandsWeb.Router do
 
   pipeline(:browser) do
     plug(:accepts, ["html"])
+    plug(Plugs.EnsureLocale)
     plug(:fetch_session)
     plug(:fetch_live_flash)
     plug(:put_root_layout, {ForbiddenLandsWeb.Layouts, :root})
