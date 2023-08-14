@@ -17,7 +17,12 @@ defmodule ForbiddenLandsWeb.Components.Navbar do
         </.link>
       </nav>
 
-      <nav class="flex">
+      <nav class="flex items-center gap-4">
+        <div class="flex gap-4 border-r pr-4">
+          <.link :for={locale <- Gettext.known_locales(ForbiddenLandsWeb.Gettext)} navigate={~p"/#{locale}"}>
+            <%= locale %>
+          </.link>
+        </div>
         <.link navigate={~p"/#{Gettext.get_locale()}/admin"} class={link_classes()}>
           <.icon name={:lock} class="w-6 h-6" />
         </.link>
