@@ -39,19 +39,19 @@ defmodule ForbiddenLands.Calendar do
   `calendar.count.quarters`.
 
   Usage example:
-  ```
-  iex> ForbiddenLands.Calendar.from_date("23.3.850")
-  {:ok, %ForbiddenLands.Calendar{}}
 
-  iex> ForbiddenLands.Calendar.from_datequarter("23.3.850 3/4")
-  {:ok, %ForbiddenLands.Calendar{}}
+    iex> ForbiddenLands.Calendar.from_date("23.3.850")
+    {:ok, %ForbiddenLands.Calendar{}}
 
-  iex> ForbiddenLands.Calendar.add(calendar, 10, :day)
-  calendar
+    iex> ForbiddenLands.Calendar.from_datequarter("23.3.850 3/4")
+    {:ok, %ForbiddenLands.Calendar{}}
 
-  iex> ForbiddenLands.Calendar.to_date(calendar)
-  "33.3.850"
-  ```
+    iex> ForbiddenLands.Calendar.add(calendar, 10, :day)
+    calendar
+
+    iex> ForbiddenLands.Calendar.to_date(calendar)
+    "33.3.850"
+
   """
 
   alias ForbiddenLands.Calendar
@@ -79,10 +79,9 @@ defmodule ForbiddenLands.Calendar do
 
   ## Examples
 
-    ```
     iex> Calendar.from_date("23.3.850")
     {:ok, %ForbiddenLands.Calendar{}}
-    ```
+
   """
   @spec from_date(String.t()) :: {:ok, Calendar.t()} | {:error, :atom}
   def from_date(date) when is_binary(date) do
@@ -119,10 +118,9 @@ defmodule ForbiddenLands.Calendar do
 
   ## Examples
 
-    ```
     iex> Calendar.from_datequarter("23.3.850 3/4")
     {:ok, %ForbiddenLands.Calendar{}}
-    ```
+
   """
   @spec from_datequarter(String.t()) :: {:ok, Calendar.t()} | {:error, :atom}
   def from_datequarter(datequarter) when is_binary(datequarter) do
@@ -151,10 +149,9 @@ defmodule ForbiddenLands.Calendar do
 
   ## Examples
 
-    ```
     iex> Calendar.from_days(424_997)
     %ForbiddenLands.Calendar{}
-    ```
+
   """
   @spec from_days(integer) :: Calendar.t()
   def from_days(days) do
@@ -166,10 +163,9 @@ defmodule ForbiddenLands.Calendar do
 
   ## Examples
 
-    ```
     iex> Calendar.from_quarters(1_699_986)
     %ForbiddenLands.Calendar{}
-    ```
+
   """
   @spec from_quarters(integer) :: Calendar.t()
   def from_quarters(quarters) do
@@ -181,10 +177,9 @@ defmodule ForbiddenLands.Calendar do
 
   ## Examples
 
-    ```
     iex> Calendar.to_date(calendar)
     "33.3.850"
-    ```
+
   """
   @spec to_date(Calendar.t()) :: String.t()
   def to_date(%{} = calendar) do
@@ -196,10 +191,9 @@ defmodule ForbiddenLands.Calendar do
 
   ## Examples
 
-    ```
     iex> Calendar.to_datequarter(calendar)
     "33.3.850 3/4"
-    ```
+
   """
   @spec to_datequarter(Calendar.t()) :: String.t()
   def to_datequarter(%{} = calendar) do
@@ -211,10 +205,9 @@ defmodule ForbiddenLands.Calendar do
 
   ## Examples
 
-    ```
     iex> Calendar.format(calendar)
     "33 summerrise 850, matinée"
-    ```
+
   """
   @spec format(Calendar.t()) :: String.t()
   def format(%{} = calendar) do
@@ -227,10 +220,9 @@ defmodule ForbiddenLands.Calendar do
 
   ## Examples
 
-    ```
     iex> Calendar.add(calendar, 10, :day)
     %ForbiddenLands.Calendar{}
-    ```
+
   """
   @spec add(Calendar.t(), number(), :year | :week | :day | :quarter) :: Calendar.t()
   def add(%{count: %{quarters: quarters}}, amount, :year) do
@@ -254,10 +246,9 @@ defmodule ForbiddenLands.Calendar do
 
   ## Examples
 
-    ```
     iex> Calendar.start_of(calendar, :month)
     %ForbiddenLands.Calendar{}
-    ```
+
   """
   @spec start_of(Calendar.t(), :year | :month | :week | :day) :: Calendar.t()
   def start_of(%{year: %{day: year_day}, count: %{days: days}}, :year) do
@@ -281,10 +272,9 @@ defmodule ForbiddenLands.Calendar do
 
   ## Examples
 
-    ```
     iex> Calendar.end_of(calendar, :year)
     %ForbiddenLands.Calendar{}
-    ```
+
   """
   @spec end_of(Calendar.t(), :year | :month | :week | :day) :: Calendar.t()
   def end_of(calendar, :year) do
@@ -308,10 +298,9 @@ defmodule ForbiddenLands.Calendar do
 
   ## Examples
 
-    ```
     iex> calendar = Calendar.month_progression(calendar)
     71.11111111111111
-    ```
+
   """
   @spec month_progression(Calendar.t()) :: float()
   def month_progression(%{month: %{day: day, days_count: days_count}}) do
@@ -323,10 +312,9 @@ defmodule ForbiddenLands.Calendar do
 
   ## Examples
 
-    ```
     iex> calendar = Calendar.moon_progression(calendar)
     64.28571428571428
-    ```
+
   """
   @spec moon_progression(Calendar.t()) :: float()
   def moon_progression(%{moon: %{number: number}}) do
@@ -345,10 +333,9 @@ defmodule ForbiddenLands.Calendar do
 
   ## Examples
 
-    ```
     iex> calendar = Calendar.luminosity(calendar)
     %{key: :darkish, name: "sombre", threshold: 2}
-    ```
+
   """
   @spec luminosity(Calendar.t()) :: map()
   def luminosity(%{quarter: %{luminosity: luminosity}, season: %{luminosity_shift: luminosity_shift}}) do
