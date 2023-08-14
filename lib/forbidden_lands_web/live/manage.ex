@@ -46,7 +46,7 @@ defmodule ForbiddenLandsWeb.Live.Manage do
       {:error, _reason} ->
         socket =
           socket
-          |> push_navigate(to: ~p"/")
+          |> push_navigate(to: ~p"/#{Gettext.get_locale()}/")
           |> put_flash(:error, "Cette instance n'existe pas")
 
         {:ok, socket}
@@ -74,7 +74,7 @@ defmodule ForbiddenLandsWeb.Live.Manage do
             <.link
               :for={%{key: key, icon: icon, component: _component} <- panels()}
               class={["py-4 px-3 font-bold", @panel.key == key && "text-sky-800 underline"]}
-              patch={~p"/adventure/#{@instance.id}/manage/#{key}"}
+              patch={~p"/#{Gettext.get_locale()}/adventure/#{@instance.id}/manage/#{key}"}
             >
               <span class="text-grey-600">
                 <.icon name={icon} class="w-6 h-6" />
@@ -82,7 +82,7 @@ defmodule ForbiddenLandsWeb.Live.Manage do
             </.link>
           </div>
           <div class="flex">
-            <.link navigate={~p"/adventure/#{@instance.id}"} class="py-4 px-6 font-bold">
+            <.link navigate={~p"/#{Gettext.get_locale()}/adventure/#{@instance.id}"} class="py-4 px-6 font-bold">
               <.icon name={:corner_right_up} class="w-6 h-6" />
             </.link>
           </div>

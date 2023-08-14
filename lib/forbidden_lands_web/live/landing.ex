@@ -67,15 +67,18 @@ defmodule ForbiddenLandsWeb.Live.Landing do
         </header>
 
         <div class="flex flex-col md:flex-row gap-5 pt-5">
-          <.link navigate={~p"/adventure/#{instance.id}"} class={["grow", button_classes()]}>
+          <.link navigate={~p"/#{Gettext.get_locale()}/adventure/#{instance.id}"} class={["grow", button_classes()]}>
             <.icon name={:locate_fixed} class="w-6 h-6" />
             <span>Tableau de bord</span>
           </.link>
-          <.link navigate={~p"/adventure/#{instance.id}/story"} class={["grow", button_classes()]}>
+          <.link navigate={~p"/#{Gettext.get_locale()}/adventure/#{instance.id}/story"} class={["grow", button_classes()]}>
             <.icon name={:scroll_text} class="w-6 h-6" />
             <span>Chroniques</span>
           </.link>
-          <.link navigate={~p"/adventure/#{instance.id}/manage"} class={["grow md:flex-none md:w-[66px]", button_classes()]}>
+          <.link
+            navigate={~p"/#{Gettext.get_locale()}/adventure/#{instance.id}/manage"}
+            class={["grow md:flex-none md:w-[66px]", button_classes()]}
+          >
             <.icon name={:lock} class="w-6 h-6" />
             <span class="md:hidden">Espace MJ</span>
           </.link>

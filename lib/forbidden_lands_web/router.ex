@@ -13,33 +13,43 @@ defmodule ForbiddenLandsWeb.Router do
     plug(:put_secure_browser_headers)
   end
 
+  # Default empty live session
+  # Only for redirecting to correct liveview
   scope("/", ForbiddenLandsWeb.Live) do
     pipe_through(:browser)
 
-    live_session(:public) do
-      live("/", Landing)
-      live("/adventure/:id", Dashboard)
-      live("/adventure/:id/story", Story)
-      live("/adventure/:id/story#:anchor", Story)
-    end
+    live("/", Landing)
   end
 
-  scope("/", ForbiddenLandsWeb.Live) do
-    pipe_through([:browser, Plugs.UserAuth])
+  scope("/:locale") do
+    scope("/", ForbiddenLandsWeb.Live) do
+      pipe_through(:browser)
 
-    live_session(:private) do
-      live("/adventure/:id/manage", Manage)
-      live("/adventure/:id/manage/:panel", Manage)
+      live_session(:public) do
+        live("/", Landing)
+        live("/adventure/:id", Dashboard)
+        live("/adventure/:id/story", Story)
+        live("/adventure/:id/story#:anchor", Story)
+      end
     end
-  end
 
-  scope("/", ForbiddenLandsWeb.Live) do
-    pipe_through([:browser, Plugs.AdminAuth])
+    scope("/", ForbiddenLandsWeb.Live) do
+      pipe_through([:browser, Plugs.UserAuth])
 
-    live_session(:admin) do
-      live("/admin", Admin)
-      live("/start-a-new-adventure", CreateInstance)
-      live("/import-adventure", ImportInstance)
+      live_session(:private) do
+        live("/adventure/:id/manage", Manage)
+        live("/adventure/:id/manage/:panel", Manage)
+      end
+    end
+
+    scope("/", ForbiddenLandsWeb.Live) do
+      pipe_through([:browser, Plugs.AdminAuth])
+
+      live_session(:admin) do
+        live("/admin", Admin)
+        live("/start-a-new-adventure", CreateInstance)
+        live("/import-adventure", ImportInstance)
+      end
     end
   end
 

@@ -59,7 +59,7 @@ defmodule ForbiddenLandsWeb.Live.CreateInstance do
   def handle_event("save", %{"create" => params}, socket) do
     case Instances.create(params) do
       {:ok, _instance} ->
-        {:noreply, push_navigate(socket, to: ~p"/admin")}
+        {:noreply, push_navigate(socket, to: ~p"/#{Gettext.get_locale()}/admin")}
 
       {:error, changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
