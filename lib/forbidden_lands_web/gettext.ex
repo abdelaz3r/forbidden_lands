@@ -20,5 +20,8 @@ defmodule ForbiddenLandsWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :forbidden_lands
+  use Gettext,
+    otp_app: :forbidden_lands,
+    default_locale: "en",
+    allowed_locales: ["en", "fr"]
 end
