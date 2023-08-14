@@ -1,0 +1,178 @@
+## This file is a PO Template file.
+##
+## "msgid"s here are often extracted from source code.
+## Add new messages manually only if they're dynamic
+## messages that can't be statically extracted.
+##
+## Run "mix gettext.extract" to bring this file up to
+## date. Leave "msgstr"s empty as changing them here has no
+## effect: edit them in PO (.po) files instead.
+#
+msgid ""
+msgstr ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:182
+#, elixir-autogen, elixir-format
+msgid "beer barrel"
+msgid_plural "beer barrels"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:172
+#, elixir-autogen, elixir-format
+msgid "cloth"
+msgid_plural "cloths"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:160
+#, elixir-autogen, elixir-format
+msgid "copper coin"
+msgid_plural "copper coins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:178
+#, elixir-autogen, elixir-format
+msgid "fish ration"
+msgid_plural "fish rations"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:175
+#, elixir-autogen, elixir-format
+msgid "flour sack"
+msgid_plural "flour sacks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:170
+#, elixir-autogen, elixir-format
+msgid "fur"
+msgid_plural "furs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:168
+#, elixir-autogen, elixir-format
+msgid "glass crate"
+msgid_plural "glass crates"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:166
+#, elixir-autogen, elixir-format
+msgid "gold ingot"
+msgid_plural "gold ingots"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:165
+#, elixir-autogen, elixir-format
+msgid "gold ore"
+msgid_plural "gold ores"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:176
+#, elixir-autogen, elixir-format
+msgid "grain sack"
+msgid_plural "grain sacks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:181
+#, elixir-autogen, elixir-format
+msgid "herb bundle"
+msgid_plural "herb bundles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:162
+#, elixir-autogen, elixir-format
+msgid "iron ingot"
+msgid_plural "iron ingots"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:161
+#, elixir-autogen, elixir-format
+msgid "iron ore"
+msgid_plural "iron ores"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:171
+#, elixir-autogen, elixir-format
+msgid "leather roll"
+msgid_plural "leather rolls"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:177
+#, elixir-autogen, elixir-format
+msgid "meat ration"
+msgid_plural "meat rations"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:174
+#, elixir-autogen, elixir-format
+msgid "ration"
+msgid_plural "rations"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:164
+#, elixir-autogen, elixir-format
+msgid "silver ingot"
+msgid_plural "silver ingots"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:163
+#, elixir-autogen, elixir-format
+msgid "silver ore"
+msgid_plural "silver ores"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:167
+#, elixir-autogen, elixir-format
+msgid "stone block"
+msgid_plural "stone blocks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:180
+#, elixir-autogen, elixir-format
+msgid "tallow jar"
+msgid_plural "tallow jars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:179
+#, elixir-autogen, elixir-format
+msgid "vegetable ration"
+msgid_plural "vegetable rations"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:169
+#, elixir-autogen, elixir-format
+msgid "wood log"
+msgid_plural "wood logs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:173
+#, elixir-autogen, elixir-format
+msgid "wool ball"
+msgid_plural "wool balls"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands/instances/stronghold.ex:183
+#, elixir-autogen, elixir-format
+msgid "unknown resource"
+msgstr ""
