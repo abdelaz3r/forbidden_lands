@@ -39,7 +39,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
       {:error, _reason} ->
         socket =
           socket
-          |> push_navigate(to: ~p"/")
+          |> push_navigate(to: ~p"/#{Gettext.get_locale()}/")
           |> put_flash(:error, "Cette instance n'existe pas")
 
         {:ok, socket}
@@ -56,7 +56,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
         </div>
         <div class={[layer_classes(), layer_classes(@luminosity)]}></div>
         <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-title font-bold text-xl drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
-          <.link navigate={~p"/"}>
+          <.link navigate={~p"/#{Gettext.get_locale()}/"}>
             <.icon name={:chevron_left} class="h-6 w-6" />
           </.link>
           <%= @instance.name %>

@@ -28,7 +28,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
       {:error, _reason} ->
         socket =
           socket
-          |> push_navigate(to: ~p"/")
+          |> push_navigate(to: ~p"/#{Gettext.get_locale()}/")
           |> put_flash(:error, "Cette instance n'existe pas")
 
         {:ok, socket}
@@ -40,7 +40,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
     ~H"""
     <div class="text-slate-900 font-title p-0 md:py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover md:bg-[url('/images/story-background.jpg')]">
       <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-title font-bold md:text-white text-xl md:drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
-        <.link navigate={~p"/"}>
+        <.link navigate={~p"/#{Gettext.get_locale()}/"}>
           <.icon name={:chevron_left} class="h-6 w-6" />
         </.link>
         <%= @instance.name %>
@@ -100,7 +100,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
 
               <section class="relative px-4 md:px-36 space-y-2 pb-6">
                 <a
-                  href={~p"/adventure/#{@instance.id}/story#event-#{event.id}"}
+                  href={~p"/#{Gettext.get_locale()}/adventure/#{@instance.id}/story#event-#{event.id}"}
                   id={"event-#{event.id}"}
                   class="relative flex items-center gap-4"
                 >
