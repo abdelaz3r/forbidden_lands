@@ -55,6 +55,7 @@ defmodule ForbiddenLandsWeb do
       use Phoenix.LiveView,
         layout: {ForbiddenLandsWeb.Layouts, :app}
 
+      on_mount({ForbiddenLandsWeb.Hooks.SetLocale, :default})
       unquote(html_helpers())
     end
   end
