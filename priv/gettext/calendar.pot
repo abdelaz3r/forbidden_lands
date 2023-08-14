@@ -1,0 +1,222 @@
+## This file is a PO Template file.
+##
+## "msgid"s here are often extracted from source code.
+## Add new messages manually only if they're dynamic
+## messages that can't be statically extracted.
+##
+## Run "mix gettext.extract" to bring this file up to
+## date. Leave "msgstr"s empty as changing them here has no
+## effect: edit them in PO (.po) files instead.
+#
+msgid ""
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:412
+#, elixir-autogen, elixir-format
+msgid "afternoon"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:414
+#, elixir-autogen, elixir-format
+msgid "between 12pm and 6pm"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:408
+#, elixir-autogen, elixir-format
+msgid "between 6am and 12pm"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:420
+#, elixir-autogen, elixir-format
+msgid "between 6pm and midnight"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:426
+#, elixir-autogen, elixir-format
+msgid "between midnight and 6am"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:477
+#, elixir-autogen, elixir-format
+msgid "dark"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:479
+#, elixir-autogen, elixir-format
+msgid "daylight"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:418
+#, elixir-autogen, elixir-format
+msgid "evening"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:469
+#, elixir-autogen, elixir-format
+msgid "fall"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:458
+#, elixir-autogen, elixir-format
+msgid "fallrise"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:459
+#, elixir-autogen, elixir-format
+msgid "fallwane"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:446
+#, elixir-autogen, elixir-format
+msgid "friday"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:435
+#, elixir-autogen, elixir-format
+msgid "full moon"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:478
+#, elixir-autogen, elixir-format
+msgid "lightish"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:442
+#, elixir-autogen, elixir-format
+msgid "monday"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:406
+#, elixir-autogen, elixir-format
+msgid "morning"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:433
+#, elixir-autogen, elixir-format
+msgid "new moon"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:424
+#, elixir-autogen, elixir-format
+msgid "night"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:476
+#, elixir-autogen, elixir-format
+msgid "pitch black"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:434
+#, elixir-autogen, elixir-format
+msgid "rising moon"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:447
+#, elixir-autogen, elixir-format
+msgid "saturday"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:467
+#, elixir-autogen, elixir-format
+msgid "spring"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:454
+#, elixir-autogen, elixir-format
+msgid "springrise"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:455
+#, elixir-autogen, elixir-format
+msgid "springwane"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:468
+#, elixir-autogen, elixir-format
+msgid "summer"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:456
+#, elixir-autogen, elixir-format
+msgid "summerrise"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:457
+#, elixir-autogen, elixir-format
+msgid "summerwane"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:448
+#, elixir-autogen, elixir-format
+msgid "sunday"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:445
+#, elixir-autogen, elixir-format
+msgid "thursday"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:443
+#, elixir-autogen, elixir-format
+msgid "tuesday"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:436
+#, elixir-autogen, elixir-format
+msgid "waning moon"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:444
+#, elixir-autogen, elixir-format
+msgid "wednesday"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:470
+#, elixir-autogen, elixir-format
+msgid "winter"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:460
+#, elixir-autogen, elixir-format
+msgid "winterrise"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:461
+#, elixir-autogen, elixir-format
+msgid "winterwane"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:443
+#, elixir-autogen, elixir-format
+msgid "Bloodday"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:444
+#, elixir-autogen, elixir-format
+msgid "Earthday"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:445
+#, elixir-autogen, elixir-format
+msgid "Growthday"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:446
+#, elixir-autogen, elixir-format
+msgid "Harvestday"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:442
+#, elixir-autogen, elixir-format
+msgid "Moonday"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:447
+#, elixir-autogen, elixir-format
+msgid "Stillday"
+msgstr ""
+
+#: lib/forbidden_lands/calendar.ex:448
+#, elixir-autogen, elixir-format
+msgid "Sunday"
+msgstr ""

@@ -54,6 +54,8 @@ defmodule ForbiddenLands.Calendar do
 
   """
 
+  import ForbiddenLandsWeb.Gettext
+
   alias ForbiddenLands.Calendar
 
   @quarter_by_day 4
@@ -399,62 +401,82 @@ defmodule ForbiddenLands.Calendar do
 
   defp quarters() do
     [
-      %{key: :morning, name: "matinée", luminosity: 7, description: "entre 6h et 12h"},
-      %{key: :day, name: "après-midi", luminosity: 10, description: "entre 12h et 18h"},
-      %{key: :evening, name: "soirée", luminosity: 5, description: "entre 18h et minuit"},
-      %{key: :night, name: "nuit", luminosity: 0, description: "entre minuit et 6h"}
+      %{
+        key: :morning,
+        name: dgettext("calendar", "morning"),
+        luminosity: 7,
+        description: dgettext("calendar", "between 6am and 12pm")
+      },
+      %{
+        key: :day,
+        name: dgettext("calendar", "afternoon"),
+        luminosity: 10,
+        description: dgettext("calendar", "between 12pm and 6pm")
+      },
+      %{
+        key: :evening,
+        name: dgettext("calendar", "evening"),
+        luminosity: 5,
+        description: dgettext("calendar", "between 6pm and midnight")
+      },
+      %{
+        key: :night,
+        name: dgettext("calendar", "night"),
+        luminosity: 0,
+        description: dgettext("calendar", "between midnight and 6am")
+      }
     ]
   end
 
   defp moon_cycles() do
     [
-      %{key: :new, name: "nouvelle lune"},
-      %{key: :first, name: "lune montante"},
-      %{key: :full, name: "pleine lune"},
-      %{key: :last, name: "lune descendante"}
+      %{key: :new, name: dgettext("calendar", "new moon")},
+      %{key: :first, name: dgettext("calendar", "rising moon")},
+      %{key: :full, name: dgettext("calendar", "full moon")},
+      %{key: :last, name: dgettext("calendar", "waning moon")}
     ]
   end
 
   defp days() do
     [
-      %{key: :moonday, name: "moonday", ref: "lundi"},
-      %{key: :bloodday, name: "bloodday", ref: "mardi"},
-      %{key: :earthday, name: "earthday", ref: "mercredi"},
-      %{key: :growthday, name: "growthday", ref: "jeudi"},
-      %{key: :harvestday, name: "harvestday", ref: "vendredi"},
-      %{key: :stillday, name: "stillday", ref: "samedi"},
-      %{key: :sunday, name: "sunday", ref: "dimanche"}
+      %{key: :moonday, name: dgettext("calendar", "Moonday"), ref: dgettext("calendar", "monday")},
+      %{key: :bloodday, name: dgettext("calendar", "Bloodday"), ref: dgettext("calendar", "tuesday")},
+      %{key: :earthday, name: dgettext("calendar", "Earthday"), ref: dgettext("calendar", "wednesday")},
+      %{key: :growthday, name: dgettext("calendar", "Growthday"), ref: dgettext("calendar", "thursday")},
+      %{key: :harvestday, name: dgettext("calendar", "Harvestday"), ref: dgettext("calendar", "friday")},
+      %{key: :stillday, name: dgettext("calendar", "Stillday"), ref: dgettext("calendar", "saturday")},
+      %{key: :sunday, name: dgettext("calendar", "Sunday"), ref: dgettext("calendar", "sunday")}
     ]
   end
 
   defp months() do
     [
-      %{key: :springrise, name: "springrise", days_count: 45},
-      %{key: :springwane, name: "springwane", days_count: 46},
-      %{key: :summerrise, name: "summerrise", days_count: 46},
-      %{key: :summerwane, name: "summerwane", days_count: 46},
-      %{key: :fallrise, name: "fallrise", days_count: 45},
-      %{key: :fallwane, name: "fallwane", days_count: 46},
-      %{key: :winterrise, name: "winterrise", days_count: 45},
-      %{key: :winterwane, name: "winterwane", days_count: 46}
+      %{key: :springrise, name: dgettext("calendar", "springrise"), days_count: 45},
+      %{key: :springwane, name: dgettext("calendar", "springwane"), days_count: 46},
+      %{key: :summerrise, name: dgettext("calendar", "summerrise"), days_count: 46},
+      %{key: :summerwane, name: dgettext("calendar", "summerwane"), days_count: 46},
+      %{key: :fallrise, name: dgettext("calendar", "fallrise"), days_count: 45},
+      %{key: :fallwane, name: dgettext("calendar", "fallwane"), days_count: 46},
+      %{key: :winterrise, name: dgettext("calendar", "winterrise"), days_count: 45},
+      %{key: :winterwane, name: dgettext("calendar", "winterwane"), days_count: 46}
     ]
   end
 
   defp seasons() do
     [
-      %{key: :spring, name: "printemps", luminosity_shift: -3},
-      %{key: :summer, name: "été", luminosity_shift: 0},
-      %{key: :fall, name: "automne", luminosity_shift: -3},
-      %{key: :winter, name: "hivers", luminosity_shift: -5}
+      %{key: :spring, name: dgettext("calendar", "spring"), luminosity_shift: -3},
+      %{key: :summer, name: dgettext("calendar", "summer"), luminosity_shift: 0},
+      %{key: :fall, name: dgettext("calendar", "fall"), luminosity_shift: -3},
+      %{key: :winter, name: dgettext("calendar", "winter"), luminosity_shift: -5}
     ]
   end
 
   defp luminosity_values() do
     [
-      %{key: :dark, name: "nuit noire", threshold: 0},
-      %{key: :darkish, name: "sombre", threshold: 2},
-      %{key: :ligthish, name: "clair", threshold: 4},
-      %{key: :daylight, name: "jour", threshold: 5}
+      %{key: :dark, name: dgettext("calendar", "pitch black"), threshold: 0},
+      %{key: :darkish, name: dgettext("calendar", "dark"), threshold: 2},
+      %{key: :ligthish, name: dgettext("calendar", "lightish"), threshold: 4},
+      %{key: :daylight, name: dgettext("calendar", "daylight"), threshold: 5}
     ]
   end
 end
