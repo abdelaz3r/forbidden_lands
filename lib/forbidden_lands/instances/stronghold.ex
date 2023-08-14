@@ -4,6 +4,7 @@ defmodule ForbiddenLands.Instances.Stronghold do
   use Ecto.Schema
 
   import Ecto.Changeset
+  import ForbiddenLandsWeb.Gettext
 
   alias ForbiddenLands.Instances.Stronghold
 
@@ -156,53 +157,30 @@ defmodule ForbiddenLands.Instances.Stronghold do
   end
 
   @spec resource_name(atom(), integer()) :: String.t()
-  def resource_name(:coins, x) when x <= 1, do: "pièce de cuivre"
-  def resource_name(:coins, _), do: "pièces de cuivre"
-  def resource_name(:iron_ore, x) when x <= 1, do: "minerai de fer"
-  def resource_name(:iron_ore, _), do: " minerais de fer"
-  def resource_name(:iron, x) when x <= 1, do: "lingot de fer"
-  def resource_name(:iron, _), do: "lingots de fer"
-  def resource_name(:silver_ore, x) when x <= 1, do: "minerai d'argent"
-  def resource_name(:silver_ore, _), do: "minerais d'argent"
-  def resource_name(:silver, x) when x <= 1, do: "lingot d'argent"
-  def resource_name(:silver, _), do: "lingots d'argent"
-  def resource_name(:gold_ore, x) when x <= 1, do: "minerai d'or"
-  def resource_name(:gold_ore, _), do: "minerais d'or"
-  def resource_name(:gold, x) when x <= 1, do: "lingot d'or"
-  def resource_name(:gold, _), do: "lingots d'or"
-  def resource_name(:stone, x) when x <= 1, do: "bloc de pierre"
-  def resource_name(:stone, _), do: "blocs de pierre"
-  def resource_name(:glass, x) when x <= 1, do: "caisse de verre"
-  def resource_name(:glass, _), do: "caisses de verre"
-  def resource_name(:wood, x) when x <= 1, do: "rondin de bois"
-  def resource_name(:wood, _), do: "rondins de bois"
-  def resource_name(:fur, x) when x <= 1, do: "fourrure"
-  def resource_name(:fur, _), do: "fourrures"
-  def resource_name(:leather, x) when x <= 1, do: "caisse de cuir"
-  def resource_name(:leather, _), do: "caisses de cuir"
-  def resource_name(:cloth, x) when x <= 1, do: "vêtement"
-  def resource_name(:cloth, _), do: "vêtements"
-  def resource_name(:wool, x) when x <= 1, do: "unité de laine"
-  def resource_name(:wool, _), do: "unités de laine"
-  def resource_name(:food, x) when x <= 1, do: "ration"
-  def resource_name(:food, _), do: "rations"
-  def resource_name(:flour, x) when x <= 1, do: "sac de farine"
-  def resource_name(:flour, _), do: "sacs de farine"
-  def resource_name(:grain, x) when x <= 1, do: "sac de grain"
-  def resource_name(:grain, _), do: "sacs de grain"
-  def resource_name(:meat, x) when x <= 1, do: "ration de viande"
-  def resource_name(:meat, _), do: "rations de viande"
-  def resource_name(:fish, x) when x <= 1, do: "ration de poisson"
-  def resource_name(:fish, _), do: "rations de poisson"
-  def resource_name(:vegetables, x) when x <= 1, do: "ration de légumes"
-  def resource_name(:vegetables, _), do: "rations de légumes"
-  def resource_name(:tallow, x) when x <= 1, do: "bocal de suif"
-  def resource_name(:tallow, _), do: "bocaux de suif"
-  def resource_name(:herbs, x) when x <= 1, do: "unité d'herbe"
-  def resource_name(:herbs, _), do: "unités d'herbe"
-  def resource_name(:beer, x) when x <= 1, do: "tonneau de bière"
-  def resource_name(:beer, _), do: "tonneaux de bière"
-  def resource_name(_type, _), do: "ressource inconnue"
+  def resource_name(:coins, x), do: dngettext("app", "copper coin", "copper coins", x)
+  def resource_name(:iron_ore, x), do: dngettext("app", "iron ore", "iron ores", x)
+  def resource_name(:iron, x), do: dngettext("app", "iron ingot", "iron ingots", x)
+  def resource_name(:silver_ore, x), do: dngettext("app", "silver ore", "silver ores", x)
+  def resource_name(:silver, x), do: dngettext("app", "silver ingot", "silver ingots", x)
+  def resource_name(:gold_ore, x), do: dngettext("app", "gold ore", "gold ores", x)
+  def resource_name(:gold, x), do: dngettext("app", "gold ingot", "gold ingots", x)
+  def resource_name(:stone, x), do: dngettext("app", "stone block", "stone blocks", x)
+  def resource_name(:glass, x), do: dngettext("app", "glass crate", "glass crates", x)
+  def resource_name(:wood, x), do: dngettext("app", "wood log", "wood logs", x)
+  def resource_name(:fur, x), do: dngettext("app", "fur", "furs", x)
+  def resource_name(:leather, x), do: dngettext("app", "leather roll", "leather rolls", x)
+  def resource_name(:cloth, x), do: dngettext("app", "cloth", "cloths", x)
+  def resource_name(:wool, x), do: dngettext("app", "wool ball", "wool balls", x)
+  def resource_name(:food, x), do: dngettext("app", "ration", "rations", x)
+  def resource_name(:flour, x), do: dngettext("app", "flour sack", "flour sacks", x)
+  def resource_name(:grain, x), do: dngettext("app", "grain sack", "grain sacks", x)
+  def resource_name(:meat, x), do: dngettext("app", "meat ration", "meat rations", x)
+  def resource_name(:fish, x), do: dngettext("app", "fish ration", "fish rations", x)
+  def resource_name(:vegetables, x), do: dngettext("app", "vegetable ration", "vegetable rations", x)
+  def resource_name(:tallow, x), do: dngettext("app", "tallow jar", "tallow jars", x)
+  def resource_name(:herbs, x), do: dngettext("app", "herb bundle", "herb bundles", x)
+  def resource_name(:beer, x), do: dngettext("app", "beer barrel", "beer barrels", x)
+  def resource_name(_type, _), do: dgettext("app", "unknown resource")
 
   defp validate_resource_field(stronghold) do
     Enum.reduce(@resource_fields, stronghold, fn field, acc ->
