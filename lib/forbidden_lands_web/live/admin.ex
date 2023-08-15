@@ -16,7 +16,7 @@ defmodule ForbiddenLandsWeb.Live.Admin do
     socket =
       socket
       |> assign(instances: instances)
-      |> assign(page_title: "Admin")
+      |> assign(page_title: dgettext("app", "Administration area"))
 
     {:ok, socket}
   end
@@ -38,10 +38,10 @@ defmodule ForbiddenLandsWeb.Live.Admin do
           class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all"
         >
           <h2 class="font-bold text-xl pb-2">
-            Démarrer une nouvelle aventure
+            <%= dgettext("app", "Starting a fresh adventure") %>
           </h2>
           <p class="text-slate-900/70">
-            Créer une nouvelle aventure avec une date de départ et un nom.
+            <%= dgettext("app", "Create a new adventure with a start date and a name.") %>
           </p>
         </.link>
 
@@ -50,10 +50,10 @@ defmodule ForbiddenLandsWeb.Live.Admin do
           class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all"
         >
           <h2 class="font-bold text-xl pb-2">
-            Importer une aventure
+            <%= dgettext("app", "Import an adventure") %>
           </h2>
           <p class="text-slate-900/70">
-            Importer une aventure depuis le fichier d'export d'une autre aventure.
+            <%= dgettext("app", "Import an adventure from the .json export file of another adventure.") %>
           </p>
         </.link>
       </div>
@@ -61,20 +61,20 @@ defmodule ForbiddenLandsWeb.Live.Admin do
       <hr />
 
       <h2 class="pb-3 text-xl font-bold">
-        Liste des aventures
+        <%= dgettext("app", "List of adventures") %>
       </h2>
 
       <div :for={instance <- @instances} class="flex justify-between py-2 border-b">
         <span>
           <%= instance.name %>
         </span>
-        <span class="flex gap-2">
+        <span class="flex gap-3">
           <button
             type="button"
             phx-click="reset_login"
             phx-value-id={instance.id}
-            title="Reset login infos"
-            onclick="if (!window.confirm('Reset login infos?')) { event.stopPropagation(); }"
+            title={dgettext("app", "Resetting login details")}
+            onclick={"if (!window.confirm('#{dgettext("app", "Are you sure you want to reset login details for this adventure?")}')) { event.stopPropagation(); }"}
           >
             <.icon name={:key} class="h-6 w-6 " />
           </button>
@@ -82,7 +82,8 @@ defmodule ForbiddenLandsWeb.Live.Admin do
             type="button"
             phx-click="delete_instance"
             phx-value-id={instance.id}
-            onclick="if (!window.confirm('Confirm delete?')) { event.stopPropagation(); }"
+            title={dgettext("app", "Delete adventure")}
+            onclick={"if (!window.confirm('#{dgettext("app", "Are you sure you want to delete this adventure?")}')) { event.stopPropagation(); }"}
           >
             <.icon name={:x} class="h-6 w-6 " />
           </button>
@@ -100,7 +101,13 @@ defmodule ForbiddenLandsWeb.Live.Admin do
       {:ok, _instance} ->
         socket =
           socket
-          |> put_flash(:info, "Information de connection réinitialisée")
+          |> put_flash(
+            :info,
+            dgettext(
+              "app",
+              "The login information has been reset for this adventure. The new username and password are now empty. You can connect to the adventure to set new ones."
+            )
+          )
           |> assign(instances: Instances.get_all())
 
         {:noreply, socket}
@@ -118,7 +125,7 @@ defmodule ForbiddenLandsWeb.Live.Admin do
       {:ok, _instance} ->
         socket =
           socket
-          |> put_flash(:info, "Aventure supprimée")
+          |> put_flash(:info, dgettext("app", "Adventure deleted."))
           |> assign(instances: Instances.get_all())
 
         {:noreply, socket}

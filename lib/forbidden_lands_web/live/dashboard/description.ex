@@ -22,31 +22,39 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Description do
         </.bloc_content>
         <.bloc_content :if={@stronghold.items} content={@stronghold.items}>
           <.icon name={:crown} class="w-6 h-6 opacity-50" />
-          <span>Trésor & Possessions</span>
+          <span>
+            <%= dgettext("app", "Treasure & Possessions") %>
+          </span>
         </.bloc_content>
         <.bloc_content :if={@stronghold.tools} content={@stronghold.tools}>
           <.icon name={:hammer} class="w-6 h-6 opacity-50" />
-          <span>Outils</span>
+          <span>
+            <%= dgettext("app", "Tools") %>
+          </span>
         </.bloc_content>
       </.column>
       <.column>
         <.bloc_content :if={@stronghold.hirelings} content={@stronghold.hirelings}>
           <.icon name={:users} class="w-6 h-6 opacity-50" />
-          <span>Gardes & Employés</span>
+          <span>
+            <%= dgettext("app", "Hirelings & Followers") %>
+          </span>
         </.bloc_content>
       </.column>
       <.column>
         <.bloc_content :if={@stronghold.functions} content={@stronghold.functions}>
           <.icon name={:school} class="w-6 h-6 opacity-50" />
-          <span>Bâtiments & Dépendances</span>
+          <span>
+            <%= dgettext("app", "Functions") %>
+          </span>
         </.bloc_content>
       </.column>
     </div>
     """
   end
 
-  attr(:partial?, :boolean, default: false, doc: "todo")
-  slot(:inner_block, required: true, doc: "todo")
+  attr(:partial?, :boolean, default: false)
+  slot(:inner_block, required: true)
 
   defp column(assigns) do
     ~H"""
@@ -60,8 +68,8 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Description do
     """
   end
 
-  attr(:content, :string, required: true, doc: "todo")
-  slot(:inner_block, required: true, doc: "todo")
+  attr(:content, :string, required: true)
+  slot(:inner_block, required: true)
 
   defp bloc_content(%{content: _content} = assigns) do
     ~H"""

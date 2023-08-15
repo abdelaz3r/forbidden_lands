@@ -47,7 +47,7 @@ defmodule ForbiddenLandsWeb.Live.Manage do
         socket =
           socket
           |> push_navigate(to: ~p"/#{Gettext.get_locale()}/")
-          |> put_flash(:error, "Cette instance n'existe pas")
+          |> put_flash(:error, dgettext("app", "This instance does not exist."))
 
         {:ok, socket}
     end
@@ -89,9 +89,8 @@ defmodule ForbiddenLandsWeb.Live.Manage do
         </nav>
 
         <div class="py-4 px-6">
-          <h1 class="flex flex-col md:flex-row md:gap-2 text-2xl pb-2">
-            <span>Campagne</span>
-            <strong><%= @instance.name %></strong>
+          <h1 class="flex flex-col md:flex-row md:gap-2 text-2xl pb-2 font-bold">
+            <%= @instance.name %>
           </h1>
           <h2>
             <%= Calendar.format(@calendar) %>
@@ -126,7 +125,7 @@ defmodule ForbiddenLandsWeb.Live.Manage do
         {:noreply, socket}
 
       {:error, reason} ->
-        {:noreply, put_flash(socket, :error, "Erreur générale: (#{inspect(reason)})")}
+        {:noreply, put_flash(socket, :error, dgettext("app", "General error: %{error}", error: inspect(reason)))}
     end
   end
 

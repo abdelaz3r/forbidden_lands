@@ -1,8 +1,8 @@
 defmodule ForbiddenLandsWeb.PageControllerTest do
   use ForbiddenLandsWeb.ConnCase
 
-  test "GET /", %{conn: conn} do
-    conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "Liste des Aventures"
+  test "GET /en", %{conn: conn} do
+    conn = get(conn, ~p"/en")
+    assert html_response(conn, 200) =~ "Active adventures"
   end
 end

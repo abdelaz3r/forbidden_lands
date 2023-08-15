@@ -25,23 +25,23 @@ defmodule ForbiddenLandsWeb.Live.Manage.Settings do
       <section>
         <.simple_form :let={f} as={:instance} for={@changeset} phx-submit="update" phx-target={@myself}>
           <h2 class="pb-3 text-xl font-bold">
-            <%= dgettext("manage", "Paramètres de l'instance") %>
+            <%= dgettext("app", "Adventure settings") %>
           </h2>
 
-          <.input field={{f, :name}} label={dgettext("manage", "Nom de l'instance")} />
-          <.input field={{f, :description}} label={dgettext("manage", "Description")} type="textarea" style="height: 120px;" />
+          <.input field={{f, :name}} label={dgettext("app", "Adventure name")} />
+          <.input field={{f, :description}} label={dgettext("app", "Description")} type="textarea" style="height: 120px;" />
 
           <hr class="my-5" />
 
           <h2 class="pb-3 text-xl font-bold">
-            <%= dgettext("manage", "Affichage des chroniques") %>
+            <%= dgettext("app", "Displaying chronicles") %>
           </h2>
 
-          <.input field={{f, :prepend_name}} label={dgettext("manage", "Sur-titre du nom")} />
-          <.input field={{f, :append_name}} label={dgettext("manage", "Sous-titre du nom")} />
+          <.input field={{f, :prepend_name}} label={dgettext("app", "Name over-title")} />
+          <.input field={{f, :append_name}} label={dgettext("app", "Name subtitle")} />
 
           <p class="text-xs">
-            <%= dgettext("manage", "Exemple :") %>
+            <%= dgettext("app", "Example :") %>
           </p>
           <aside class="font-title text-center px-4 py-6 border bg-slate-100/50 mb-5">
             <h2 :if={@instance.prepend_name} class="inline-block pb-2 text-2xl text-slate-900/50">
@@ -57,11 +57,11 @@ defmodule ForbiddenLandsWeb.Live.Manage.Settings do
             </h2>
           </aside>
 
-          <.input field={{f, :introduction}} label={dgettext("manage", "Introduction")} type="textarea" style="height: 120px;" />
+          <.input field={{f, :introduction}} label={dgettext("app", "Introduction")} type="textarea" style="height: 120px;" />
 
           <:actions>
             <.button>
-              <%= dgettext("manage", "Enregistrer") %>
+              <%= dgettext("app", "Save") %>
             </.button>
           </:actions>
         </.simple_form>
@@ -70,15 +70,15 @@ defmodule ForbiddenLandsWeb.Live.Manage.Settings do
       <section>
         <.simple_form :let={f} as={:instance} for={@changeset} phx-submit="update" phx-target={@myself}>
           <h2 class="pb-3 text-xl font-bold">
-            <%= dgettext("manage", "Paramètres de login") %>
+            <%= dgettext("app", "Login settings") %>
           </h2>
 
-          <.input field={{f, :username}} label={dgettext("manage", "Nom d'utilisateur")} />
-          <.input field={{f, :password}} label={dgettext("manage", "Nouveau mot de passe")} />
+          <.input field={{f, :username}} label={dgettext("app", "Username")} />
+          <.input field={{f, :password}} label={dgettext("app", "New password")} />
 
           <:actions>
             <.button>
-              <%= dgettext("manage", "Enregistrer") %>
+              <%= dgettext("app", "Save") %>
             </.button>
           </:actions>
         </.simple_form>
@@ -95,7 +95,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Settings do
         {:noreply, socket}
 
       {:error, reason} ->
-        {:noreply, put_flash(socket, :error, "Error: (#{inspect(reason)})")}
+        {:noreply, put_flash(socket, :error, dgettext("app", "General error: %{error}", error: inspect(reason)))}
     end
   end
 end

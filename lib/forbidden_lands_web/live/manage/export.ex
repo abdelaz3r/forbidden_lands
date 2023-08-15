@@ -24,21 +24,21 @@ defmodule ForbiddenLandsWeb.Live.Manage.Export do
       <section>
         <div class="flex justify-between pb-3">
           <h2 class="text-xl font-bold">
-            <%= dgettext("manage", "Exporter") %>
+            <%= dgettext("app", "Export") %>
           </h2>
 
           <.button :if={not @export?} phx-click="export" phx-target={@myself}>
-            <%= dgettext("manage", "Exporter l'instance") %>
+            <%= dgettext("app", "Export the adventure") %>
           </.button>
           <.button
             :if={@export?}
             id="clipboard"
-            data-value-success={dgettext("manage", "Copie réussie")}
-            data-value-error={dgettext("manage", "Copie échouée")}
+            data-value-success={dgettext("app", "Successful copy")}
+            data-value-error={dgettext("app", "Copy failed")}
             data-to="#clipboard-target"
             phx-hook="copy-to-clipboard"
           >
-            <%= dgettext("manage", "Copier dans le presse-papier") %>
+            <%= dgettext("app", "Copy to clipboard") %>
           </.button>
         </div>
 
