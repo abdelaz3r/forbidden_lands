@@ -2,6 +2,7 @@ defmodule ForbiddenLands.Validation do
   @moduledoc false
 
   import Ecto.Changeset
+  import ForbiddenLandsWeb.Gettext
 
   alias ForbiddenLands.Calendar
 
@@ -10,7 +11,7 @@ defmodule ForbiddenLands.Validation do
     validate_change(changeset, field, fn current_field, date ->
       case Calendar.from_date(date) do
         {:ok, _calendar} -> []
-        {:error, error} -> [{current_field, "Date format error: #{error}"}]
+        {:error, error} -> [{current_field, dgettext("errors", "Date format error: %{error}", error: error)}]
       end
     end)
   end
@@ -20,7 +21,7 @@ defmodule ForbiddenLands.Validation do
     validate_change(changeset, field, fn current_field, datequarter ->
       case Calendar.from_datequarter(datequarter) do
         {:ok, _calendar} -> []
-        {:error, error} -> [{current_field, "Date format error: #{error}"}]
+        {:error, error} -> [{current_field, dgettext("errors", "Date format error: %{error}", error: error)}]
       end
     end)
   end
