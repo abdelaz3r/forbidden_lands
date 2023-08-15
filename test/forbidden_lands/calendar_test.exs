@@ -137,9 +137,10 @@ defmodule ForbiddenLands.CalendarTest do
   describe "format/1" do
     test "create a string representation of the calendar" do
       {:ok, calendar} = Calendar.from_datequarter("1.4.1165 3/4")
-      date = Calendar.format(calendar)
 
-      assert date == "1 summerwane 1165, soirée"
+      assert Calendar.format(calendar) == "1 summerwane 1165, evening"
+      assert Calendar.format(calendar, :long) == "1 summerwane 1165, evening"
+      assert Calendar.format(calendar, :short) == "1 summerwane 1165"
     end
   end
 
