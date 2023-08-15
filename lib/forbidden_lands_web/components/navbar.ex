@@ -13,7 +13,7 @@ defmodule ForbiddenLandsWeb.Components.Navbar do
           FLw
         </h1>
         <.link navigate={~p"/#{Gettext.get_locale()}/"} class={link_classes()}>
-          Liste des Aventures
+          <%= dgettext("app", "Adventures") %>
         </.link>
       </nav>
 

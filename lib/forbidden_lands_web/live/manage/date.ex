@@ -26,15 +26,15 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
     <div class="p-6">
       <section class="flex flex-col gap-3">
         <.button phx-click="move" phx-target={@myself} phx-value-amount={1} color={:blue}>
-          <%= dgettext("manage", "Passer au prochain quarter") %>
+          <%= dgettext("app", "Moving on to the next quarter day") %>
         </.button>
         <.button phx-click="toggle_stronghold" phx-target={@myself}>
-          <%= dgettext("manage", "Afficher/cacher le château") %>
+          <%= dgettext("app", "Show/hide the castle") %>
         </.button>
 
         <div class="border rounded p-2 bg-slate-100 border-slate-300">
           <h2 class="pb-1.5 text-xs text-slate-600 font-bold uppercase">
-            Musiques d'ambiances
+            <%= dgettext("app", "Set mood") %>
           </h2>
           <div class="flex flex-wrap gap-2">
             <.button
@@ -55,19 +55,19 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
           phx-click="show_more"
           phx-target={@myself}
         >
-          <%= dgettext("manage", "Plus d'options") %>
+          <%= dgettext("app", "More options") %>
           <.icon name={:chevrons_up} class={"h-6 w-6 transition-all duration-500 #{not @show_more? && "rotate-180"}"} />
         </button>
 
         <div :if={@show_more?} class="flex flex-col gap-3">
           <.button phx-click="move" phx-target={@myself} phx-value-amount={4}>
-            <%= dgettext("manage", "Avancer d'un jour") %>
+            <%= dgettext("app", "One day ahead") %>
           </.button>
           <.button phx-click="move" phx-target={@myself} phx-value-amount={28}>
-            <%= dgettext("manage", "Avancer d'une semaine") %>
+            <%= dgettext("app", "One week ahead") %>
           </.button>
           <.button phx-click="move" phx-target={@myself} phx-value-amount={-1} color={:red}>
-            <%= dgettext("manage", "Reculer d'un quarter") %>
+            <%= dgettext("app", "Move back one quarter day") %>
           </.button>
         </div>
       </section>
@@ -92,7 +92,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
         {:noreply, socket}
 
       {:error, reason} ->
-        {:noreply, put_flash(socket, :error, "Error: (#{inspect(reason)})")}
+        {:noreply, put_flash(socket, :error, dgettext("app", "General error: %{error}", error: inspect(reason)))}
     end
   end
 
@@ -116,17 +116,16 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
             ]
 
             if amount > 0,
-              do: dgettext("events", "— %{name} produit %{amount} %{resource}", gettext_data),
-              else: dgettext("events", "— %{name} consomme %{amount} %{resource}", gettext_data)
+              do: dgettext("app", "— %{name} produce %{amount} %{resource}", gettext_data),
+              else: dgettext("app", "— %{name} consume %{amount} %{resource}", gettext_data)
           end)
 
         event =
           Event.create(%Event{}, %{
             "human_datequarter" => Calendar.to_datequarter(Calendar.start_of(new_calendar, :week)),
             "type" => "automatic",
-            "title" => dngettext("events", "1 semaine passe", "%{count} semaines passent", weeks_diff),
-            "description" =>
-              dgettext("events", "Récapitulatif des ressources du château: \r\n\r\n%{rules}", rules: rules)
+            "title" => dngettext("app", "1 week passes", "%{count} weeks pass", weeks_diff),
+            "description" => dgettext("app", "Summary of the castle's resources: \r\n\r\n%{rules}", rules: rules)
           })
 
         stronghold_params =
@@ -161,7 +160,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
         {:noreply, socket}
 
       {:error, reason} ->
-        {:noreply, put_flash(socket, :error, "Error: (#{inspect(reason)})")}
+        {:noreply, put_flash(socket, :error, dgettext("app", "General error: %{error}", error: inspect(reason)))}
     end
   end
 

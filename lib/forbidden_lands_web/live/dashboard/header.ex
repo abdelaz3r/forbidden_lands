@@ -70,7 +70,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Header do
       </div>
       <div class="text-sm flex items-center justify-between p-4">
         <div>
-          Il fait <%= Calendar.luminosity(@date).name %>
+          <%= dgettext("app", "It's %{luminosity}", luminosity: Calendar.luminosity(@date).name) %>
         </div>
         <div class="flex items-center gap-3 text-slate-100/60">
           <%= @date.moon.name |> String.capitalize() %>

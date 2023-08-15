@@ -29,7 +29,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
         socket =
           socket
           |> push_navigate(to: ~p"/#{Gettext.get_locale()}/")
-          |> put_flash(:error, "Cette instance n'existe pas")
+          |> put_flash(:error, dgettext("app", "This instance does not exist."))
 
         {:ok, socket}
     end

@@ -34,9 +34,9 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
       <section>
         <h2 class="pb-3 text-xl font-bold">
           <%= if @edit do %>
-            <%= dgettext("manage", "Editer un événement") %>
+            <%= dgettext("app", "Edit an event") %>
           <% else %>
-            <%= dgettext("manage", "Ajouter un événement") %>
+            <%= dgettext("app", "Add an event") %>
           <% end %>
         </h2>
 
@@ -45,23 +45,23 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
             <.input :if={@edit} field={{f, :id}} type="hidden" />
           </div>
           <div class="grid grid-cols-2 gap-4">
-            <.input field={{f, :human_datequarter}} label={dgettext("manage", "Date (dd.mm.yyyy q/4)")} />
+            <.input field={{f, :human_datequarter}} label={dgettext("app", "Date (dd.mm.yyyy q/4)")} />
             <.input
               field={{f, :type}}
               type="select"
               options={Event.types()}
-              label={dgettext("manage", "Type")}
+              label={dgettext("app", "Type")}
               {if(@edit, do: %{}, else: %{value: "normal"})}
             />
           </div>
-          <.input field={{f, :title}} label={dgettext("manage", "Titre")} />
-          <.input field={{f, :description}} type="textarea" label={dgettext("manage", "Description")} />
+          <.input field={{f, :title}} label={dgettext("app", "Title")} />
+          <.input field={{f, :description}} type="textarea" label={dgettext("app", "Description")} />
           <:actions>
             <.button color={:blue}>
               <%= if @edit do %>
-                <%= dgettext("manage", "Mettre à jour") %>
+                <%= dgettext("app", "Edit") %>
               <% else %>
-                <%= dgettext("manage", "Ajouter") %>
+                <%= dgettext("app", "Add") %>
               <% end %>
             </.button>
           </:actions>
@@ -70,7 +70,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
 
       <section>
         <h2 class="pt-10 pb-3 text-xl font-bold">
-          Événements (<%= length(@instance.events) %>)
+          <%= dgettext("app", "Events (%{events_count})", events_count: length(@instance.events)) %>
         </h2>
 
         <div :for={event <- @instance.events} class="flex justify-between py-2 border-b">
@@ -84,6 +84,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
               phx-click="edit_event"
               phx-value-id={event.id}
               phx-target={@myself}
+              title={dgettext("app", "Edit event")}
               onclick="window.scrollTo(0, 0)"
             >
               <.icon name={:pencil} class="h-5 w-5 " />
@@ -93,14 +94,15 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
               phx-click="delete_event"
               phx-value-id={event.id}
               phx-target={@myself}
-              onclick="if (!window.confirm('Confirm delete?')) { event.stopPropagation(); }"
+              title={dgettext("app", "Delete event")}
+              onclick={"if (!window.confirm('#{dgettext("app", "Are you sure you want to delete this event?")}')) { event.stopPropagation(); }"}
             >
               <.icon name={:x} class="h-5 w-5 " />
             </button>
           </div>
         </div>
         <p :if={length(@instance.events) == 0}>
-          <%= dgettext("manage", "Aucun événements") %>
+          <%= dgettext("app", "No events") %>
         </p>
       </section>
     </div>
@@ -125,7 +127,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
       socket =
         socket
         |> assign(:changeset, default_event(calendar))
-        |> put_flash(:info, "Événement créé")
+        |> put_flash(:info, dgettext("app", "Event created"))
 
       {:noreply, socket}
     else
@@ -154,7 +156,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
         socket
         |> assign(edit: false)
         |> assign(:changeset, default_event(calendar))
-        |> put_flash(:info, "Événement mis à jour")
+        |> put_flash(:info, dgettext("app", "Event updated"))
 
       {:noreply, socket}
     else
@@ -168,7 +170,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
     with event <- Enum.find(instance.events, fn event -> event.id == String.to_integer(event_id) end),
          {:ok, _instance} = Instances.remove_event(event) do
       ForbiddenLandsWeb.Endpoint.broadcast(topic, "update", %{})
-      {:noreply, put_flash(socket, :info, "Événement supprimé")}
+      {:noreply, put_flash(socket, :info, dgettext("app", "Event deleted"))}
     else
       {:error, _changeset} -> {:noreply, socket}
     end

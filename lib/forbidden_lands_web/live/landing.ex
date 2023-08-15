@@ -18,7 +18,7 @@ defmodule ForbiddenLandsWeb.Live.Landing do
     socket =
       socket
       |> assign(instances: instances)
-      |> assign(page_title: "Liste des instances")
+      |> assign(page_title: dgettext("app", "Instances list"))
 
     {:ok, socket}
   end
@@ -35,52 +35,49 @@ defmodule ForbiddenLandsWeb.Live.Landing do
 
     <div class="bg-white text-slate-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
       <h1 class="font-bold text-xl">
-        Aventures actives
+        <%= dgettext("app", "Active adventures") %>
       </h1>
 
       <section :for={instance <- @instances} class="block p-5 border border-slate-200 bg-slate-100 rounded">
-        <header class="grid grid-cols-10 gap-5">
-          <div class="col-span-10 md:col-span-6 flex flex-col gap-2">
+        <header class="space-y-5">
+          <div class="flex justify-between items-end gap-5">
             <h2 class="flex items-center gap-3 font-bold text-xl">
               <.icon name={:bookmark} class="w-5 h-5" />
               <%= instance.name %>
             </h2>
-            <p :if={instance.description}>
-              <%= instance.description %>
-            </p>
+
+            <div class="text-right">
+              From <strong><%= instance.initial_date |> Calendar.from_quarters() |> Calendar.to_date() %></strong>
+              to <strong><%= instance.current_date |> Calendar.from_quarters() |> Calendar.to_date() %></strong>
+            </div>
           </div>
 
-          <div class="col-span-10 md:col-span-4">
-            <p class="flex justify-between gap-5">
-              <span class="opacity-40">
-                Date de départ
-              </span>
-              <%= instance.initial_date |> Calendar.from_quarters() |> Calendar.to_datequarter() %>
-            </p>
-            <p class="flex justify-between gap-5">
-              <span class="opacity-40">
-                Date actuelle
-              </span>
-              <%= instance.current_date |> Calendar.from_quarters() |> Calendar.to_datequarter() %>
-            </p>
-          </div>
+          <p :if={instance.description}>
+            <%= instance.description %>
+          </p>
         </header>
 
         <div class="flex flex-col md:flex-row gap-5 pt-5">
           <.link navigate={~p"/#{Gettext.get_locale()}/adventure/#{instance.id}"} class={["grow", button_classes()]}>
             <.icon name={:locate_fixed} class="w-6 h-6" />
-            <span>Tableau de bord</span>
+            <span>
+              <%= dgettext("app", "Board") %>
+            </span>
           </.link>
           <.link navigate={~p"/#{Gettext.get_locale()}/adventure/#{instance.id}/story"} class={["grow", button_classes()]}>
             <.icon name={:scroll_text} class="w-6 h-6" />
-            <span>Chroniques</span>
+            <span>
+              <%= dgettext("app", "Chronicles") %>
+            </span>
           </.link>
           <.link
             navigate={~p"/#{Gettext.get_locale()}/adventure/#{instance.id}/manage"}
             class={["grow md:flex-none md:w-[66px]", button_classes()]}
           >
-            <.icon name={:lock} class="w-6 h-6" />
-            <span class="md:hidden">Espace MJ</span>
+            <.icon name={:gauge} class="w-6 h-6" />
+            <span class="md:hidden">
+              <%= dgettext("app", "Game master space") %>
+            </span>
           </.link>
         </div>
       </section>

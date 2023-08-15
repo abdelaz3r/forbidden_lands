@@ -40,7 +40,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
         socket =
           socket
           |> push_navigate(to: ~p"/#{Gettext.get_locale()}/")
-          |> put_flash(:error, "Cette instance n'existe pas")
+          |> put_flash(:error, dgettext("app", "This instance does not exist."))
 
         {:ok, socket}
     end
@@ -52,7 +52,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
     <div class="md:grid md:grid-cols-[1fr_400px] h-screen bg-slate-700 overflow-hidden relative">
       <div class="hidden md:block relative overflow-hidden">
         <div class="w-full h-full overflow-hidden">
-          <.image path="map.jpg" alt="Carte des Forbiddens Land" class="object-cover h-full w-full" />
+          <.image path="map.jpg" alt={dgettext("app", "Map of Forbiddens Land")} class="object-cover h-full w-full" />
         </div>
         <div class={[layer_classes(), layer_classes(@luminosity)]}></div>
         <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-title font-bold text-xl drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
@@ -103,8 +103,11 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
 
   def handle_info(%{topic: topic, event: "update"}, socket) when topic == socket.assigns.topic do
     case Instances.get(socket.assigns.instance.id) do
-      {:ok, instance} -> {:noreply, base_assign(socket, instance)}
-      {:error, reason} -> {:noreply, put_flash(socket, :error, "Erreur générale: (#{inspect(reason)})")}
+      {:ok, instance} ->
+        {:noreply, base_assign(socket, instance)}
+
+      {:error, reason} ->
+        {:noreply, put_flash(socket, :error, dgettext("app", "General error: %{error}", error: inspect(reason)))}
     end
   end
 

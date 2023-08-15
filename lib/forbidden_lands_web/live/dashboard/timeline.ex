@@ -29,7 +29,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
       </section>
 
       <div :if={length(@events) == 0} class="p-16 text-center font-title text-lg text-slate-100/40">
-        Commencez à écrire votre histoire.
+        <%= dgettext("app", "Start writing your story.") %>
       </div>
 
       <.link
@@ -37,7 +37,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
         navigate={~p"/#{Gettext.get_locale()}/adventure/#{@instance_id}/story"}
         class="px-16 py-10 text-center font-title text-lg text-slate-100/40 hover:text-slate-100 transition-all"
       >
-        La suite de l'histoire est ici !
+        <%= dgettext("app", "The rest of the story is here!") %>
       </.link>
     </div>
     """

@@ -176,3 +176,503 @@ msgstr[1] ""
 #, elixir-autogen, elixir-format
 msgid "unknown resource"
 msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/date.ex:127
+#, elixir-autogen, elixir-format
+msgid "1 week passes"
+msgid_plural "%{count} weeks pass"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:94
+#, elixir-autogen, elixir-format
+msgid "%{rule} consume %{amount} %{resource} per week."
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:87
+#, elixir-autogen, elixir-format
+msgid "%{rule} produce %{amount} %{resource} per week."
+msgstr ""
+
+#: lib/forbidden_lands_web/live/landing.ex:38
+#, elixir-autogen, elixir-format
+msgid "Active adventures"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:64
+#, elixir-autogen, elixir-format
+msgid "Add"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:112
+#, elixir-autogen, elixir-format
+msgid "Add a rule"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:39
+#, elixir-autogen, elixir-format
+msgid "Add an event"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/admin.ex:19
+#, elixir-autogen, elixir-format
+msgid "Administration area"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/admin.ex:128
+#, elixir-autogen, elixir-format
+msgid "Adventure deleted."
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/settings.ex:31
+#, elixir-autogen, elixir-format
+msgid "Adventure name"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/settings.ex:28
+#, elixir-autogen, elixir-format
+msgid "Adventure settings"
+msgstr ""
+
+#: lib/forbidden_lands_web/components/navbar.ex:16
+#, elixir-autogen, elixir-format
+msgid "Adventures"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:119
+#, elixir-autogen, elixir-format
+msgid "Amount"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/admin.ex:86
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to delete this adventure?"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:98
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to delete this event?"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/admin.ex:77
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to reset login details for this adventure?"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/landing.ex:64
+#, elixir-autogen, elixir-format
+msgid "Board"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/landing.ex:70
+#, elixir-autogen, elixir-format
+msgid "Chronicles"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/export.ex:37
+#, elixir-autogen, elixir-format
+msgid "Copy failed"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/export.ex:41
+#, elixir-autogen, elixir-format
+msgid "Copy to clipboard"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:38
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:123
+#, elixir-autogen, elixir-format
+msgid "Create"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/admin.ex:44
+#, elixir-autogen, elixir-format
+msgid "Create a new adventure with a start date and a name."
+msgstr ""
+
+#: lib/forbidden_lands_web/live/create_instance.ex:22
+#: lib/forbidden_lands_web/live/create_instance.ex:34
+#, elixir-autogen, elixir-format
+msgid "Create an adventure"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:30
+#, elixir-autogen, elixir-format
+msgid "Creating a stronghold"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:48
+#, elixir-autogen, elixir-format
+msgid "Date (dd.mm.yyyy q/4)"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:52
+#, elixir-autogen, elixir-format
+msgid "Defence"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/admin.ex:85
+#, elixir-autogen, elixir-format
+msgid "Delete adventure"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:97
+#, elixir-autogen, elixir-format
+msgid "Delete event"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:105
+#, elixir-autogen, elixir-format
+msgid "Delete rule"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:58
+#: lib/forbidden_lands_web/live/manage/settings.ex:32
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:55
+#, elixir-autogen, elixir-format
+msgid "Description"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/settings.ex:37
+#, elixir-autogen, elixir-format
+msgid "Displaying chronicles"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:62
+#, elixir-autogen, elixir-format
+msgid "Edit"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:37
+#, elixir-autogen, elixir-format
+msgid "Edit an event"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:87
+#, elixir-autogen, elixir-format
+msgid "Edit event"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:146
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:164
+#, elixir-autogen, elixir-format
+msgid "Error."
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:130
+#, elixir-autogen, elixir-format
+msgid "Event created"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:173
+#, elixir-autogen, elixir-format
+msgid "Event deleted"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:159
+#, elixir-autogen, elixir-format
+msgid "Event updated"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:73
+#, elixir-autogen, elixir-format
+msgid "Events (%{events_count})"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/settings.ex:44
+#, elixir-autogen, elixir-format
+msgid "Example :"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/export.ex:27
+#, elixir-autogen, elixir-format
+msgid "Export"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/export.ex:31
+#, elixir-autogen, elixir-format
+msgid "Export the adventure"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/dashboard/description.ex:48
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:57
+#, elixir-autogen, elixir-format
+msgid "Functions"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/import_instance.ex:36
+#, elixir-autogen, elixir-format
+msgid "Game data (simply paste the content of the .json file)"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/create_instance.ex:42
+#: lib/forbidden_lands_web/live/import_instance.ex:40
+#, elixir-autogen, elixir-format
+msgid "Game master credentials"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/landing.ex:79
+#, elixir-autogen, elixir-format
+msgid "Game master space"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/dashboard.ex:110
+#: lib/forbidden_lands_web/live/manage.ex:128
+#: lib/forbidden_lands_web/live/manage/date.ex:95
+#: lib/forbidden_lands_web/live/manage/date.ex:163
+#: lib/forbidden_lands_web/live/manage/settings.ex:98
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:178
+#, elixir-autogen, elixir-format
+msgid "General error: %{error}"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/dashboard/description.ex:40
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:58
+#, elixir-autogen, elixir-format
+msgid "Hirelings & Followers"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/admin.ex:53
+#: lib/forbidden_lands_web/live/import_instance.ex:17
+#: lib/forbidden_lands_web/live/import_instance.ex:29
+#, elixir-autogen, elixir-format
+msgid "Import an adventure"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/admin.ex:56
+#, elixir-autogen, elixir-format
+msgid "Import an adventure from the .json export file of another adventure."
+msgstr ""
+
+#: lib/forbidden_lands_web/live/import_instance.ex:54
+#, elixir-autogen, elixir-format
+msgid "Import the adventure!"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:35
+#, elixir-autogen, elixir-format
+msgid "Initial copper coins"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/landing.ex:21
+#, elixir-autogen, elixir-format
+msgid "Instances list"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/settings.ex:60
+#, elixir-autogen, elixir-format
+msgid "Introduction"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/dashboard/header.ex:73
+#, elixir-autogen, elixir-format
+msgid "It's %{luminosity}"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/admin.ex:64
+#, elixir-autogen, elixir-format
+msgid "List of adventures"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/settings.ex:73
+#, elixir-autogen, elixir-format
+msgid "Login settings"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/dashboard.ex:55
+#, elixir-autogen, elixir-format
+msgid "Map of Forbiddens Land"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/create_instance.ex:56
+#, elixir-autogen, elixir-format
+msgid "May the adventure start!"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/date.ex:58
+#, elixir-autogen, elixir-format
+msgid "More options"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/date.ex:70
+#, elixir-autogen, elixir-format
+msgid "Move back one quarter day"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/date.ex:29
+#, elixir-autogen, elixir-format
+msgid "Moving on to the next quarter day"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/create_instance.ex:38
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:50
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:116
+#, elixir-autogen, elixir-format
+msgid "Name"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:34
+#, elixir-autogen, elixir-format
+msgid "Name of the stronghold"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/settings.ex:40
+#, elixir-autogen, elixir-format
+msgid "Name over-title"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/settings.ex:41
+#, elixir-autogen, elixir-format
+msgid "Name subtitle"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/settings.ex:77
+#, elixir-autogen, elixir-format
+msgid "New password"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:105
+#, elixir-autogen, elixir-format
+msgid "No events"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/date.ex:64
+#, elixir-autogen, elixir-format
+msgid "One day ahead"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/date.ex:67
+#, elixir-autogen, elixir-format
+msgid "One week ahead"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/create_instance.ex:51
+#: lib/forbidden_lands_web/live/import_instance.ex:49
+#, elixir-autogen, elixir-format
+msgid "Password"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:53
+#, elixir-autogen, elixir-format
+msgid "Reputation"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/admin.ex:76
+#, elixir-autogen, elixir-format
+msgid "Resetting login details"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:82
+#, elixir-autogen, elixir-format
+msgid "Rules"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/settings.ex:64
+#: lib/forbidden_lands_web/live/manage/settings.ex:81
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:74
+#, elixir-autogen, elixir-format
+msgid "Save"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/date.ex:37
+#, elixir-autogen, elixir-format
+msgid "Set mood"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/date.ex:32
+#, elixir-autogen, elixir-format
+msgid "Show/hide the castle"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/create_instance.ex:39
+#, elixir-autogen, elixir-format
+msgid "Start date (dd.mm.yyyy)"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/dashboard/timeline.ex:32
+#, elixir-autogen, elixir-format
+msgid "Start writing your story."
+msgstr ""
+
+#: lib/forbidden_lands_web/live/admin.ex:41
+#, elixir-autogen, elixir-format
+msgid "Starting a fresh adventure"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/export.ex:36
+#, elixir-autogen, elixir-format
+msgid "Successful copy"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/date.ex:128
+#, elixir-autogen, elixir-format
+msgid "Summary of the castle's resources: \r\n\r\n%{rules}"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/admin.ex:106
+#, elixir-autogen, elixir-format
+msgid "The login information has been reset for this adventure. The new username and password are now empty. You can connect to the adventure to set new ones."
+msgstr ""
+
+#: lib/forbidden_lands_web/live/dashboard/timeline.ex:40
+#, elixir-autogen, elixir-format
+msgid "The rest of the story is here!"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/dashboard.ex:43
+#: lib/forbidden_lands_web/live/manage.ex:50
+#: lib/forbidden_lands_web/live/story.ex:32
+#, elixir-autogen, elixir-format
+msgid "This instance does not exist."
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:57
+#, elixir-autogen, elixir-format
+msgid "Title"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/dashboard/description.ex:32
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:61
+#, elixir-autogen, elixir-format
+msgid "Tools"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/dashboard/description.ex:26
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:62
+#, elixir-autogen, elixir-format
+msgid "Treasure & Possessions"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/event.ex:53
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:118
+#, elixir-autogen, elixir-format
+msgid "Type"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/create_instance.ex:50
+#: lib/forbidden_lands_web/live/import_instance.ex:48
+#: lib/forbidden_lands_web/live/manage/settings.ex:76
+#, elixir-autogen, elixir-format
+msgid "Username"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/create_instance.ex:46
+#: lib/forbidden_lands_web/live/import_instance.ex:44
+#, elixir-autogen, elixir-format
+msgid "You will be asked for these to access the game master area."
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:46
+#, elixir-autogen, elixir-format
+msgid "Your stronghold"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/date.ex:120
+#, elixir-autogen, elixir-format
+msgid "— %{name} consume %{amount} %{resource}"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/date.ex:119
+#, elixir-autogen, elixir-format
+msgid "— %{name} produce %{amount} %{resource}"
+msgstr ""
