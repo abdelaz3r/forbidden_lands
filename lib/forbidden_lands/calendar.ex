@@ -184,7 +184,7 @@ defmodule ForbiddenLands.Calendar do
 
   """
   @spec to_date(Calendar.t()) :: String.t()
-  def to_date(%{} = calendar) do
+  def to_date(%Calendar{} = calendar) do
     "#{calendar.month.day}.#{calendar.month.number}.#{calendar.year.number}"
   end
 
@@ -198,7 +198,7 @@ defmodule ForbiddenLands.Calendar do
 
   """
   @spec to_datequarter(Calendar.t()) :: String.t()
-  def to_datequarter(%{} = calendar) do
+  def to_datequarter(%Calendar{} = calendar) do
     to_date(calendar) <> " #{calendar.quarter.number}/4"
   end
 
@@ -208,12 +208,18 @@ defmodule ForbiddenLands.Calendar do
   ## Examples
 
     iex> Calendar.format(calendar)
-    "33 summerrise 850, matinée"
+    "33 summerrise 850, morning"
 
   """
-  @spec format(Calendar.t()) :: String.t()
-  def format(%{} = calendar) do
+  @spec format(Calendar.t(), atom()) :: String.t()
+  def format(calendar, _output \\ :long)
+
+  def format(%Calendar{} = calendar, :long) do
     "#{calendar.month.day} #{calendar.month.name} #{calendar.year.number}, #{calendar.quarter.name}"
+  end
+
+  def format(%Calendar{} = calendar, :short) do
+    "#{calendar.month.day} #{calendar.month.name} #{calendar.year.number}"
   end
 
   @doc """
@@ -227,19 +233,19 @@ defmodule ForbiddenLands.Calendar do
 
   """
   @spec add(Calendar.t(), number(), :year | :week | :day | :quarter) :: Calendar.t()
-  def add(%{count: %{quarters: quarters}}, amount, :year) do
+  def add(%Calendar{count: %{quarters: quarters}}, amount, :year) do
     new(quarters + amount * @quarter_by_day * @day_by_year)
   end
 
-  def add(%{count: %{quarters: quarters}}, amount, :week) do
+  def add(%Calendar{count: %{quarters: quarters}}, amount, :week) do
     new(quarters + amount * @quarter_by_day * @day_by_week)
   end
 
-  def add(%{count: %{quarters: quarters}}, amount, :day) do
+  def add(%Calendar{count: %{quarters: quarters}}, amount, :day) do
     new(quarters + amount * @quarter_by_day)
   end
 
-  def add(%{count: %{quarters: quarters}}, amount, :quarter) do
+  def add(%Calendar{count: %{quarters: quarters}}, amount, :quarter) do
     new(quarters + amount)
   end
 
@@ -253,19 +259,19 @@ defmodule ForbiddenLands.Calendar do
 
   """
   @spec start_of(Calendar.t(), :year | :month | :week | :day) :: Calendar.t()
-  def start_of(%{year: %{day: year_day}, count: %{days: days}}, :year) do
+  def start_of(%Calendar{year: %{day: year_day}, count: %{days: days}}, :year) do
     from_days(days - year_day + 1)
   end
 
-  def start_of(%{month: %{day: month_day}, count: %{days: days}}, :month) do
+  def start_of(%Calendar{month: %{day: month_day}, count: %{days: days}}, :month) do
     from_days(days - month_day + 1)
   end
 
-  def start_of(%{day: %{number: week_day}, count: %{days: days}}, :week) do
+  def start_of(%Calendar{day: %{number: week_day}, count: %{days: days}}, :week) do
     from_days(days - week_day + 1)
   end
 
-  def start_of(%{count: %{days: days}}, :day) do
+  def start_of(%Calendar{count: %{days: days}}, :day) do
     from_days(days)
   end
 
@@ -279,19 +285,19 @@ defmodule ForbiddenLands.Calendar do
 
   """
   @spec end_of(Calendar.t(), :year | :month | :week | :day) :: Calendar.t()
-  def end_of(calendar, :year) do
+  def end_of(%Calendar{} = calendar, :year) do
     calendar |> add(1, :year) |> start_of(:year) |> add(-1, :quarter)
   end
 
-  def end_of(%{month: %{day: current_day, days_count: total_days}} = calendar, :month) do
+  def end_of(%Calendar{month: %{day: current_day, days_count: total_days}} = calendar, :month) do
     calendar |> add(total_days - current_day + 1, :day) |> start_of(:month) |> add(-1, :quarter)
   end
 
-  def end_of(calendar, :week) do
+  def end_of(%Calendar{} = calendar, :week) do
     calendar |> add(1, :week) |> start_of(:week) |> add(-1, :quarter)
   end
 
-  def end_of(calendar, :day) do
+  def end_of(%Calendar{} = calendar, :day) do
     calendar |> add(1, :day) |> start_of(:day) |> add(-1, :quarter)
   end
 
@@ -305,7 +311,7 @@ defmodule ForbiddenLands.Calendar do
 
   """
   @spec month_progression(Calendar.t()) :: float()
-  def month_progression(%{month: %{day: day, days_count: days_count}}) do
+  def month_progression(%Calendar{month: %{day: day, days_count: days_count}}) do
     (day - 1) / (days_count - 1) * 100
   end
 
@@ -319,7 +325,7 @@ defmodule ForbiddenLands.Calendar do
 
   """
   @spec moon_progression(Calendar.t()) :: float()
-  def moon_progression(%{moon: %{number: number}}) do
+  def moon_progression(%Calendar{moon: %{number: number}}) do
     [start_of_cycle, _, full_moon, end_of_cycle] = @moon_cycle_shift
 
     cond do
@@ -340,7 +346,7 @@ defmodule ForbiddenLands.Calendar do
 
   """
   @spec luminosity(Calendar.t()) :: map()
-  def luminosity(%{quarter: %{luminosity: luminosity}, season: %{luminosity_shift: luminosity_shift}}) do
+  def luminosity(%Calendar{quarter: %{luminosity: luminosity}, season: %{luminosity_shift: luminosity_shift}}) do
     real_luminosity = luminosity + luminosity_shift
     default = List.first(luminosity_values())
 
