@@ -36,6 +36,7 @@ forbidden_lands-*.tar
 
 # Ignore fly configuration file.
 fly.toml
+fly.sample*.toml
 
 # In case you use Node.js/npm, you want to ignore these.
 npm-debug.log
