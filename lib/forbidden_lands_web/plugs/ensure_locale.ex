@@ -10,14 +10,20 @@ defmodule ForbiddenLandsWeb.Plugs.EnsureLocale do
   def call(%{path_params: %{"locale" => locale}} = conn, _opts) do
     available_locales = Gettext.known_locales(ForbiddenLandsWeb.Gettext)
 
-    # TODO: have a closer look at this.
-    # Bug on redirect, maybe only in dev mode, maybe related to livereload.
     if locale in available_locales,
       do: conn,
-      else: Controller.redirect(conn, to: "/en")
+      else: redirect_to_default_locale(conn)
   end
 
   def call(conn, _opts) do
-    Controller.redirect(conn, to: "/en")
+    redirect_to_default_locale(conn)
+  end
+
+  defp redirect_to_default_locale(conn) do
+    default_locale = Gettext.get_locale(ForbiddenLandsWeb.Gettext)
+
+    conn
+    |> Plug.Conn.halt()
+    |> Controller.redirect(to: "/#{default_locale}")
   end
 end
