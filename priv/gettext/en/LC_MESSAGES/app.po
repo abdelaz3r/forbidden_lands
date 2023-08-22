@@ -194,7 +194,7 @@ msgstr ""
 msgid "%{rule} produce %{amount} %{resource} per week."
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:38
+#: lib/forbidden_lands_web/live/landing.ex:46
 #, elixir-autogen, elixir-format
 msgid "Active adventures"
 msgstr ""
@@ -234,7 +234,7 @@ msgstr ""
 msgid "Adventure settings"
 msgstr ""
 
-#: lib/forbidden_lands_web/components/navbar.ex:16
+#: lib/forbidden_lands_web/components/navbar.ex:21
 #, elixir-autogen, elixir-format
 msgid "Adventures"
 msgstr ""
@@ -259,12 +259,12 @@ msgstr ""
 msgid "Are you sure you want to reset login details for this adventure?"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:64
+#: lib/forbidden_lands_web/live/landing.ex:72
 #, elixir-autogen, elixir-format
 msgid "Board"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:70
+#: lib/forbidden_lands_web/live/landing.ex:78
 #, elixir-autogen, elixir-format
 msgid "Chronicles"
 msgstr ""
@@ -411,7 +411,7 @@ msgstr ""
 msgid "Game master credentials"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:79
+#: lib/forbidden_lands_web/live/landing.ex:87
 #, elixir-autogen, elixir-format
 msgid "Game master space"
 msgstr ""
@@ -675,4 +675,24 @@ msgstr ""
 #: lib/forbidden_lands_web/live/manage/date.ex:119
 #, elixir-autogen, elixir-format
 msgid "— %{name} produce %{amount} %{resource}"
+msgstr ""
+
+#: lib/forbidden_lands_web/components/navbar.ex:17
+#, elixir-autogen, elixir-format
+msgid "FLC"
+msgstr ""
+
+#: lib/forbidden_lands_web/components/navbar.ex:14
+#, elixir-autogen, elixir-format
+msgid "Forbidden Lands Companion"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/landing.ex:41
+#, elixir-autogen, elixir-format
+msgid "Landing HTML text"
+msgstr "<p>This project is created with a passion for the Forbidden Lands universe. While it's not intended to be a fully-integrated GM companion, it serves as a valuable tool to aid GMs and players alike in various aspects of the game.</p><h2 class='font-bold text-xl'>During your Forbidden Lands RPG sessions</h2><ul class='list-disc list-inside'><li>Keep track of game time,</li><li>Set the perfect ambiance with background music,</li><li>Manage stronghold sheet,</li><li>Manage stronghold resources with custom rules,</li><li>Register group events.</li></ul><p><strong>Dashboard View for Players:</strong> For players, the app provides a wide map view, the ability to immerse themselves in the ambiance, and a clear way of the calendar. This view is ideally suited for projection using a beamer or a computer screen, making your game world come to life.</p><h2 class='font-bold text-xl'>Beyond the tabletop sessions</h2><ul class='list-disc list-inside'><li>Event Tracking: Easily record and keep track of events that unfold throughout your campaign. Stay organized and never miss a pivotal moment.</li><li>Event Browsing: Browse through past events, reminisce about your adventures, and use this feature as a reference for your ongoing gameplay.</li><li>Adventure Sharing: Share the story of your adventure to the world.</li></ul>"
+
+#: lib/forbidden_lands_web/live/landing.ex:38
+#, elixir-autogen, elixir-format
+msgid "Welcome!"
 msgstr ""

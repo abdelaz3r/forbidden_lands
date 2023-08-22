@@ -194,7 +194,7 @@ msgstr ""
 msgid "%{rule} produce %{amount} %{resource} per week."
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:38
+#: lib/forbidden_lands_web/live/landing.ex:46
 #, elixir-autogen, elixir-format
 msgid "Active adventures"
 msgstr ""
@@ -234,7 +234,7 @@ msgstr ""
 msgid "Adventure settings"
 msgstr ""
 
-#: lib/forbidden_lands_web/components/navbar.ex:16
+#: lib/forbidden_lands_web/components/navbar.ex:21
 #, elixir-autogen, elixir-format
 msgid "Adventures"
 msgstr ""
@@ -259,12 +259,12 @@ msgstr ""
 msgid "Are you sure you want to reset login details for this adventure?"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:64
+#: lib/forbidden_lands_web/live/landing.ex:72
 #, elixir-autogen, elixir-format
 msgid "Board"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:70
+#: lib/forbidden_lands_web/live/landing.ex:78
 #, elixir-autogen, elixir-format
 msgid "Chronicles"
 msgstr ""
@@ -411,7 +411,7 @@ msgstr ""
 msgid "Game master credentials"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:79
+#: lib/forbidden_lands_web/live/landing.ex:87
 #, elixir-autogen, elixir-format
 msgid "Game master space"
 msgstr ""
@@ -675,4 +675,24 @@ msgstr ""
 #: lib/forbidden_lands_web/live/manage/date.ex:119
 #, elixir-autogen, elixir-format
 msgid "— %{name} produce %{amount} %{resource}"
+msgstr ""
+
+#: lib/forbidden_lands_web/components/navbar.ex:17
+#, elixir-autogen, elixir-format
+msgid "FLC"
+msgstr ""
+
+#: lib/forbidden_lands_web/components/navbar.ex:14
+#, elixir-autogen, elixir-format
+msgid "Forbidden Lands Companion"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/landing.ex:41
+#, elixir-autogen, elixir-format
+msgid "Landing HTML text"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/landing.ex:38
+#, elixir-autogen, elixir-format
+msgid "Welcome!"
 msgstr ""

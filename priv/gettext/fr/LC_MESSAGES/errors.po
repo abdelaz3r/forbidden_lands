@@ -38,10 +38,9 @@ msgstr "ne correspond pas à la confirmation"
 msgid "is still associated with this entry"
 msgstr "est toujours associé à cette entrée"
 
+#, fuzzy
 msgid "are still associated with this entry"
-msgid_plural "are still associated with this entry"
-msgstr[0] "sont toujours associés à cette entrée"
-msgstr[1] "sont toujours associés à cette entrée"
+msgstr "sont toujours associés à cette entrée"
 
 msgid "should have %{count} item(s)"
 msgid_plural "should have %{count} item(s)"

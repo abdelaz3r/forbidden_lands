@@ -33,10 +33,18 @@ defmodule ForbiddenLandsWeb.Live.Landing do
     ~H"""
     <.navbar />
 
-    <div class="bg-white text-slate-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
-      <h1 class="font-bold text-xl">
-        <%= dgettext("app", "Active adventures") %>
+    <section class="bg-white text-slate-900 max-w-screen-md mx-auto md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-2">
+      <h1 class="text-brand font-bold text-xl">
+        <%= dgettext("app", "Welcome!") %>
       </h1>
+
+      <%= dgettext("app", "Landing HTML text") |> raw() %>
+    </section>
+
+    <div class="bg-white text-slate-900 max-w-screen-md mx-auto md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
+      <h2 class="font-bold text-xl">
+        <%= dgettext("app", "Active adventures") %>
+      </h2>
 
       <section :for={instance <- @instances} class="block p-5 border border-slate-200 bg-slate-100 rounded">
         <header class="space-y-5">

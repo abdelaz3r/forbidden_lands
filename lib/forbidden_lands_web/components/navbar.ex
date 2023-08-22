@@ -8,9 +8,14 @@ defmodule ForbiddenLandsWeb.Components.Navbar do
   def navbar(assigns) do
     ~H"""
     <header class="bg-white text-slate-900 border-b md:border-none py-3 px-2 shadow-md flex justify-between">
-      <nav class="flex">
-        <h1 class="font-bold py-2 px-3 border-r text-brand">
-          FLw
+      <nav class="flex gap-2">
+        <h1 class="font-bold py-2 px-3 pr-4 border-r text-brand">
+          <span class="hidden md:inline">
+            <%= dgettext("app", "Forbidden Lands Companion") %>
+          </span>
+          <span class="md:hidden">
+            <%= dgettext("app", "FLC") %>
+          </span>
         </h1>
         <.link navigate={~p"/#{Gettext.get_locale()}/"} class={link_classes()}>
           <%= dgettext("app", "Adventures") %>

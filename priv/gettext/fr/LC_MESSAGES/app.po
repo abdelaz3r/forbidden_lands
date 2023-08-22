@@ -194,7 +194,7 @@ msgstr "%{rule} consomme %{amount} %{resource} par semaine."
 msgid "%{rule} produce %{amount} %{resource} per week."
 msgstr "%{rule} produit %{amount} %{resource} par semaine."
 
-#: lib/forbidden_lands_web/live/landing.ex:38
+#: lib/forbidden_lands_web/live/landing.ex:46
 #, elixir-autogen, elixir-format
 msgid "Active adventures"
 msgstr "Aventures actives"
@@ -234,7 +234,7 @@ msgstr "Nom de l'aventure"
 msgid "Adventure settings"
 msgstr "Paramètres de l'aventure"
 
-#: lib/forbidden_lands_web/components/navbar.ex:16
+#: lib/forbidden_lands_web/components/navbar.ex:21
 #, elixir-autogen, elixir-format
 msgid "Adventures"
 msgstr "Aventures"
@@ -259,12 +259,12 @@ msgstr "Êtes-vous sûr de vouloir supprimer cet événement ?"
 msgid "Are you sure you want to reset login details for this adventure?"
 msgstr "Êtes-vous sûr de vouloir réinitialiser les détails de connexion pour cette aventure ?"
 
-#: lib/forbidden_lands_web/live/landing.ex:64
+#: lib/forbidden_lands_web/live/landing.ex:72
 #, elixir-autogen, elixir-format
 msgid "Board"
 msgstr "Carte"
 
-#: lib/forbidden_lands_web/live/landing.ex:70
+#: lib/forbidden_lands_web/live/landing.ex:78
 #, elixir-autogen, elixir-format
 msgid "Chronicles"
 msgstr "Chroniques"
@@ -411,7 +411,7 @@ msgstr "Données de jeu (collez simplement le contenu du fichier .json)"
 msgid "Game master credentials"
 msgstr "Identifiants du maître de jeu"
 
-#: lib/forbidden_lands_web/live/landing.ex:79
+#: lib/forbidden_lands_web/live/landing.ex:87
 #, elixir-autogen, elixir-format
 msgid "Game master space"
 msgstr "Espace du maître de jeu"
@@ -676,3 +676,23 @@ msgstr "— %{name} consomme %{amount} %{resource}"
 #, elixir-autogen, elixir-format
 msgid "— %{name} produce %{amount} %{resource}"
 msgstr "— %{name} produit %{amount} %{resource}"
+
+#: lib/forbidden_lands_web/components/navbar.ex:17
+#, elixir-autogen, elixir-format
+msgid "FLC"
+msgstr "FLC"
+
+#: lib/forbidden_lands_web/components/navbar.ex:14
+#, elixir-autogen, elixir-format
+msgid "Forbidden Lands Companion"
+msgstr "Forbidden Lands Companion"
+
+#: lib/forbidden_lands_web/live/landing.ex:41
+#, elixir-autogen, elixir-format
+msgid "Landing HTML text"
+msgstr "<p>Ce projet est créé avec passion pour l'univers de Forbidden Lands. Bien qu'il ne soit pas destiné à être un compagnon de MJ entièrement intégré, il sert d'outil précieux pour aider les MJ et les joueurs dans différents aspects du jeu.</p><h2 class='font-bold text-xl'>Pendant vos sessions de jeu des Terres Interdites</h2><ul class='list-disc list-inside'><li>Suivez le temps de jeu,</li><li>Créez l'ambiance parfaite avec de la musique d'ambiance,</li><li>Gérez la feuille de forteresse,</li><li>Gérez les ressources de la forteresse avec des règles personnalisées,</li><li>Enregistrez les événements de groupe.</li></ul><p><strong>Vue Tableau de Bord pour les Joueurs :</strong> Pour les joueurs, l'application offre une vue étendue de la carte, la possibilité de s'immerger dans l'ambiance et une façon claire de visualiser le calendrier. Cette vue est idéale pour la projection à l'aide d'un projecteur ou d'un écran d'ordinateur, donnant vie à votre monde de jeu.</p><h2 class='font-bold text-xl'>Au-delà des sessions à la table de jeu</h2><ul class='list-disc list-inside'><li>Suivi des Événements : Enregistrez facilement et suivez les événements qui se déroulent tout au long de votre campagne. Restez organisé et ne manquez jamais un moment clé.</li><li>Exploration des Événements : Parcourez les événements passés, remémorez-vous vos aventures et utilisez cette fonction comme référence pour votre partie en cours.</li><li>Partage d'Aventure : Partagez l'histoire de votre aventure avec le monde.</li></ul>"
+
+#: lib/forbidden_lands_web/live/landing.ex:38
+#, elixir-autogen, elixir-format
+msgid "Welcome!"
+msgstr "Bienvenue !"
