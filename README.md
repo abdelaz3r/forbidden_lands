@@ -8,6 +8,10 @@ This repository hosts a personal project aimed at enhancing your experience whil
 
 This project is created with a passion for the Forbidden Lands universe. While it's not intended to be a fully-integrated GM companion, it serves as a valuable tool to aid GMs and players alike in various aspects of the game.
 
+## Demo access
+
+You can find a demo instance at this address: [forbidden-lands-companion.fly.dev](https://forbidden-lands-companion.fly.dev/en/).
+
 ## Contributions
 
 Contributions to this project are more than welcome! If you're interested in adding your expertise and insights, please ensure that your contributions align with the project's guidelines.
