@@ -18,7 +18,7 @@ defmodule ForbiddenLandsWeb.Live.Landing do
     socket =
       socket
       |> assign(instances: instances)
-      |> assign(page_title: dgettext("app", "Instances list"))
+      |> assign(page_title: dgettext("app", "Forbidden Lands Companion"))
 
     {:ok, socket}
   end
