@@ -539,12 +539,12 @@ msgstr "Aucun événement"
 #: lib/forbidden_lands_web/live/manage/date.ex:64
 #, elixir-autogen, elixir-format
 msgid "One day ahead"
-msgstr "Reculer d'un jour"
+msgstr "Avancer d'un jour"
 
 #: lib/forbidden_lands_web/live/manage/date.ex:67
 #, elixir-autogen, elixir-format
 msgid "One week ahead"
-msgstr "Reculer d'une semaine"
+msgstr "Avancer d'une semaine"
 
 #: lib/forbidden_lands_web/live/create_instance.ex:51
 #: lib/forbidden_lands_web/live/import_instance.ex:49
