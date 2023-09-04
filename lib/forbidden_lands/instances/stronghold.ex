@@ -157,6 +157,7 @@ defmodule ForbiddenLands.Instances.Stronghold do
   end
 
   @spec resource_name(atom(), integer()) :: String.t()
+  def resource_name(type, amount) when amount < 0, do: resource_name(type, abs(amount))
   def resource_name(:coins, x), do: dngettext("app", "copper coin", "copper coins", x)
   def resource_name(:iron_ore, x), do: dngettext("app", "iron ore", "iron ores", x)
   def resource_name(:iron, x), do: dngettext("app", "iron ingot", "iron ingots", x)
