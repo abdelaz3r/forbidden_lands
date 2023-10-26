@@ -39,15 +39,18 @@ defmodule ForbiddenLandsWeb.Live.Instances do
 
       <section :for={instance <- @instances} class="block p-5 border border-slate-200 bg-slate-100 rounded">
         <header class="space-y-5">
-          <div class="flex justify-between items-end gap-5">
+          <div class="space-y-2">
             <h2 class="flex items-center gap-3 font-bold text-xl">
               <.icon name={:bookmark} class="w-5 h-5" />
               <%= instance.name %>
             </h2>
 
-            <div class="text-right">
-              From <strong><%= instance.initial_date |> Calendar.from_quarters() |> Calendar.to_date() %></strong>
-              to <strong><%= instance.current_date |> Calendar.from_quarters() |> Calendar.to_date() %></strong>
+            <div>
+              <%= dgettext("app", "From <strong>%{start}</strong> to <strong>%{current}</strong>",
+                start: instance.initial_date |> Calendar.from_quarters() |> Calendar.format(:short),
+                current: instance.current_date |> Calendar.from_quarters() |> Calendar.format(:short)
+              )
+              |> raw() %>
             </div>
           </div>
 
@@ -56,7 +59,7 @@ defmodule ForbiddenLandsWeb.Live.Instances do
           </p>
         </header>
 
-        <div class="flex flex-col md:flex-row gap-5 pt-5">
+        <div class="flex flex-col md:flex-row gap-2 md:gap-5 pt-5">
           <.link navigate={~p"/#{Gettext.get_locale()}/adventure/#{instance.id}"} class={["grow", button_classes()]}>
             <.icon name={:locate_fixed} class="w-6 h-6" />
             <span>

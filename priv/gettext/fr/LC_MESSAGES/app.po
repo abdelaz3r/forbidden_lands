@@ -259,12 +259,12 @@ msgstr "Êtes-vous sûr de vouloir supprimer cet événement ?"
 msgid "Are you sure you want to reset login details for this adventure?"
 msgstr "Êtes-vous sûr de vouloir réinitialiser les détails de connexion pour cette aventure ?"
 
-#: lib/forbidden_lands_web/live/instances.ex:63
+#: lib/forbidden_lands_web/live/instances.ex:66
 #, elixir-autogen, elixir-format
 msgid "Board"
 msgstr "Carte"
 
-#: lib/forbidden_lands_web/live/instances.ex:69
+#: lib/forbidden_lands_web/live/instances.ex:72
 #, elixir-autogen, elixir-format
 msgid "Chronicles"
 msgstr "Chroniques"
@@ -411,7 +411,7 @@ msgstr "Données de jeu (collez simplement le contenu du fichier .json)"
 msgid "Game master credentials"
 msgstr "Identifiants du maître de jeu"
 
-#: lib/forbidden_lands_web/live/instances.ex:78
+#: lib/forbidden_lands_web/live/instances.ex:81
 #, elixir-autogen, elixir-format
 msgid "Game master space"
 msgstr "Espace du maître de jeu"
@@ -698,3 +698,8 @@ msgstr "Bienvenue !"
 #, elixir-autogen, elixir-format, fuzzy
 msgid "About"
 msgstr "À propos"
+
+#: lib/forbidden_lands_web/live/instances.ex:49
+#, elixir-autogen, elixir-format
+msgid "From <strong>%{start}</strong> to <strong>%{current}</strong>"
+msgstr "Du <strong>%{start}</strong> au <strong>%{current}</strong>"

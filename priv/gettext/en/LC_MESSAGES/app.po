@@ -259,12 +259,12 @@ msgstr ""
 msgid "Are you sure you want to reset login details for this adventure?"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/instances.ex:63
+#: lib/forbidden_lands_web/live/instances.ex:66
 #, elixir-autogen, elixir-format
 msgid "Board"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/instances.ex:69
+#: lib/forbidden_lands_web/live/instances.ex:72
 #, elixir-autogen, elixir-format
 msgid "Chronicles"
 msgstr ""
@@ -411,7 +411,7 @@ msgstr ""
 msgid "Game master credentials"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/instances.ex:78
+#: lib/forbidden_lands_web/live/instances.ex:81
 #, elixir-autogen, elixir-format
 msgid "Game master space"
 msgstr ""
@@ -697,4 +697,9 @@ msgstr ""
 #: lib/forbidden_lands_web/components/navbar.ex:24
 #, elixir-autogen, elixir-format, fuzzy
 msgid "About"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/instances.ex:49
+#, elixir-autogen, elixir-format
+msgid "From <strong>%{start}</strong> to <strong>%{current}</strong>"
 msgstr ""
