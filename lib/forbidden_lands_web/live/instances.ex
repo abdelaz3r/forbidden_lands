@@ -1,6 +1,5 @@
-defmodule ForbiddenLandsWeb.Live.Landing do
+defmodule ForbiddenLandsWeb.Live.Instances do
   @moduledoc """
-  Home view.
   List all instances.
   """
 
@@ -32,14 +31,6 @@ defmodule ForbiddenLandsWeb.Live.Landing do
   def render(assigns) do
     ~H"""
     <.navbar />
-
-    <section class="bg-white text-slate-900 max-w-screen-md mx-auto md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-2">
-      <h1 class="text-brand font-bold text-xl">
-        <%= dgettext("app", "Welcome!") %>
-      </h1>
-
-      <%= dgettext("app", "Landing HTML text") |> raw() %>
-    </section>
 
     <div class="bg-white text-slate-900 max-w-screen-md mx-auto md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
       <h2 class="font-bold text-xl">

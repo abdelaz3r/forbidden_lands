@@ -26,10 +26,11 @@ defmodule ForbiddenLandsWeb.Router do
       pipe_through(:browser)
 
       live_session(:public) do
-        live("/", Landing)
+        live("/", Instances)
         live("/adventure/:id", Dashboard)
         live("/adventure/:id/story", Story)
         live("/adventure/:id/story#:anchor", Story)
+        live("/about", About)
       end
     end
 
