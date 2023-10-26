@@ -3,11 +3,19 @@
 
 const plugin = require("tailwindcss/plugin")
 
+// font-bold text-xl
+
 module.exports = {
   content: [
     "./js/**/*.js",
     "../lib/*_web.ex",
     "../lib/*_web/**/*.*ex"
+  ],
+  safelist: [
+    'font-bold',
+    'text-xl',
+    'list-disc',
+    'list-inside'
   ],
   theme: {
     boxShadow: {
