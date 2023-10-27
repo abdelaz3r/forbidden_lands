@@ -38,6 +38,9 @@ module.exports = {
       },
       colors: {
         brand: "#FD4F00"
+      },
+      spacing: {
+        '13': '3.25rem'
       }
     },
   },

@@ -24,6 +24,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
 
         calendar = Calendar.from_quarters(instance.current_date)
         quarter_shift = calendar.count.quarters - rem(calendar.count.quarters - 1, 4)
+        overlay = "https://i.postimg.cc/Bb63Rv6G/screenshot-3.png"
 
         socket =
           socket
@@ -32,6 +33,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           |> assign(topic: topic)
           |> assign(stronghold_open?: false)
           |> assign(playlists: Mood.playlists())
+          |> assign(overlay: overlay)
           |> base_assign(instance)
 
         {:ok, socket}
@@ -61,6 +63,14 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           </.link>
           <%= @instance.name %>
         </h1>
+        <div :if={@overlay}>
+          <div class="absolute inset-13 flex justify-center">
+            <img src={@overlay} class="object-contain h-full w-full brightness-0 invert drop-shadow-[0_0_25px_rgba(0,0,0,1)]" />
+          </div>
+          <div class="absolute inset-14 flex justify-center">
+            <img src={@overlay} class="object-contain h-full w-full" />
+          </div>
+        </div>
       </div>
 
       <div class="absolute bottom-4 left-4">
