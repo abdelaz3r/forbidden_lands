@@ -177,7 +177,7 @@ msgstr[1] "pelottes de laine"
 msgid "unknown resource"
 msgstr "ressource inconnue"
 
-#: lib/forbidden_lands_web/live/manage/date.ex:127
+#: lib/forbidden_lands_web/live/manage/date.ex:177
 #, elixir-autogen, elixir-format
 msgid "1 week passes"
 msgid_plural "%{count} weeks pass"
@@ -418,10 +418,12 @@ msgstr "Identifiants du maître de jeu"
 msgid "Game master space"
 msgstr "Espace du maître de jeu"
 
-#: lib/forbidden_lands_web/live/dashboard.ex:120
+#: lib/forbidden_lands_web/live/dashboard.ex:118
 #: lib/forbidden_lands_web/live/manage.ex:129
-#: lib/forbidden_lands_web/live/manage/date.ex:95
-#: lib/forbidden_lands_web/live/manage/date.ex:163
+#: lib/forbidden_lands_web/live/manage/date.ex:119
+#: lib/forbidden_lands_web/live/manage/date.ex:130
+#: lib/forbidden_lands_web/live/manage/date.ex:145
+#: lib/forbidden_lands_web/live/manage/date.ex:213
 #: lib/forbidden_lands_web/live/manage/media.ex:94
 #: lib/forbidden_lands_web/live/manage/settings.ex:98
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:178
@@ -477,7 +479,7 @@ msgstr "Liste des aventures"
 msgid "Login settings"
 msgstr "Paramètres de connexion"
 
-#: lib/forbidden_lands_web/live/dashboard.ex:57
+#: lib/forbidden_lands_web/live/dashboard.ex:55
 #, elixir-autogen, elixir-format
 msgid "Map of Forbiddens Land"
 msgstr "Carte des Terres Interdites"
@@ -487,12 +489,12 @@ msgstr "Carte des Terres Interdites"
 msgid "May the adventure start!"
 msgstr "Que l'aventure commence !"
 
-#: lib/forbidden_lands_web/live/manage/date.ex:58
+#: lib/forbidden_lands_web/live/manage/date.ex:82
 #, elixir-autogen, elixir-format
 msgid "More options"
 msgstr "Plus d'options"
 
-#: lib/forbidden_lands_web/live/manage/date.ex:70
+#: lib/forbidden_lands_web/live/manage/date.ex:94
 #, elixir-autogen, elixir-format
 msgid "Move back one quarter day"
 msgstr "Reculer d'un quart de journée"
@@ -535,12 +537,12 @@ msgstr "Nouveau mot de passe"
 msgid "No events"
 msgstr "Aucun événement"
 
-#: lib/forbidden_lands_web/live/manage/date.ex:64
+#: lib/forbidden_lands_web/live/manage/date.ex:88
 #, elixir-autogen, elixir-format
 msgid "One day ahead"
 msgstr "Avancer d'un jour"
 
-#: lib/forbidden_lands_web/live/manage/date.ex:67
+#: lib/forbidden_lands_web/live/manage/date.ex:91
 #, elixir-autogen, elixir-format
 msgid "One week ahead"
 msgstr "Avancer d'une semaine"
@@ -603,7 +605,7 @@ msgstr "Démarrage d'une nouvelle aventure"
 msgid "Successful copy"
 msgstr "Copie réussie"
 
-#: lib/forbidden_lands_web/live/manage/date.ex:128
+#: lib/forbidden_lands_web/live/manage/date.ex:178
 #, elixir-autogen, elixir-format
 msgid "Summary of the castle's resources: \r\n\r\n%{rules}"
 msgstr "Résumé des ressources du château : \r\n\r\n%{rules}"
@@ -618,7 +620,7 @@ msgstr "Les informations de connexion ont été réinitialisées pour cette aven
 msgid "The rest of the story is here!"
 msgstr "La suite de l'histoire est ici !"
 
-#: lib/forbidden_lands_web/live/dashboard.ex:45
+#: lib/forbidden_lands_web/live/dashboard.ex:43
 #: lib/forbidden_lands_web/live/manage.ex:51
 #: lib/forbidden_lands_web/live/story.ex:32
 #, elixir-autogen, elixir-format
@@ -666,12 +668,12 @@ msgstr "On vous demandera ces informations pour accéder à l'espace du maître 
 msgid "Your stronghold"
 msgstr "Votre forteresse"
 
-#: lib/forbidden_lands_web/live/manage/date.ex:120
+#: lib/forbidden_lands_web/live/manage/date.ex:170
 #, elixir-autogen, elixir-format
 msgid "— %{name} consume %{amount} %{resource}"
 msgstr "— %{name} consomme %{amount} %{resource}"
 
-#: lib/forbidden_lands_web/live/manage/date.ex:119
+#: lib/forbidden_lands_web/live/manage/date.ex:169
 #, elixir-autogen, elixir-format
 msgid "— %{name} produce %{amount} %{resource}"
 msgstr "— %{name} produit %{amount} %{resource}"
@@ -727,3 +729,13 @@ msgstr "Images pour l'overlay"
 #, elixir-autogen, elixir-format
 msgid "Url (valid link to an image)"
 msgstr "Url (un lien valide vers une image)"
+
+#: lib/forbidden_lands_web/live/manage/date.ex:62
+#, elixir-autogen, elixir-format
+msgid "No overlay"
+msgstr "Aucun overlay"
+
+#: lib/forbidden_lands_web/live/manage/date.ex:54
+#, elixir-autogen, elixir-format
+msgid "Active overlay"
+msgstr "Overlay actif"

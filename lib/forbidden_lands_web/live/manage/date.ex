@@ -51,7 +51,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
 
         <div class="border rounded p-2 bg-slate-100 border-slate-300">
           <h2 class="pb-1.5 text-xs text-slate-600 font-bold uppercase">
-            <%= dgettext("app", "Afficher un overlay") %>
+            <%= dgettext("app", "Active overlay") %>
           </h2>
           <div class="flex flex-wrap gap-2">
             <.button
