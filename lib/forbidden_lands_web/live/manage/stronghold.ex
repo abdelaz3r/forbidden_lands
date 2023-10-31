@@ -1,6 +1,6 @@
 defmodule ForbiddenLandsWeb.Live.Manage.Stronghold do
   @moduledoc """
-  Dashboard of an instance.
+  Stronghold panel of an instance.
   """
 
   use ForbiddenLandsWeb, :live_component
