@@ -279,6 +279,7 @@ msgstr "Échec de la copie"
 msgid "Copy to clipboard"
 msgstr "Copier dans le presse-papier"
 
+#: lib/forbidden_lands_web/live/manage/media.ex:57
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:38
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:123
 #, elixir-autogen, elixir-format
@@ -353,6 +354,7 @@ msgstr "Éditer un événement"
 msgid "Edit event"
 msgstr "Éditer l'événement"
 
+#: lib/forbidden_lands_web/live/manage/media.ex:80
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:146
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:164
 #, elixir-autogen, elixir-format
@@ -416,10 +418,11 @@ msgstr "Identifiants du maître de jeu"
 msgid "Game master space"
 msgstr "Espace du maître de jeu"
 
-#: lib/forbidden_lands_web/live/dashboard.ex:110
-#: lib/forbidden_lands_web/live/manage.ex:128
+#: lib/forbidden_lands_web/live/dashboard.ex:120
+#: lib/forbidden_lands_web/live/manage.ex:129
 #: lib/forbidden_lands_web/live/manage/date.ex:95
 #: lib/forbidden_lands_web/live/manage/date.ex:163
+#: lib/forbidden_lands_web/live/manage/media.ex:94
 #: lib/forbidden_lands_web/live/manage/settings.ex:98
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:178
 #, elixir-autogen, elixir-format
@@ -474,7 +477,7 @@ msgstr "Liste des aventures"
 msgid "Login settings"
 msgstr "Paramètres de connexion"
 
-#: lib/forbidden_lands_web/live/dashboard.ex:55
+#: lib/forbidden_lands_web/live/dashboard.ex:57
 #, elixir-autogen, elixir-format
 msgid "Map of Forbiddens Land"
 msgstr "Carte des Terres Interdites"
@@ -500,6 +503,7 @@ msgid "Moving on to the next quarter day"
 msgstr "Passage au prochain quart de journée"
 
 #: lib/forbidden_lands_web/live/create_instance.ex:38
+#: lib/forbidden_lands_web/live/manage/media.ex:53
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:50
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:116
 #, elixir-autogen, elixir-format
@@ -614,8 +618,8 @@ msgstr "Les informations de connexion ont été réinitialisées pour cette aven
 msgid "The rest of the story is here!"
 msgstr "La suite de l'histoire est ici !"
 
-#: lib/forbidden_lands_web/live/dashboard.ex:43
-#: lib/forbidden_lands_web/live/manage.ex:50
+#: lib/forbidden_lands_web/live/dashboard.ex:45
+#: lib/forbidden_lands_web/live/manage.ex:51
 #: lib/forbidden_lands_web/live/story.ex:32
 #, elixir-autogen, elixir-format
 msgid "This instance does not exist."
@@ -703,3 +707,23 @@ msgstr "À propos"
 #, elixir-autogen, elixir-format
 msgid "From <strong>%{start}</strong> to <strong>%{current}</strong>"
 msgstr "Du <strong>%{start}</strong> au <strong>%{current}</strong>"
+
+#: lib/forbidden_lands_web/live/manage/media.ex:49
+#, elixir-autogen, elixir-format
+msgid "Add a media"
+msgstr "Ajouter une image"
+
+#: lib/forbidden_lands_web/live/manage/media.ex:42
+#, elixir-autogen, elixir-format
+msgid "Delete media"
+msgstr "Supprimer cette image"
+
+#: lib/forbidden_lands_web/live/manage/media.ex:27
+#, elixir-autogen, elixir-format
+msgid "Medias for overlay"
+msgstr "Images pour l'overlay"
+
+#: lib/forbidden_lands_web/live/manage/media.ex:54
+#, elixir-autogen, elixir-format
+msgid "Url (valid link to an image)"
+msgstr "Url (un lien valide vers une image)"

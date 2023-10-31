@@ -279,6 +279,7 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
+#: lib/forbidden_lands_web/live/manage/media.ex:57
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:38
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:123
 #, elixir-autogen, elixir-format
@@ -353,6 +354,7 @@ msgstr ""
 msgid "Edit event"
 msgstr ""
 
+#: lib/forbidden_lands_web/live/manage/media.ex:80
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:146
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:164
 #, elixir-autogen, elixir-format
@@ -416,10 +418,11 @@ msgstr ""
 msgid "Game master space"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/dashboard.ex:110
-#: lib/forbidden_lands_web/live/manage.ex:128
+#: lib/forbidden_lands_web/live/dashboard.ex:120
+#: lib/forbidden_lands_web/live/manage.ex:129
 #: lib/forbidden_lands_web/live/manage/date.ex:95
 #: lib/forbidden_lands_web/live/manage/date.ex:163
+#: lib/forbidden_lands_web/live/manage/media.ex:94
 #: lib/forbidden_lands_web/live/manage/settings.ex:98
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:178
 #, elixir-autogen, elixir-format
@@ -474,7 +477,7 @@ msgstr ""
 msgid "Login settings"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/dashboard.ex:55
+#: lib/forbidden_lands_web/live/dashboard.ex:57
 #, elixir-autogen, elixir-format
 msgid "Map of Forbiddens Land"
 msgstr ""
@@ -500,6 +503,7 @@ msgid "Moving on to the next quarter day"
 msgstr ""
 
 #: lib/forbidden_lands_web/live/create_instance.ex:38
+#: lib/forbidden_lands_web/live/manage/media.ex:53
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:50
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:116
 #, elixir-autogen, elixir-format
@@ -614,8 +618,8 @@ msgstr ""
 msgid "The rest of the story is here!"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/dashboard.ex:43
-#: lib/forbidden_lands_web/live/manage.ex:50
+#: lib/forbidden_lands_web/live/dashboard.ex:45
+#: lib/forbidden_lands_web/live/manage.ex:51
 #: lib/forbidden_lands_web/live/story.ex:32
 #, elixir-autogen, elixir-format
 msgid "This instance does not exist."
@@ -702,4 +706,24 @@ msgstr ""
 #: lib/forbidden_lands_web/live/instances.ex:49
 #, elixir-autogen, elixir-format
 msgid "From <strong>%{start}</strong> to <strong>%{current}</strong>"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/media.ex:49
+#, elixir-autogen, elixir-format
+msgid "Add a media"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/media.ex:42
+#, elixir-autogen, elixir-format
+msgid "Delete media"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/media.ex:27
+#, elixir-autogen, elixir-format
+msgid "Medias for overlay"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/media.ex:54
+#, elixir-autogen, elixir-format
+msgid "Url (valid link to an image)"
 msgstr ""
