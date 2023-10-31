@@ -39,6 +39,7 @@ defmodule ForbiddenLands.Instances.Instance do
           initial_date: integer() | nil,
           current_date: integer() | nil,
           mood: String.t() | nil,
+          overlay: String.t() | nil,
           description: String.t() | nil,
           introduction: String.t() | nil,
           stronghold: Stronghold.t() | nil,
@@ -57,6 +58,7 @@ defmodule ForbiddenLands.Instances.Instance do
     field(:initial_date, :integer)
     field(:current_date, :integer)
     field(:mood, :string)
+    field(:overlay, :string)
     field(:description, :string)
     field(:introduction, :string)
     embeds_one(:stronghold, Stronghold, on_replace: :update)
@@ -108,6 +110,7 @@ defmodule ForbiddenLands.Instances.Instance do
       :password,
       :current_date,
       :mood,
+      :overlay,
       :prepend_name,
       :append_name,
       :description,

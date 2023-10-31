@@ -49,6 +49,30 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
           </div>
         </div>
 
+        <div class="border rounded p-2 bg-slate-100 border-slate-300">
+          <h2 class="pb-1.5 text-xs text-slate-600 font-bold uppercase">
+            <%= dgettext("app", "Afficher un overlay") %>
+          </h2>
+          <div class="flex flex-wrap gap-2">
+            <.button
+              phx-click="remove_overlay"
+              phx-target={@myself}
+              class={if(@instance.overlay == nil, do: "outline outline-3 outline-sky-500", else: "opacity-80")}
+            >
+              <%= dgettext("app", "No overlay") %>
+            </.button>
+            <.button
+              :for={media <- @instance.medias}
+              phx-click="update_overlay"
+              phx-value-overlay={media.id}
+              phx-target={@myself}
+              class={if(@instance.overlay == media.id, do: "outline outline-3 outline-sky-500", else: "opacity-80")}
+            >
+              <%= String.capitalize(media.name) %>
+            </.button>
+          </div>
+        </div>
+
         <button
           type="button"
           class="flex gap-2 justify-center opacity-50 hover:opacity-100 my-2"
@@ -87,6 +111,32 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
 
   def handle_event("update_mood", %{"mood" => mood}, %{assigns: %{topic: topic, instance: instance}} = socket) do
     case Instances.update(instance, %{mood: mood}) do
+      {:ok, _instance} ->
+        Endpoint.broadcast(topic, "update", %{})
+        {:noreply, socket}
+
+      {:error, reason} ->
+        {:noreply, put_flash(socket, :error, dgettext("app", "General error: %{error}", error: inspect(reason)))}
+    end
+  end
+
+  def handle_event("remove_overlay", _params, %{assigns: %{topic: topic, instance: instance}} = socket) do
+    case Instances.update(instance, %{overlay: nil}) do
+      {:ok, _instance} ->
+        Endpoint.broadcast(topic, "update", %{})
+        {:noreply, socket}
+
+      {:error, reason} ->
+        {:noreply, put_flash(socket, :error, dgettext("app", "General error: %{error}", error: inspect(reason)))}
+    end
+  end
+
+  def handle_event(
+        "update_overlay",
+        %{"overlay" => overlay},
+        %{assigns: %{topic: topic, instance: instance}} = socket
+      ) do
+    case Instances.update(instance, %{overlay: overlay}) do
       {:ok, _instance} ->
         Endpoint.broadcast(topic, "update", %{})
         {:noreply, socket}

@@ -24,7 +24,6 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
 
         calendar = Calendar.from_quarters(instance.current_date)
         quarter_shift = calendar.count.quarters - rem(calendar.count.quarters - 1, 4)
-        overlay = "https://i.postimg.cc/Bb63Rv6G/screenshot-3.png"
 
         socket =
           socket
@@ -33,7 +32,6 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           |> assign(topic: topic)
           |> assign(stronghold_open?: false)
           |> assign(playlists: Mood.playlists())
-          |> assign(overlay: overlay)
           |> base_assign(instance)
 
         {:ok, socket}
@@ -124,10 +122,12 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   defp base_assign(socket, instance) do
     calendar = Calendar.from_quarters(instance.current_date)
     luminosity = Calendar.luminosity(calendar).key
+    overlay = Enum.find_value(instance.medias, fn media -> if media.id == instance.overlay, do: media.url end)
 
     socket
     |> assign(instance: instance)
     |> assign(calendar: calendar)
     |> assign(luminosity: luminosity)
+    |> assign(overlay: overlay)
   end
 end
