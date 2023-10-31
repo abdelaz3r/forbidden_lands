@@ -18,6 +18,7 @@ defmodule ForbiddenLandsWeb.Live.Manage do
       %{key: "date", icon: :bookmark, component: Panel.Date},
       %{key: "event", icon: :calendar_range, component: Panel.Event},
       %{key: "stronghold", icon: :castle, component: Panel.Stronghold},
+      %{key: "media", icon: :image, component: Panel.Media},
       %{key: "export", icon: :download, component: Panel.Export},
       %{key: "settings", icon: :settings, component: Panel.Settings}
     ]

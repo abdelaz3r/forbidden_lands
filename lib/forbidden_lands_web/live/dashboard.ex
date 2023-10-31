@@ -61,6 +61,14 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
           </.link>
           <%= @instance.name %>
         </h1>
+        <div :if={@overlay}>
+          <div class="absolute inset-13 flex justify-center">
+            <img src={@overlay} class="object-contain h-full w-full brightness-0 invert drop-shadow-[0_0_25px_rgba(0,0,0,1)]" />
+          </div>
+          <div class="absolute inset-14 flex justify-center">
+            <img src={@overlay} class="object-contain h-full w-full" />
+          </div>
+        </div>
       </div>
 
       <div class="absolute bottom-4 left-4">
@@ -114,10 +122,12 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   defp base_assign(socket, instance) do
     calendar = Calendar.from_quarters(instance.current_date)
     luminosity = Calendar.luminosity(calendar).key
+    overlay = Enum.find_value(instance.medias, fn media -> if media.id == instance.overlay, do: media.url end)
 
     socket
     |> assign(instance: instance)
     |> assign(calendar: calendar)
     |> assign(luminosity: luminosity)
+    |> assign(overlay: overlay)
   end
 end

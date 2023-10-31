@@ -11,173 +11,173 @@
 msgid ""
 msgstr ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:182
+#: lib/forbidden_lands/instances/stronghold.ex:183
 #, elixir-autogen, elixir-format
 msgid "beer barrel"
 msgid_plural "beer barrels"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:172
+#: lib/forbidden_lands/instances/stronghold.ex:173
 #, elixir-autogen, elixir-format
 msgid "cloth"
 msgid_plural "cloths"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:160
+#: lib/forbidden_lands/instances/stronghold.ex:161
 #, elixir-autogen, elixir-format
 msgid "copper coin"
 msgid_plural "copper coins"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:178
+#: lib/forbidden_lands/instances/stronghold.ex:179
 #, elixir-autogen, elixir-format
 msgid "fish ration"
 msgid_plural "fish rations"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:175
+#: lib/forbidden_lands/instances/stronghold.ex:176
 #, elixir-autogen, elixir-format
 msgid "flour sack"
 msgid_plural "flour sacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:170
+#: lib/forbidden_lands/instances/stronghold.ex:171
 #, elixir-autogen, elixir-format
 msgid "fur"
 msgid_plural "furs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:168
+#: lib/forbidden_lands/instances/stronghold.ex:169
 #, elixir-autogen, elixir-format
 msgid "glass crate"
 msgid_plural "glass crates"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:166
+#: lib/forbidden_lands/instances/stronghold.ex:167
 #, elixir-autogen, elixir-format
 msgid "gold ingot"
 msgid_plural "gold ingots"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:165
+#: lib/forbidden_lands/instances/stronghold.ex:166
 #, elixir-autogen, elixir-format
 msgid "gold ore"
 msgid_plural "gold ores"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:176
+#: lib/forbidden_lands/instances/stronghold.ex:177
 #, elixir-autogen, elixir-format
 msgid "grain sack"
 msgid_plural "grain sacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:181
+#: lib/forbidden_lands/instances/stronghold.ex:182
 #, elixir-autogen, elixir-format
 msgid "herb bundle"
 msgid_plural "herb bundles"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:162
+#: lib/forbidden_lands/instances/stronghold.ex:163
 #, elixir-autogen, elixir-format
 msgid "iron ingot"
 msgid_plural "iron ingots"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:161
+#: lib/forbidden_lands/instances/stronghold.ex:162
 #, elixir-autogen, elixir-format
 msgid "iron ore"
 msgid_plural "iron ores"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:171
+#: lib/forbidden_lands/instances/stronghold.ex:172
 #, elixir-autogen, elixir-format
 msgid "leather roll"
 msgid_plural "leather rolls"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:177
+#: lib/forbidden_lands/instances/stronghold.ex:178
 #, elixir-autogen, elixir-format
 msgid "meat ration"
 msgid_plural "meat rations"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:174
+#: lib/forbidden_lands/instances/stronghold.ex:175
 #, elixir-autogen, elixir-format
 msgid "ration"
 msgid_plural "rations"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:164
+#: lib/forbidden_lands/instances/stronghold.ex:165
 #, elixir-autogen, elixir-format
 msgid "silver ingot"
 msgid_plural "silver ingots"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:163
+#: lib/forbidden_lands/instances/stronghold.ex:164
 #, elixir-autogen, elixir-format
 msgid "silver ore"
 msgid_plural "silver ores"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:167
+#: lib/forbidden_lands/instances/stronghold.ex:168
 #, elixir-autogen, elixir-format
 msgid "stone block"
 msgid_plural "stone blocks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:180
+#: lib/forbidden_lands/instances/stronghold.ex:181
 #, elixir-autogen, elixir-format
 msgid "tallow jar"
 msgid_plural "tallow jars"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:179
+#: lib/forbidden_lands/instances/stronghold.ex:180
 #, elixir-autogen, elixir-format
 msgid "vegetable ration"
 msgid_plural "vegetable rations"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:169
+#: lib/forbidden_lands/instances/stronghold.ex:170
 #, elixir-autogen, elixir-format
 msgid "wood log"
 msgid_plural "wood logs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:173
+#: lib/forbidden_lands/instances/stronghold.ex:174
 #, elixir-autogen, elixir-format
 msgid "wool ball"
 msgid_plural "wool balls"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/forbidden_lands/instances/stronghold.ex:183
+#: lib/forbidden_lands/instances/stronghold.ex:184
 #, elixir-autogen, elixir-format
 msgid "unknown resource"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:127
+#: lib/forbidden_lands_web/live/manage/date.ex:177
 #, elixir-autogen, elixir-format
 msgid "1 week passes"
 msgid_plural "%{count} weeks pass"
@@ -194,7 +194,7 @@ msgstr ""
 msgid "%{rule} produce %{amount} %{resource} per week."
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:46
+#: lib/forbidden_lands_web/live/instances.ex:37
 #, elixir-autogen, elixir-format
 msgid "Active adventures"
 msgstr ""
@@ -259,12 +259,12 @@ msgstr ""
 msgid "Are you sure you want to reset login details for this adventure?"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:72
+#: lib/forbidden_lands_web/live/instances.ex:66
 #, elixir-autogen, elixir-format
 msgid "Board"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:78
+#: lib/forbidden_lands_web/live/instances.ex:72
 #, elixir-autogen, elixir-format
 msgid "Chronicles"
 msgstr ""
@@ -279,6 +279,7 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
+#: lib/forbidden_lands_web/live/manage/media.ex:57
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:38
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:123
 #, elixir-autogen, elixir-format
@@ -353,6 +354,7 @@ msgstr ""
 msgid "Edit event"
 msgstr ""
 
+#: lib/forbidden_lands_web/live/manage/media.ex:80
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:146
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:164
 #, elixir-autogen, elixir-format
@@ -411,15 +413,18 @@ msgstr ""
 msgid "Game master credentials"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:87
+#: lib/forbidden_lands_web/live/instances.ex:81
 #, elixir-autogen, elixir-format
 msgid "Game master space"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/dashboard.ex:110
-#: lib/forbidden_lands_web/live/manage.ex:128
-#: lib/forbidden_lands_web/live/manage/date.ex:95
-#: lib/forbidden_lands_web/live/manage/date.ex:163
+#: lib/forbidden_lands_web/live/dashboard.ex:118
+#: lib/forbidden_lands_web/live/manage.ex:129
+#: lib/forbidden_lands_web/live/manage/date.ex:119
+#: lib/forbidden_lands_web/live/manage/date.ex:130
+#: lib/forbidden_lands_web/live/manage/date.ex:145
+#: lib/forbidden_lands_web/live/manage/date.ex:213
+#: lib/forbidden_lands_web/live/manage/media.ex:94
 #: lib/forbidden_lands_web/live/manage/settings.ex:98
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:178
 #, elixir-autogen, elixir-format
@@ -454,11 +459,6 @@ msgstr ""
 msgid "Initial copper coins"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:21
-#, elixir-autogen, elixir-format
-msgid "Instances list"
-msgstr ""
-
 #: lib/forbidden_lands_web/live/manage/settings.ex:60
 #, elixir-autogen, elixir-format
 msgid "Introduction"
@@ -489,12 +489,12 @@ msgstr ""
 msgid "May the adventure start!"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:58
+#: lib/forbidden_lands_web/live/manage/date.ex:82
 #, elixir-autogen, elixir-format
 msgid "More options"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:70
+#: lib/forbidden_lands_web/live/manage/date.ex:94
 #, elixir-autogen, elixir-format
 msgid "Move back one quarter day"
 msgstr ""
@@ -505,6 +505,7 @@ msgid "Moving on to the next quarter day"
 msgstr ""
 
 #: lib/forbidden_lands_web/live/create_instance.ex:38
+#: lib/forbidden_lands_web/live/manage/media.ex:53
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:50
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:116
 #, elixir-autogen, elixir-format
@@ -536,12 +537,12 @@ msgstr ""
 msgid "No events"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:64
+#: lib/forbidden_lands_web/live/manage/date.ex:88
 #, elixir-autogen, elixir-format
 msgid "One day ahead"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:67
+#: lib/forbidden_lands_web/live/manage/date.ex:91
 #, elixir-autogen, elixir-format
 msgid "One week ahead"
 msgstr ""
@@ -604,7 +605,7 @@ msgstr ""
 msgid "Successful copy"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:128
+#: lib/forbidden_lands_web/live/manage/date.ex:178
 #, elixir-autogen, elixir-format
 msgid "Summary of the castle's resources: \r\n\r\n%{rules}"
 msgstr ""
@@ -620,7 +621,7 @@ msgid "The rest of the story is here!"
 msgstr ""
 
 #: lib/forbidden_lands_web/live/dashboard.ex:43
-#: lib/forbidden_lands_web/live/manage.ex:50
+#: lib/forbidden_lands_web/live/manage.ex:51
 #: lib/forbidden_lands_web/live/story.ex:32
 #, elixir-autogen, elixir-format
 msgid "This instance does not exist."
@@ -667,12 +668,12 @@ msgstr ""
 msgid "Your stronghold"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:120
+#: lib/forbidden_lands_web/live/manage/date.ex:170
 #, elixir-autogen, elixir-format
 msgid "— %{name} consume %{amount} %{resource}"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:119
+#: lib/forbidden_lands_web/live/manage/date.ex:169
 #, elixir-autogen, elixir-format
 msgid "— %{name} produce %{amount} %{resource}"
 msgstr ""
@@ -683,16 +684,58 @@ msgid "FLC"
 msgstr ""
 
 #: lib/forbidden_lands_web/components/navbar.ex:14
+#: lib/forbidden_lands_web/live/about.ex:12
+#: lib/forbidden_lands_web/live/instances.ex:20
 #, elixir-autogen, elixir-format
 msgid "Forbidden Lands Companion"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:41
+#: lib/forbidden_lands_web/live/about.ex:30
 #, elixir-autogen, elixir-format
 msgid "Landing HTML text"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/landing.ex:38
+#: lib/forbidden_lands_web/live/about.ex:27
 #, elixir-autogen, elixir-format
 msgid "Welcome!"
+msgstr ""
+
+#: lib/forbidden_lands_web/components/navbar.ex:24
+#, elixir-autogen, elixir-format
+msgid "About"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/instances.ex:49
+#, elixir-autogen, elixir-format
+msgid "From <strong>%{start}</strong> to <strong>%{current}</strong>"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/media.ex:49
+#, elixir-autogen, elixir-format
+msgid "Add a media"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/media.ex:42
+#, elixir-autogen, elixir-format
+msgid "Delete media"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/media.ex:27
+#, elixir-autogen, elixir-format
+msgid "Medias for overlay"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/media.ex:54
+#, elixir-autogen, elixir-format
+msgid "Url (valid link to an image)"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/date.ex:62
+#, elixir-autogen, elixir-format
+msgid "No overlay"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/date.ex:54
+#, elixir-autogen, elixir-format
+msgid "Active overlay"
 msgstr ""

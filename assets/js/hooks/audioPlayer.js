@@ -14,17 +14,15 @@ const AudioPlayer = {
     this.pause()
   },
   play(music) {
-    if (music !== "") {
-      this.pause()
+    this.pause()
 
+    if (music !== "") {
       this.player = new Audio(music)
       this.player.play()
 
       this.player.addEventListener("ended", () => {
         this.pushEventTo(this.el, "audio-ended")
       })
-    } else {
-      this.pause()
     }
   },
   pause() {

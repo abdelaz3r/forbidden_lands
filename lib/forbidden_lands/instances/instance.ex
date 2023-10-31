@@ -8,6 +8,7 @@ defmodule ForbiddenLands.Instances.Instance do
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.Event
   alias ForbiddenLands.Instances.Instance
+  alias ForbiddenLands.Instances.Media
   alias ForbiddenLands.Instances.ResourceRule
   alias ForbiddenLands.Instances.Stronghold
 
@@ -21,6 +22,7 @@ defmodule ForbiddenLands.Instances.Instance do
     :introduction,
     :stronghold,
     :resource_rules,
+    :medias,
     :events
   ]
 
@@ -37,10 +39,12 @@ defmodule ForbiddenLands.Instances.Instance do
           initial_date: integer() | nil,
           current_date: integer() | nil,
           mood: String.t() | nil,
+          overlay: String.t() | nil,
           description: String.t() | nil,
           introduction: String.t() | nil,
           stronghold: Stronghold.t() | nil,
           resource_rules: [ResourceRule.t()] | %Ecto.Association.NotLoaded{} | nil,
+          medias: [Media.t()] | %Ecto.Association.NotLoaded{} | nil,
           events: [Event.t()] | nil
         }
   schema("instances") do
@@ -54,10 +58,12 @@ defmodule ForbiddenLands.Instances.Instance do
     field(:initial_date, :integer)
     field(:current_date, :integer)
     field(:mood, :string)
+    field(:overlay, :string)
     field(:description, :string)
     field(:introduction, :string)
     embeds_one(:stronghold, Stronghold, on_replace: :update)
     embeds_many(:resource_rules, ResourceRule, on_replace: :delete)
+    embeds_many(:medias, Media, on_replace: :delete)
     has_many(:events, Event)
 
     timestamps(type: :naive_datetime_usec)
@@ -90,12 +96,13 @@ defmodule ForbiddenLands.Instances.Instance do
     |> validate_required([:name, :username, :password, :initial_date, :current_date])
     |> cast_embed(:stronghold, with: &Stronghold.changeset/2)
     |> cast_embed(:resource_rules, with: &ResourceRule.create/2)
+    |> cast_embed(:medias, with: &Media.create/2)
     |> cast_assoc(:events, with: &Event.create_from_export/2)
     |> maybe_hash_password()
   end
 
   @spec update(Instance.t(), map(), list()) :: Ecto.Changeset.t()
-  def update(instance, params \\ %{}, resource_rules \\ []) do
+  def update(instance, params \\ %{}, resource_rules \\ [], medias \\ []) do
     instance
     |> cast(params, [
       :name,
@@ -103,6 +110,7 @@ defmodule ForbiddenLands.Instances.Instance do
       :password,
       :current_date,
       :mood,
+      :overlay,
       :prepend_name,
       :append_name,
       :description,
@@ -111,6 +119,7 @@ defmodule ForbiddenLands.Instances.Instance do
     |> validate_required([:name, :current_date, :mood])
     |> cast_embed(:stronghold, with: &Stronghold.changeset/2)
     |> put_embed(:resource_rules, resource_rules)
+    |> put_embed(:medias, medias)
     |> maybe_hash_password()
   end
 
