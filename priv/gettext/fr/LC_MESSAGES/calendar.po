@@ -59,12 +59,12 @@ msgstr "automne"
 #: lib/forbidden_lands/calendar.ex:464
 #, elixir-autogen, elixir-format
 msgid "fallrise"
-msgstr "nouvel-automne"
+msgstr "neuvautomne"
 
 #: lib/forbidden_lands/calendar.ex:465
 #, elixir-autogen, elixir-format
 msgid "fallwane"
-msgstr "vieil-automne"
+msgstr "vieilautomne"
 
 #: lib/forbidden_lands/calendar.ex:452
 #, elixir-autogen, elixir-format
@@ -124,12 +124,12 @@ msgstr "printemps"
 #: lib/forbidden_lands/calendar.ex:460
 #, elixir-autogen, elixir-format
 msgid "springrise"
-msgstr "nouveau-printemps"
+msgstr "neufprintemps"
 
 #: lib/forbidden_lands/calendar.ex:461
 #, elixir-autogen, elixir-format
 msgid "springwane"
-msgstr "vieux-printemps"
+msgstr "vieuprintemps"
 
 #: lib/forbidden_lands/calendar.ex:474
 #, elixir-autogen, elixir-format
@@ -139,12 +139,12 @@ msgstr "été"
 #: lib/forbidden_lands/calendar.ex:462
 #, elixir-autogen, elixir-format
 msgid "summerrise"
-msgstr "nouvel-été"
+msgstr "neuvété"
 
 #: lib/forbidden_lands/calendar.ex:463
 #, elixir-autogen, elixir-format
 msgid "summerwane"
-msgstr "vieil-été"
+msgstr "vieilété"
 
 #: lib/forbidden_lands/calendar.ex:454
 #, elixir-autogen, elixir-format
@@ -179,12 +179,12 @@ msgstr "hiver"
 #: lib/forbidden_lands/calendar.ex:466
 #, elixir-autogen, elixir-format
 msgid "winterrise"
-msgstr "nouvel-hivers"
+msgstr "neuvhivers"
 
 #: lib/forbidden_lands/calendar.ex:467
 #, elixir-autogen, elixir-format
 msgid "winterwane"
-msgstr "vieil-hivers"
+msgstr "vieilhivers"
 
 #: lib/forbidden_lands/calendar.ex:449
 #, elixir-autogen, elixir-format, fuzzy
