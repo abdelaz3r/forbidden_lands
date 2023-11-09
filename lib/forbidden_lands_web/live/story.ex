@@ -63,7 +63,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
 
         <div class={["relative bg-stone-200 shadow-2xl p-8 md:p-5 z-20 pb-36", border_classes()]}>
           <div class="text-center py-20 md:py-[25vh]">
-            <header class="inline-block m-auto px-4">
+            <header class="inline-block m-auto px-4 md:px-16">
               <h2 :if={@instance.prepend_name} class="inline-block pb-2 text-2xl text-slate-900/50">
                 <%= @instance.prepend_name %>
               </h2>
@@ -93,7 +93,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
               :for={{id, %{event: event, with_day: with_day, with_month: with_month, calendar: calendar}} <- @streams.events}
               id={id}
             >
-              <div :if={with_month} class="text-4xl text-center md:text-left font-bold px-4 md:px-36 py-10">
+              <div :if={with_month} class="text-4xl text-left font-bold px-4 md:px-36 py-10">
                 <%= String.capitalize(calendar.month.name) %>
                 <%= calendar.year.number %>
               </div>
