@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Fl.ProcessItems do
+defmodule Mix.Tasks.Fl.ProcessSpells do
   @shortdoc "[EXPERIMENTAL] Process and translate spells."
 
   @moduledoc """
@@ -70,7 +70,7 @@ defmodule Mix.Tasks.Fl.ProcessItems do
 
   Usage example:
   ```
-  mix fl.process_items \
+  mix fl.process_spells \
     --directory /some/path/to/the/working/directory \
     --source-file structured-input.json \
     --prompt-file openai-prompt.txt \
