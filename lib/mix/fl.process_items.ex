@@ -72,9 +72,8 @@ defmodule Mix.Tasks.Fl.ProcessItems do
     # Read source file
     items =
       read_source!(Path.join(directory, source_file))
-      |> Enum.take_random(2)
+      |> Enum.take_random(10)
 
-    # ...
     Mix.shell().info("Process items:")
     Mix.shell().info("Source file: #{Path.join(directory, source_file)}")
     Mix.shell().info("Source items count: #{length(items)}")
@@ -90,10 +89,12 @@ defmodule Mix.Tasks.Fl.ProcessItems do
     Mix.shell().info("Source langage: #{source_lang}")
     Mix.shell().info("Target langage: #{target_lang}")
     Mix.shell().info("")
-    Mix.shell().info("Processing:")
+    Mix.shell().info("Processing...")
+    Mix.shell().info("It may take a while...")
+    Mix.shell().info("")
 
     # Pipeline to process items
-    return =
+    results =
       items
       |> Enum.with_index(fn item, index ->
         {:ok, Map.put(item, "id", index)}
@@ -116,8 +117,37 @@ defmodule Mix.Tasks.Fl.ProcessItems do
         {:exit, {{:ok, item}, reason}} -> {:error, :pipeline, reason, item}
       end)
 
-    IO.inspect(return)
-    IO.inspect(length(return))
+    success =
+      Enum.filter(results, fn
+        {:ok, _item} -> true
+        _error -> false
+      end)
+
+    failure =
+      Enum.filter(results, fn
+        {:ok, _item} -> false
+        _error -> true
+      end)
+
+    Mix.shell().info("Result:")
+    Mix.shell().info("#{length(success)} items processed successfully")
+
+    Enum.each(failure, fn {:error, type, _reason, item} ->
+      Mix.shell().error("* Item #{item["id"]} failed during #{type}")
+    end)
+
+    Mix.shell().info("")
+
+    # Write results
+    success_json = Poison.encode!(success |> Enum.map(fn {:ok, item} -> item end), %{pretty: true})
+    File.write!(Path.join(directory, "out-success.json"), success_json)
+    failed_json = Poison.encode!(failure |> Enum.map(fn {:error, _, _, item} -> item end), %{pretty: true})
+    File.write!(Path.join(directory, "out-failed.json"), failed_json)
+
+    Mix.shell().info("Successfull results:")
+    Mix.shell().info("Write:")
+    Mix.shell().info("Save successfull items to #{Path.join(directory, "out-success.json")}")
+    Mix.shell().info("Save failed items to #{Path.join(directory, "out-failed.json")}")
   end
 
   defp read_source!(source) do
