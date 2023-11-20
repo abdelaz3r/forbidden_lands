@@ -43,18 +43,52 @@ defmodule Mix.Tasks.Fl.ProcessItems do
     api_key = Keyword.fetch!(options, :apikey)
     org_key = Keyword.fetch!(options, :orgkey)
 
+    # OpenAI config
+    openai_timout = 60_000
+
+    openai_config = %OpenAI.Config{
+      api_key: api_key,
+      organization_key: org_key,
+      http_options: [recv_timeout: openai_timout]
+    }
+
+    openai_prompt = "
+      Extract the 2 to 5 key points of the following content.
+      Output these key points as a markdown list.
+      The first item in the list should be a very short summary of the content, explaining what it does. Treat it as a normal list item, do not prepend anything to it (espacially NOT `- Summary: `).
+      All following items should be short sentences that describe the rules and the effects of the content. Keep each list element as short as possible, try to summarize the list item.
+      Only output that list.
+      Overall, be as concise as possible.
+    "
+
     # Read source file
     items = read_source!(source)
 
     # Pipeline to process items
-    [head | _rest] =
+    return =
       items
       |> Enum.take_random(2)
-      |> Enum.map(&normalize/1)
-      |> Enum.map(fn item -> Task.async(fn -> summarize(item, api_key: api_key, org_key: org_key) end) end)
-      |> Enum.map(fn task -> Task.await(task, :infinity) end)
+      |> Enum.with_index(fn item, index ->
+        {:ok, Map.put(item, "id", index)}
+      end)
+      |> Task.async_stream(
+        fn item ->
+          item
+          |> normalize()
+          |> summarize(openai_config, openai_prompt)
+          |> split_description()
+        end,
+        timeout: openai_timout,
+        on_timeout: :kill_task,
+        zip_input_on_exit: true
+      )
+      |> Enum.map(fn
+        {:ok, item} -> item
+        {:exit, {{:ok, item}, reason}} -> {:error, :pipeline, reason, item}
+      end)
 
-    IO.inspect(head)
+    IO.inspect(return)
+    IO.inspect(length(return))
   end
 
   defp read_source!(source) do
@@ -72,58 +106,48 @@ defmodule Mix.Tasks.Fl.ProcessItems do
     end
   end
 
-  defp normalize(item) do
-    name =
-      item["name"]
-      |> String.downcase()
-      |> String.capitalize()
+  defp normalize({:ok, item}) do
+    keys =
+      ["name", "type", "range", "duration"] ++
+        if(item["ingredient"], do: ["ingredient"], else: [])
 
-    %{item | "name" => name}
+    item =
+      Enum.reduce(keys, item, fn key, acc ->
+        Map.put(acc, key, Map.get(acc, key) |> String.downcase() |> String.capitalize())
+      end)
+
+    {:ok, item}
   end
 
-  defp summarize(item, options) do
-    config = %OpenAI.Config{
-      api_key: Keyword.fetch!(options, :api_key),
-      organization_key: Keyword.fetch!(options, :org_key),
-      http_options: [recv_timeout: 30_000]
-    }
-
-    prompt = "
-      You will take the next content and output a shortened version of it.
-      You will only output the shortened version. Nothing else.
-      If the content is short enought just output it as is.
-      If the content is too long, you must shorten it. You must keep the meaning of the content.
-      You must keep the technical information and term.
-      You must keet the tone of the content.
-      Assume there is a context, do NOT use 'this shield', use 'it' instead.
-      The shortened version must be between 50 and 200 words.
-    "
-
+  defp summarize({:ok, item}, config, prompt) do
     messages = [%{role: "system", content: prompt}, %{role: "user", content: item["description"]}]
     response = OpenAI.chat_completion([model: "gpt-3.5-turbo", messages: messages], config)
 
-    summary =
-      case response do
-        {:ok, %{choices: choices}} ->
-          resp = List.first(choices)
-          resp["message"]["content"]
+    case response do
+      {:ok, %{choices: choices}} ->
+        resp = List.first(choices)
+        desc = resp["message"]["content"]
 
-        {:error, error} ->
-          Mix.shell().error("Error while summarizing items #{item["name"]}:")
-          Mix.shell().error(error)
-      end
+        {:ok, %{item | "description" => desc}}
 
-    IO.puts("SPELL: #{item["name"]}")
-    IO.puts("")
-    IO.puts("Original (length: #{String.length(item["description"])}):")
-    IO.puts(item["description"])
-    IO.puts("")
-    IO.puts("Summarized (length: #{String.length(summary)}):")
-    IO.puts(summary)
-    IO.puts("")
-    IO.puts("-----------")
-    IO.puts("")
-
-    item
+      {:error, error} ->
+        {:error, :summarizing, error, item}
+    end
   end
+
+  defp split_description({:ok, item}) do
+    [header | summary] =
+      item["description"]
+      |> String.trim_leading("- ")
+      |> String.split("\n- ")
+
+    if length(summary) > 0 do
+      {:ok, %{item | "description" => %{"header" => header, "summary" => summary}}}
+    else
+      {:error, :split_description, :cannot_split_description, item}
+    end
+  end
+
+  defp split_description(error),
+    do: error
 end
