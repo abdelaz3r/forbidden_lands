@@ -1,8 +1,83 @@
 defmodule Mix.Tasks.Fl.ProcessItems do
-  @shortdoc "TODO"
+  @shortdoc "[EXPERIMENTAL] Process and translate spells."
 
   @moduledoc """
-  TODO
+  This is an experimental task, use it at your own risk.
+
+  This task will try to take a list of structured extracted spells and process them to:
+  - normalize the data
+  - transform some fields to atoms
+  - summarize and split the description using OpenAI API
+  - translate the data using DeepL API
+  - write the results to a given directory
+
+  Here is the shape of input item:
+  ``` json
+  {
+    "type" => "type",
+    "name" => "NAME",
+    "rank" => 1,
+    "range" => "Range",
+    "duration" => "Duration ",
+    "ingredient" => "Ingredient",
+    "is_ritual" => false,
+    "is_power_word" => false,
+    "description" => "Description"
+  }
+  ```
+
+  Here is the shape of output item:
+  ``` json
+  {
+    "id": 1, # The index of the item in the source file
+    "type": "type", # Atomized type
+    "name": "Name", # Capitalized name
+    "rank": 1,
+    "range": "range", # Atomized range
+    "ingredient": "Ingredient", # Capitalized ingredient
+    "duration": "quarter", # Atomized duration
+    "is_ritual": false,
+    "is_power_word": false,
+    "description": {
+      "summary": [
+        "Key point 1.",
+        "Key point 2."
+      ],
+      "header": "Header."
+    }
+  },
+  ```
+
+  You can find infos about the OpenAI API plan here:
+  https://platform.openai.com/docs/overview
+
+  You can find infos about the DeepL API Free plan here:
+  https://www.deepl.com/pro#developer
+
+  Available options are:
+  * `--directory`: the working directory where the files are located (required)
+  * `--source-file`: the source file name (required)
+  * `--prompt-file`: the prompt file name (required)
+  * `--openai-api-key`: the OpenAI API key (required)
+  * `--openai-org`: the OpenAI organization key (required)
+  * `--openai-timout`: the OpenAI API timeout in milliseconds (default: 60000ms)
+  * `--deepl-api-key`: the DeepL API authentication key (required)
+  * `--source-lang`: the source language (default: FR)
+  * `--target-lang`: the target language (default: EN-GB)
+
+  The list of supported languages can be found here:
+  https://www.deepl.com/docs-api/translate-text/translate-text
+
+  Usage example:
+  ```
+  mix fl.process_items \
+    --directory /some/path/to/the/working/directory \
+    --source-file structured-input.json \
+    --prompt-file openai-prompt.txt \
+    --openai-api-key "mykey" \
+    --openai-org "myorg" \
+    --deepl-api-key "mykey"
+  ```
   """
 
   use Mix.Task
