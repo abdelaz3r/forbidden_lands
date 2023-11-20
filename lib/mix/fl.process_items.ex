@@ -7,9 +7,6 @@ defmodule Mix.Tasks.Fl.ProcessItems do
 
   use Mix.Task
 
-  # alias ForbiddenLands.Instances.Event
-  # alias ForbiddenLands.Instances.Instances
-
   @requirements ["app.start"]
 
   @impl Mix.Task
@@ -17,64 +14,81 @@ defmodule Mix.Tasks.Fl.ProcessItems do
     {options, _, _} =
       OptionParser.parse(args,
         strict: [
-          source: :string,
-          apikey: :string,
-          orgkey: :string
+          directory: :string,
+          source_file: :string,
+          prompt_file: :string,
+          openai_api_key: :string,
+          openai_org: :string,
+          openai_timout: :integer,
+          deepl_api_key: :string,
+          source_lang: :string,
+          target_lang: :string
         ]
       )
 
-    unless Keyword.has_key?(options, :source) do
-      Mix.shell().error("A source file is required.")
-      exit(1)
-    end
+    required_options = [
+      :directory,
+      :source_file,
+      :prompt_file,
+      :openai_api_key,
+      :openai_org,
+      :deepl_api_key
+    ]
 
-    unless Keyword.has_key?(options, :apikey) do
-      Mix.shell().error("An api key is required.")
-      exit(1)
-    end
-
-    unless Keyword.has_key?(options, :orgkey) do
-      Mix.shell().error("An organization key is required.")
+    unless Enum.all?(required_options, fn option -> Keyword.has_key?(options, option) end) do
+      Mix.shell().error("Missing options. Required options are #{inspect(required_options)}")
       exit(1)
     end
 
     # Default options
-    source = Keyword.fetch!(options, :source)
-    api_key = Keyword.fetch!(options, :apikey)
-    org_key = Keyword.fetch!(options, :orgkey)
+    directory = Keyword.fetch!(options, :directory)
+    source_file = Keyword.fetch!(options, :source_file)
+    prompt_file = Keyword.fetch!(options, :prompt_file)
+
+    openai_api_key = Keyword.fetch!(options, :openai_api_key)
+    openai_org = Keyword.fetch!(options, :openai_org)
+    openai_timout = Keyword.get(options, :openai_timout, 60_000)
+
+    deepl_api_key = Keyword.get(options, :deepl_api_key)
+    source_lang = Keyword.get(options, :source_lang, "EN")
+    target_lang = Keyword.get(options, :target_lang, "FR")
 
     # OpenAI config
-    openai_timout = 60_000
-
     openai_config = %OpenAI.Config{
-      api_key: api_key,
-      organization_key: org_key,
+      api_key: openai_api_key,
+      organization_key: openai_org,
       http_options: [recv_timeout: openai_timout]
     }
 
-    openai_prompt = "
-      Extract the 2 to 5 key points of the following content.
-      Output these key points as a markdown list.
-      The first item in the list should be a very short summary of the content, explaining what it does. Treat it as a normal list item, do not prepend anything to it (espacially NOT `- Summary: `).
-      All following items should be short sentences that describe the rules and the effects of the content. Keep each list element as short as possible, try to summarize the list item.
-      Only output that list.
-      Overall, be as concise as possible.
-    "
+    {:ok, openai_prompt} = File.read(Path.join(directory, prompt_file))
+
+    # DeepL config
+    deepl_config = %{
+      source_lang: source_lang,
+      target_lang: target_lang,
+      auth_key: deepl_api_key
+    }
 
     # Read source file
     items =
-      read_source!(source)
+      read_source!(Path.join(directory, source_file))
       |> Enum.take_random(2)
 
     # ...
     Mix.shell().info("Process items:")
-    Mix.shell().info("Source file: #{source}")
+    Mix.shell().info("Source file: #{Path.join(directory, source_file)}")
     Mix.shell().info("Source items count: #{length(items)}")
     Mix.shell().info("")
     Mix.shell().info("Open AI config:")
-    Mix.shell().info("Api key: #{api_key}")
-    Mix.shell().info("Organization key: #{org_key}")
-    Mix.shell().info("Timeout: #{openai_timout}")
+    Mix.shell().info("Api key: #{openai_api_key}")
+    Mix.shell().info("Organization key: #{openai_org}")
+    Mix.shell().info("Timeout: #{openai_timout}ms")
+    Mix.shell().info("Prompt file: #{Path.join(directory, prompt_file)}")
+    Mix.shell().info("")
+    Mix.shell().info("Translation config:")
+    Mix.shell().info("Api key: #{deepl_api_key}")
+    Mix.shell().info("Source langage: #{source_lang}")
+    Mix.shell().info("Target langage: #{target_lang}")
     Mix.shell().info("")
     Mix.shell().info("Processing:")
 
@@ -93,6 +107,8 @@ defmodule Mix.Tasks.Fl.ProcessItems do
           |> summarize(openai_config, openai_prompt)
           |> print_step("spliting description")
           |> split_description()
+          |> print_step("translate")
+          |> translate(deepl_config)
         end,
         timeout: openai_timout,
         on_timeout: :kill_task,
@@ -176,4 +192,58 @@ defmodule Mix.Tasks.Fl.ProcessItems do
 
   defp split_description(error),
     do: error
+
+  defp translate({:ok, %{"ingredient" => ""} = item}, config) do
+    texts = [item["name"], item["description"]["header"]] ++ item["description"]["summary"]
+
+    case do_translate(texts, item, config) do
+      {:ok, [n, h | s]} ->
+        {:ok, %{item | "name" => n, "description" => %{"header" => h, "summary" => s}}}
+
+      error ->
+        error
+    end
+  end
+
+  defp translate({:ok, item}, config) do
+    texts = [item["name"], item["ingredient"], item["description"]["header"]] ++ item["description"]["summary"]
+
+    case do_translate(texts, item, config) do
+      {:ok, [n, i, h | s]} ->
+        {:ok, %{item | "name" => n, "ingredient" => i, "description" => %{"header" => h, "summary" => s}}}
+
+      error ->
+        error
+    end
+  end
+
+  defp translate(error, _config),
+    do: error
+
+  defp do_translate(texts, item, config) do
+    request = %HTTPoison.Request{
+      method: :post,
+      url: "https://api-free.deepl.com/v2/translate",
+      body:
+        Poison.encode!(%{
+          text: texts,
+          source_lang: config.source_lang,
+          target_lang: config.target_lang
+        }),
+      headers: [
+        {"Authorization", "DeepL-Auth-Key #{config.auth_key}"},
+        {"Content-Type", "application/json"},
+        {"Accept", "application/json"}
+      ]
+    }
+
+    with {:ok, %HTTPoison.Response{status_code: 200, body: body}} <- HTTPoison.request(request),
+         {:ok, response} <- Poison.decode(body),
+         %{"translations" => translations} <- response do
+      {:ok, Enum.map(translations, fn %{"text" => text} -> text end)}
+    else
+      {:error, reason} -> {:error, :translate, reason, item}
+      reason -> {:error, :translate, reason, item}
+    end
+  end
 end
