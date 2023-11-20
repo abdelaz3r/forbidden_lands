@@ -101,13 +101,10 @@ defmodule Mix.Tasks.Fl.ProcessItems do
       |> Task.async_stream(
         fn item ->
           item
-          |> print_step("normalize")
           |> normalize()
-          |> print_step("summarize")
+          |> atomize()
           |> summarize(openai_config, openai_prompt)
-          |> print_step("spliting description")
           |> split_description()
-          |> print_step("translate")
           |> translate(deepl_config)
         end,
         timeout: openai_timout,
@@ -138,20 +135,8 @@ defmodule Mix.Tasks.Fl.ProcessItems do
     end
   end
 
-  defp print_step({:ok, item}, label) do
-    Mix.shell().info("* #{String.capitalize(label)} [item #{item["id"]}]")
-    {:ok, item}
-  end
-
-  defp print_step({:error, type, reason, item}, label) do
-    Mix.shell().info("* Skip #{label} [item #{item["id"]}]")
-    {:error, type, reason, item}
-  end
-
   defp normalize({:ok, item}) do
-    keys =
-      ["name", "type", "range", "duration"] ++
-        if(item["ingredient"], do: ["ingredient"], else: [])
+    keys = ["name"] ++ if(item["ingredient"], do: ["ingredient"], else: [])
 
     item =
       Enum.reduce(keys, item, fn key, acc ->
@@ -160,6 +145,49 @@ defmodule Mix.Tasks.Fl.ProcessItems do
 
     {:ok, item}
   end
+
+  defp atomize({:ok, item}) do
+    item =
+      Enum.reduce(["type", "range", "duration"], item, fn key, acc ->
+        Map.put(acc, key, Map.get(acc, key) |> String.downcase())
+      end)
+
+    {:ok,
+     %{
+       item
+       | "type" => do_atomize(item["type"]),
+         "range" => do_atomize(item["range"]),
+         "duration" => do_atomize(item["duration"])
+     }}
+  end
+
+  defp do_atomize("awareness"), do: :awareness
+  defp do_atomize("blood magic"), do: :blood_magic
+  defp do_atomize("death magic"), do: :death_magic
+  defp do_atomize("general"), do: :general
+  defp do_atomize("healing"), do: :healing
+  defp do_atomize("shapeshifting"), do: :shapeshifting
+  defp do_atomize("stone song"), do: :stone_song
+  defp do_atomize("symbolism"), do: :symbolism
+
+  defp do_atomize("arm’s length"), do: :arms_length
+  defp do_atomize("distant"), do: :distant
+  defp do_atomize("long"), do: :long
+  defp do_atomize("near"), do: :near
+  defp do_atomize("personal"), do: :personal
+  defp do_atomize("short"), do: :short
+  defp do_atomize("unlimited"), do: :unlimited
+
+  defp do_atomize("immediate"), do: :immediate
+  defp do_atomize("one round"), do: :round
+  defp do_atomize("one round per power level"), do: :round_per_level
+  defp do_atomize("one turn (15 minutes)"), do: :turn
+  defp do_atomize("one turn per power level"), do: :turn_per_level
+  defp do_atomize("quarter day"), do: :quarter
+  defp do_atomize("quarter day per power level"), do: :quarter_per_level
+
+  defp do_atomize("varies"), do: :varies
+  defp do_atomize(_), do: :unknown
 
   defp summarize({:ok, item}, config, prompt) do
     messages = [%{role: "system", content: prompt}, %{role: "user", content: item["description"]}]
