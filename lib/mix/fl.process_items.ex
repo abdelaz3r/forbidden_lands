@@ -251,7 +251,7 @@ defmodule Mix.Tasks.Fl.ProcessItems do
   defp split_description(error),
     do: error
 
-  defp translate({:ok, %{"ingredient" => ""} = item}, config) do
+  defp translate({:ok, %{"ingredient" => nil} = item}, config) do
     texts = [item["name"], item["description"]["header"]] ++ item["description"]["summary"]
 
     case do_translate(texts, item, config) do
