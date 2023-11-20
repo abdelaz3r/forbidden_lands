@@ -62,20 +62,36 @@ defmodule Mix.Tasks.Fl.ProcessItems do
     "
 
     # Read source file
-    items = read_source!(source)
+    items =
+      read_source!(source)
+      |> Enum.take_random(2)
+
+    # ...
+    Mix.shell().info("Process items:")
+    Mix.shell().info("Source file: #{source}")
+    Mix.shell().info("Source items count: #{length(items)}")
+    Mix.shell().info("")
+    Mix.shell().info("Open AI config:")
+    Mix.shell().info("Api key: #{api_key}")
+    Mix.shell().info("Organization key: #{org_key}")
+    Mix.shell().info("Timeout: #{openai_timout}")
+    Mix.shell().info("")
+    Mix.shell().info("Processing:")
 
     # Pipeline to process items
     return =
       items
-      |> Enum.take_random(2)
       |> Enum.with_index(fn item, index ->
         {:ok, Map.put(item, "id", index)}
       end)
       |> Task.async_stream(
         fn item ->
           item
+          |> print_step("normalize")
           |> normalize()
+          |> print_step("summarize")
           |> summarize(openai_config, openai_prompt)
+          |> print_step("spliting description")
           |> split_description()
         end,
         timeout: openai_timout,
@@ -104,6 +120,16 @@ defmodule Mix.Tasks.Fl.ProcessItems do
         Mix.shell().error("Error:")
         Mix.shell().error(error)
     end
+  end
+
+  defp print_step({:ok, item}, label) do
+    Mix.shell().info("* #{String.capitalize(label)} [item #{item["id"]}]")
+    {:ok, item}
+  end
+
+  defp print_step({:error, type, reason, item}, label) do
+    Mix.shell().info("* Skip #{label} [item #{item["id"]}]")
+    {:error, type, reason, item}
   end
 
   defp normalize({:ok, item}) do
