@@ -70,9 +70,7 @@ defmodule Mix.Tasks.Fl.ProcessItems do
     }
 
     # Read source file
-    items =
-      read_source!(Path.join(directory, source_file))
-      |> Enum.take_random(10)
+    items = read_source!(Path.join(directory, source_file))
 
     Mix.shell().info("Process items:")
     Mix.shell().info("Source file: #{Path.join(directory, source_file)}")
