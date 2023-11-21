@@ -45,3 +45,6 @@ npm-debug.log
 # Do not store music and playlist file.
 /priv/static/musics/
 /priv/static/mood.txt
+
+# Do not store spells.
+/priv/static/spells/
