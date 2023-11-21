@@ -31,6 +31,7 @@ defmodule ForbiddenLandsWeb.Router do
         live("/adventure/:id/story", Story)
         live("/adventure/:id/story#:anchor", Story)
         live("/about", About)
+        live("/spells", Spells)
       end
     end
 
