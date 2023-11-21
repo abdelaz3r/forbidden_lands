@@ -9,7 +9,9 @@ defmodule ForbiddenLandsWeb.Live.Spells do
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
-    file_path = List.to_string(:code.priv_dir(:forbidden_lands)) <> "/static/spells-fr.json"
+    file_path =
+      List.to_string(:code.priv_dir(:forbidden_lands)) <>
+        "/static/spells/#{Gettext.get_locale()}.json"
 
     spells =
       with {:ok, file} <- File.read(file_path),
