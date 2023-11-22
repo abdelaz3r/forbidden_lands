@@ -739,3 +739,8 @@ msgstr "Aucun overlay"
 #, elixir-autogen, elixir-format
 msgid "Active overlay"
 msgstr "Overlay actif"
+
+#: lib/forbidden_lands_web/live/spells.ex:45
+#, elixir-autogen, elixir-format
+msgid "Spells list"
+msgstr "Liste des sorts"

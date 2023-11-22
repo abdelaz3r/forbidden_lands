@@ -1,0 +1,179 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n>1);\n"
+
+#: lib/forbidden_lands_web/live/spells.ex:367
+#, elixir-autogen, elixir-format
+msgid "1 quarter"
+msgstr "1 quarter"
+
+#: lib/forbidden_lands_web/live/spells.ex:368
+#, elixir-autogen, elixir-format
+msgid "1 quarter/lvl."
+msgstr "1 quarter/niv."
+
+#: lib/forbidden_lands_web/live/spells.ex:363
+#, elixir-autogen, elixir-format
+msgid "1 round"
+msgstr "1 round"
+
+#: lib/forbidden_lands_web/live/spells.ex:364
+#, elixir-autogen, elixir-format
+msgid "1 round/lvl."
+msgstr "1 round/niv."
+
+#: lib/forbidden_lands_web/live/spells.ex:365
+#, elixir-autogen, elixir-format
+msgid "1 turn"
+msgstr "1 tour"
+
+#: lib/forbidden_lands_web/live/spells.ex:366
+#, elixir-autogen, elixir-format
+msgid "1 turn/lvl."
+msgstr "1 tour/niv."
+
+#: lib/forbidden_lands_web/live/spells.ex:48
+#, elixir-autogen, elixir-format
+msgid "All durations"
+msgstr "Toutes durées"
+
+#: lib/forbidden_lands_web/live/spells.ex:49
+#, elixir-autogen, elixir-format
+msgid "All ranges"
+msgstr "Toutes portées"
+
+#: lib/forbidden_lands_web/live/spells.ex:50
+#, elixir-autogen, elixir-format
+msgid "All ranks"
+msgstr "Tous niveaux"
+
+#: lib/forbidden_lands_web/live/spells.ex:47
+#, elixir-autogen, elixir-format
+msgid "All types"
+msgstr "Tous types"
+
+#: lib/forbidden_lands_web/live/spells.ex:373
+#, elixir-autogen, elixir-format
+msgid "Arm's length"
+msgstr "Autour de soi"
+
+#: lib/forbidden_lands_web/live/spells.ex:355
+#, elixir-autogen, elixir-format
+msgid "Awareness"
+msgstr "Magie de l'Œil"
+
+#: lib/forbidden_lands_web/live/spells.ex:358
+#, elixir-autogen, elixir-format
+msgid "Blood Magic"
+msgstr "Magie du Sang"
+
+#: lib/forbidden_lands_web/live/spells.ex:352
+#, elixir-autogen, elixir-format
+msgid "Common Magic"
+msgstr "Magie Commune"
+
+#: lib/forbidden_lands_web/live/spells.ex:359
+#, elixir-autogen, elixir-format
+msgid "Death Magic"
+msgstr "Magie de la Mort"
+
+#: lib/forbidden_lands_web/live/spells.ex:377
+#, elixir-autogen, elixir-format
+msgid "Distant"
+msgstr "Jusqu'à l'horizon"
+
+#: lib/forbidden_lands_web/live/spells.ex:353
+#, elixir-autogen, elixir-format
+msgid "Healing"
+msgstr "Magie du Soin"
+
+#: lib/forbidden_lands_web/live/spells.ex:362
+#, elixir-autogen, elixir-format
+msgid "Immediate"
+msgstr "Immédiat"
+
+#: lib/forbidden_lands_web/live/spells.ex:376
+#, elixir-autogen, elixir-format
+msgid "Long"
+msgstr "<100 mètres"
+
+#: lib/forbidden_lands_web/live/spells.ex:374
+#, elixir-autogen, elixir-format
+msgid "Near"
+msgstr "Zone courante"
+
+#: lib/forbidden_lands_web/live/spells.ex:372
+#, elixir-autogen, elixir-format
+msgid "Personal"
+msgstr "Sur soi"
+
+#: lib/forbidden_lands_web/live/spells.ex:145
+#, elixir-autogen, elixir-format
+msgid "Power word"
+msgstr "Mot de pouvoir"
+
+#: lib/forbidden_lands_web/live/spells.ex:38
+#, elixir-autogen, elixir-format
+msgid "Rank %{level}"
+msgstr "Niveau %{level}"
+
+#: lib/forbidden_lands_web/live/spells.ex:142
+#, elixir-autogen, elixir-format
+msgid "Ritual"
+msgstr "Rituel"
+
+#: lib/forbidden_lands_web/live/spells.ex:354
+#, elixir-autogen, elixir-format
+msgid "Shapeshifting"
+msgstr "Changeforme"
+
+#: lib/forbidden_lands_web/live/spells.ex:375
+#, elixir-autogen, elixir-format
+msgid "Short"
+msgstr "<25 mètres"
+
+#: lib/forbidden_lands_web/live/spells.ex:357
+#, elixir-autogen, elixir-format
+msgid "Stone Song"
+msgstr "Chant des pierres"
+
+#: lib/forbidden_lands_web/live/spells.ex:356
+#, elixir-autogen, elixir-format
+msgid "Symbolism"
+msgstr "Symbolisme"
+
+#: lib/forbidden_lands_web/live/spells.ex:71
+#, elixir-autogen, elixir-format
+msgid "Type to filter spells"
+msgstr "Écrivez pour filtrer les sorts"
+
+#: lib/forbidden_lands_web/live/spells.ex:360
+#, elixir-autogen, elixir-format
+msgid "Unknown Magic"
+msgstr "Magie inconnue"
+
+#: lib/forbidden_lands_web/live/spells.ex:378
+#, elixir-autogen, elixir-format
+msgid "Unlimited"
+msgstr "Illimité"
+
+#: lib/forbidden_lands_web/live/spells.ex:369
+#: lib/forbidden_lands_web/live/spells.ex:379
+#, elixir-autogen, elixir-format
+msgid "Varies"
+msgstr "Variable"
+
+#: lib/forbidden_lands_web/live/spells.ex:370
+#: lib/forbidden_lands_web/live/spells.ex:380
+#, elixir-autogen, elixir-format
+msgid "—"
+msgstr "—"
