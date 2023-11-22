@@ -16,8 +16,9 @@ defmodule Mix.Tasks.Fl.ProcessPlaylists do
   will be used as the mood name. Musics must be in mp3 format.
 
   Usage example:
-  ```
-  mix fl.process_playlists --source "priv/static/musics" \\
+  ``` sh
+  mix fl.process_playlists \
+    --source "priv/static/musics" \
     --target "priv/static/mood.txt"
   ```
   """

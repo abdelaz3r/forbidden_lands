@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
   @shortdoc "[EXPERIMENTAL] Process and translate spells."
 
   @moduledoc """
-  This is an experimental task, use it at your own risk.
+  This is an experimental task, use it at your own risk!
 
   This task will try to take a list of structured extracted spells and process them to:
   - normalize the data
@@ -62,14 +62,14 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
   * `--openai-org`: the OpenAI organization key (required)
   * `--openai-timout`: the OpenAI API timeout in milliseconds (default: 60000ms)
   * `--deepl-api-key`: the DeepL API authentication key (required)
-  * `--source-lang`: the source language (default: FR)
-  * `--target-lang`: the target language (default: EN-GB)
+  * `--source-lang`: the source language (default: EN)
+  * `--target-lang`: the target language (default: FR)
 
   The list of supported languages can be found here:
   https://www.deepl.com/docs-api/translate-text/translate-text
 
   Usage example:
-  ```
+  ``` sh
   mix fl.process_spells \
     --directory /some/path/to/the/working/directory \
     --source-file structured-input.json \
