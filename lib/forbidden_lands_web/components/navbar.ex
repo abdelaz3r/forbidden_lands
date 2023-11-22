@@ -23,6 +23,9 @@ defmodule ForbiddenLandsWeb.Components.Navbar do
         <.link navigate={~p"/#{Gettext.get_locale()}/about"} class={link_classes()}>
           <%= dgettext("app", "About") %>
         </.link>
+        <.link navigate={~p"/#{Gettext.get_locale()}/spells"} class={link_classes()}>
+          <%= dgettext("app", "Spells list") %>
+        </.link>
       </nav>
 
       <nav class="flex items-center gap-4">

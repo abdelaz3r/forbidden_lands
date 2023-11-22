@@ -35,19 +35,19 @@ defmodule ForbiddenLandsWeb.Live.Spells do
       end)
 
     # Set ranks
-    ranks = Enum.map(1..3, fn i -> {dgettext("spells", "Niveau %{level}", level: i), i} end)
+    ranks = Enum.map(1..3, fn i -> {dgettext("spells", "Rank %{level}", level: i), i} end)
 
     # TODO:
     # Set is_official filter
 
     socket =
       socket
-      |> assign(page_title: dgettext("app", "Spells"))
+      |> assign(page_title: dgettext("app", "Spells list"))
       |> assign(spells_json: spells_json)
-      |> assign(types: [{dgettext("spells", "Tous types"), "all"} | types |> MapSet.to_list()])
-      |> assign(durations: [{dgettext("spells", "Toutes durées"), "all"} | durations |> MapSet.to_list()])
-      |> assign(ranges: [{dgettext("spells", "Toutes distances"), "all"} | ranges |> MapSet.to_list()])
-      |> assign(ranks: [{dgettext("spells", "Tous niveaux"), 0} | ranks])
+      |> assign(types: [{dgettext("spells", "All types"), "all"} | types |> MapSet.to_list()])
+      |> assign(durations: [{dgettext("spells", "All durations"), "all"} | durations |> MapSet.to_list()])
+      |> assign(ranges: [{dgettext("spells", "All ranges"), "all"} | ranges |> MapSet.to_list()])
+      |> assign(ranks: [{dgettext("spells", "All ranks"), 0} | ranks])
       |> assign(filters: filter_changeset())
 
     {:ok, socket}
@@ -68,7 +68,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
         <.simple_form :let={f} as={:filters} for={@filters} phx-change="update_filters">
           <div class="flex gap-5">
             <div class="grow">
-              <.input field={{f, :text}} placeholder="Écrivez pour filtrer les sorts" autocomplete="off" />
+              <.input field={{f, :text}} placeholder={dgettext("spells", "Type to filter spells")} autocomplete="off" />
             </div>
             <.input field={{f, :type}} type="select" options={@types} />
             <.input field={{f, :duration}} type="select" options={@durations} />
@@ -139,10 +139,10 @@ defmodule ForbiddenLandsWeb.Live.Spells do
                 </div>
                 <div>
                   <span :if={spell.is_ritual}>
-                    Rituel
+                    <%= dgettext("spells", "Ritual") %>
                   </span>
                   <span :if={spell.is_power_word}>
-                    Mot de pouvoir
+                    <%= dgettext("spells", "Power word") %>
                   </span>
                 </div>
               </div>
@@ -349,33 +349,33 @@ defmodule ForbiddenLandsWeb.Live.Spells do
     "background: white;"
   end
 
-  defp type_locale("general"), do: dgettext("spells", "Magie commune")
-  defp type_locale("healing"), do: dgettext("spells", "Magie de soin")
-  defp type_locale("shapeshifting"), do: dgettext("spells", "Changeforme")
-  defp type_locale("awareness"), do: dgettext("spells", "Magie de l'Œil")
-  defp type_locale("symbolism"), do: dgettext("spells", "Symbolisme")
-  defp type_locale("stone_song"), do: dgettext("spells", "Chant de la Pierre")
-  defp type_locale("blood_magic"), do: dgettext("spells", "Magie du Sang")
-  defp type_locale("death_magic"), do: dgettext("spells", "Magie de la Mort")
-  defp type_locale(_), do: dgettext("spells", "Magie inconnue")
+  defp type_locale("general"), do: dgettext("spells", "Common Magic")
+  defp type_locale("healing"), do: dgettext("spells", "Healing")
+  defp type_locale("shapeshifting"), do: dgettext("spells", "Shapeshifting")
+  defp type_locale("awareness"), do: dgettext("spells", "Awareness")
+  defp type_locale("symbolism"), do: dgettext("spells", "Symbolism")
+  defp type_locale("stone_song"), do: dgettext("spells", "Stone Song")
+  defp type_locale("blood_magic"), do: dgettext("spells", "Blood Magic")
+  defp type_locale("death_magic"), do: dgettext("spells", "Death Magic")
+  defp type_locale(_), do: dgettext("spells", "Unknown Magic")
 
-  defp duration_locale("immediate"), do: dgettext("spells", "Immédiat")
+  defp duration_locale("immediate"), do: dgettext("spells", "Immediate")
   defp duration_locale("round"), do: dgettext("spells", "1 round")
-  defp duration_locale("round_per_level"), do: dgettext("spells", "1 round/niv.")
-  defp duration_locale("turn"), do: dgettext("spells", "1 tour")
-  defp duration_locale("turn_per_level"), do: dgettext("spells", "1 tour/niv.")
+  defp duration_locale("round_per_level"), do: dgettext("spells", "1 round/lvl.")
+  defp duration_locale("turn"), do: dgettext("spells", "1 turn")
+  defp duration_locale("turn_per_level"), do: dgettext("spells", "1 turn/lvl.")
   defp duration_locale("quarter"), do: dgettext("spells", "1 quarter")
-  defp duration_locale("quarter_per_level"), do: dgettext("spells", "1 quarter/niv.")
-  defp duration_locale("varies"), do: dgettext("spells", "Variables")
+  defp duration_locale("quarter_per_level"), do: dgettext("spells", "1 quarter/lvl.")
+  defp duration_locale("varies"), do: dgettext("spells", "Varies")
   defp duration_locale(_), do: dgettext("spells", "—")
 
-  defp range_locale("personal"), do: dgettext("spells", "Sur soi")
-  defp range_locale("arms_length"), do: dgettext("spells", "Autour de soi")
-  defp range_locale("near"), do: dgettext("spells", "Zone courante")
-  defp range_locale("short"), do: dgettext("spells", "<25 mètres")
-  defp range_locale("long"), do: dgettext("spells", "<100 mètres")
-  defp range_locale("distant"), do: dgettext("spells", "Jusqu'à l'horizon")
-  defp range_locale("unlimited"), do: dgettext("spells", "Illimité")
-  defp range_locale("varies"), do: dgettext("spells", "Variable")
+  defp range_locale("personal"), do: dgettext("spells", "Personal")
+  defp range_locale("arms_length"), do: dgettext("spells", "Arm's length")
+  defp range_locale("near"), do: dgettext("spells", "Near")
+  defp range_locale("short"), do: dgettext("spells", "Short")
+  defp range_locale("long"), do: dgettext("spells", "Long")
+  defp range_locale("distant"), do: dgettext("spells", "Distant")
+  defp range_locale("unlimited"), do: dgettext("spells", "Unlimited")
+  defp range_locale("varies"), do: dgettext("spells", "Varies")
   defp range_locale(_), do: dgettext("spells", "—")
 end
