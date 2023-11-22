@@ -37,9 +37,6 @@ defmodule ForbiddenLandsWeb.Live.Spells do
     # Set ranks
     ranks = Enum.map(1..3, fn i -> {dgettext("spells", "Rank %{level}", level: i), i} end)
 
-    # TODO:
-    # Set is_official filter
-
     socket =
       socket
       |> assign(page_title: dgettext("app", "Spells list"))
@@ -134,9 +131,12 @@ defmodule ForbiddenLandsWeb.Live.Spells do
                     <%= spell.type_locale %>
                   </span>
                   <span class="flex gap-1">
-                    <span class="h-1 w-1 rounded-md" style={"background: rgba(#{spell.style}, 1);"}></span>
-                    <span class="h-1 w-6 rounded-md" style={"background: rgba(#{spell.style}, 1);"}></span>
-                    <span class="h-1 w-2 rounded-md" style={"background: rgba(#{spell.style}, 1);"}></span>
+                    <span
+                      :for={width <- spell.pattern}
+                      class="h-1 rounded-md"
+                      style={"background: rgba(#{spell.style}, 1); width: #{width * 4}px;"}
+                    >
+                    </span>
                   </span>
                 </div>
                 <div>
@@ -172,7 +172,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
               spell.desc_length > 550 && "text-[13px] leading-4"
             ]}>
               <div>
-                <span class="font-bold">
+                <span class={["font-bold", spell.desc_length < 310 && "block pb-2"]}>
                   <%= spell.desc_header %>
                 </span>
                 <%= spell.desc_summary %>
@@ -186,22 +186,15 @@ defmodule ForbiddenLandsWeb.Live.Spells do
   end
 
   @impl Phoenix.LiveView
-  def handle_event(
-        "update_filters",
-        %{
-          "filters" =>
-            %{"text" => text, "type" => type, "duration" => duration, "range" => range, "rank" => rank} = changeset
-        },
-        socket
-      ) do
+  def handle_event("update_filters", %{"filters" => changeset}, socket) do
     socket =
       socket
-      |> assign(filters_text: text)
-      |> assign(filters_type: type)
-      |> assign(filters_duration: duration)
-      |> assign(filters_range: range)
-      |> assign(filters_rank: String.to_integer(rank))
       |> assign(filters: filter_changeset(changeset))
+      |> assign(filters_text: changeset["text"])
+      |> assign(filters_type: changeset["type"])
+      |> assign(filters_duration: changeset["duration"])
+      |> assign(filters_range: changeset["range"])
+      |> assign(filters_rank: String.to_integer(changeset["rank"]))
       |> filter_json()
 
     {:noreply, socket}
@@ -232,6 +225,8 @@ defmodule ForbiddenLandsWeb.Live.Spells do
           (filters_range == "all" or spell["range"] == filters_range) and
           (filters_rank == 0 or spell["rank"] == filters_rank)
       end)
+      |> Enum.sort_by(fn spell -> spell["rank"] end)
+      |> Enum.sort_by(fn spell -> spell["type"] end)
       |> Enum.map(fn spell ->
         %{
           type: spell["type"],
@@ -253,7 +248,8 @@ defmodule ForbiddenLandsWeb.Live.Spells do
           desc_length:
             String.length(spell["description"]["header"] <> Enum.join(spell["description"]["summary"], " ")),
           style: color_by_type(spell["type"]),
-          background: background(spell["type"], color_by_type(spell["type"]))
+          background: background_by_type(spell["type"], color_by_type(spell["type"])),
+          pattern: pattern_by_type(spell["type"])
         }
       end)
 
@@ -270,18 +266,28 @@ defmodule ForbiddenLandsWeb.Live.Spells do
   defp color_by_type("death_magic"), do: "137, 112, 140"
   defp color_by_type(_), do: "0, 0, 0"
 
-  defp background("general", color) do
+  defp pattern_by_type("general"), do: [3, 1]
+  defp pattern_by_type("healing"), do: [1, 1, 4]
+  defp pattern_by_type("shapeshifting"), do: [2, 2, 2]
+  defp pattern_by_type("awareness"), do: [4, 2, 2]
+  defp pattern_by_type("symbolism"), do: [1, 2, 1, 2, 1]
+  defp pattern_by_type("stone_song"), do: [7, 1]
+  defp pattern_by_type("blood_magic"), do: [1, 1, 1, 1]
+  defp pattern_by_type("death_magic"), do: [2, 5, 1]
+  defp pattern_by_type(_), do: [5]
+
+  defp background_by_type("general", color) do
     "background: linear-gradient(to bottom left, rgba(#{color}, .1), rgba(#{color}, .0));"
   end
 
-  defp background("healing", color) do
+  defp background_by_type("healing", color) do
     "background-image:
        repeating-radial-gradient(circle at 0 0, transparent 0, rgba(#{color}, .08) 10px),
        repeating-linear-gradient(rgba(#{color}, .01), rgba(#{color}, .02));
      background-color: rgba(#{color}, .05);"
   end
 
-  defp background("shapeshifting", color) do
+  defp background_by_type("shapeshifting", color) do
     "--c: rgba(#{color}, .1);
      background:
        radial-gradient(circle at bottom left, var(--c) 35%, transparent 36%),
@@ -291,7 +297,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
      background-position: -5px 0;"
   end
 
-  defp background("awareness", color) do
+  defp background_by_type("awareness", color) do
     "--c: rgba(#{color}, .1);
      background: radial-gradient(
        circle at center, var(--c), var(--c) 10%, transparent 10%, transparent 20%, var(--c) 20%, var(--c) 30%,
@@ -301,7 +307,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
      background-position: 2px -10px;"
   end
 
-  defp background("symbolism", color) do
+  defp background_by_type("symbolism", color) do
     "--c: rgba(#{color}, .1);
      background:
        linear-gradient(45deg, transparent 34%, var(--c) 35%, var(--c) 40%, transparent 41%, transparent 59%, var(--c)  60%, var(--c) 65%, transparent 66%),
@@ -315,7 +321,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
      background-position: -3px -3px;"
   end
 
-  defp background("stone_song", color) do
+  defp background_by_type("stone_song", color) do
     "--c: rgba(#{color}, .25);
      background:
        radial-gradient(circle, var(--c) 10%, transparent 11%),
@@ -327,7 +333,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
      background-position: 0 -3px;"
   end
 
-  defp background("blood_magic", color) do
+  defp background_by_type("blood_magic", color) do
     "--c: rgba(#{color}, .18);
      background:
        linear-gradient(25deg, #ffffff 40%, transparent 41%, transparent 59%, #ffffff 60%),
@@ -337,7 +343,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
      background-position: 3px 0;"
   end
 
-  defp background("death_magic", color) do
+  defp background_by_type("death_magic", color) do
     "--c: rgba(#{color}, .15);
      background:
        radial-gradient(circle, transparent 25%, #ffffff  26%),
@@ -347,7 +353,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
      background-position: -3px -2px;"
   end
 
-  defp background(_type, _color) do
+  defp background_by_type(_type, _color) do
     "background: white;"
   end
 
