@@ -22,9 +22,14 @@ defmodule Mix.Tasks.Fl.TranslateEvents do
   https://www.deepl.com/docs-api/translate-text/translate-text
 
   Usage example:
-  ```
-  mix fl.translate_events --instance 3 --auth-key "my-api-key" --limit 30 \\
-    --offset 5 --source "EN" --target "FR"
+  ``` sh
+  mix fl.translate_events \
+    --instance 3 \
+    --auth-key "my-api-key" \
+    --limit 30 \
+    --offset 5 \
+    --source "EN" \
+    --target "FR"
   ```
   """
 
