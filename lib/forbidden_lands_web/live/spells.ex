@@ -9,6 +9,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
+    # Load spells from JSON file
     file_path =
       List.to_string(:code.priv_dir(:forbidden_lands)) <>
         "/static/spells/#{Gettext.get_locale()}.json"
@@ -22,11 +23,32 @@ defmodule ForbiddenLandsWeb.Live.Spells do
         {:error, _reason} -> []
       end
 
+    # Extract dynamic types, durations and ranges
+    {types, durations, ranges} =
+      spells_json
+      |> Enum.reduce({MapSet.new(), MapSet.new(), MapSet.new()}, fn spell, {types, durations, ranges} ->
+        {
+          MapSet.put(types, {type_locale(spell["type"]), spell["type"]}),
+          MapSet.put(durations, {duration_locale(spell["duration"]), spell["duration"]}),
+          MapSet.put(ranges, {range_locale(spell["range"]), spell["range"]})
+        }
+      end)
+
+    # Set ranks
+    ranks = Enum.map(1..3, fn i -> {dgettext("spells", "Niveau %{level}", level: i), i} end)
+
+    # TODO:
+    # Set is_official filter
+
     socket =
       socket
       |> assign(page_title: dgettext("app", "Spells"))
       |> assign(spells_json: spells_json)
-      |> assign(filters: Ecto.Changeset.change({%{text: nil}, %{text: :string}}))
+      |> assign(types: [{dgettext("spells", "Tous types"), "all"} | types |> MapSet.to_list()])
+      |> assign(durations: [{dgettext("spells", "Toutes durées"), "all"} | durations |> MapSet.to_list()])
+      |> assign(ranges: [{dgettext("spells", "Toutes distances"), "all"} | ranges |> MapSet.to_list()])
+      |> assign(ranks: [{dgettext("spells", "Tous niveaux"), 0} | ranks])
+      |> assign(filters: filter_changeset())
 
     {:ok, socket}
   end
@@ -48,6 +70,10 @@ defmodule ForbiddenLandsWeb.Live.Spells do
             <div class="grow">
               <.input field={{f, :text}} placeholder="Écrivez pour filtrer les sorts" autocomplete="off" />
             </div>
+            <.input field={{f, :type}} type="select" options={@types} />
+            <.input field={{f, :duration}} type="select" options={@durations} />
+            <.input field={{f, :range}} type="select" options={@ranges} />
+            <.input field={{f, :rank}} type="select" options={@ranks} />
           </div>
         </.simple_form>
       </div>
@@ -106,7 +132,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
               <div class="flex justify-between pb-2">
                 <div class="flex items-baseline gap-2">
                   <span>
-                    <%= spell.type %>
+                    <%= spell.type_locale %>
                   </span>
                   <span class="flex gap-1">
                     <span class="h-1 w-1 rounded-md" style={"background: rgba(#{spell.style}, 1);"}></span>
@@ -121,8 +147,8 @@ defmodule ForbiddenLandsWeb.Live.Spells do
 
               <div class="text-base border-t border-b" style={"border-color: rgba(#{spell.style}, .25);"}>
                 <div class="flex justify-between pt-2">
-                  <div><%= spell.range %></div>
-                  <div><%= spell.duration %></div>
+                  <div><%= spell.range_locale %></div>
+                  <div><%= spell.duration_locale %></div>
                 </div>
 
                 <div class="flex items-center gap-2 pb-2">
@@ -156,28 +182,59 @@ defmodule ForbiddenLandsWeb.Live.Spells do
   end
 
   @impl Phoenix.LiveView
-  def handle_event("update_filters", %{"filters" => %{"text" => text}}, socket) do
+  def handle_event(
+        "update_filters",
+        %{
+          "filters" =>
+            %{"text" => text, "type" => type, "duration" => duration, "range" => range, "rank" => rank} = changeset
+        },
+        socket
+      ) do
     socket =
       socket
       |> assign(filters_text: text)
+      |> assign(filters_type: type)
+      |> assign(filters_duration: duration)
+      |> assign(filters_range: range)
+      |> assign(filters_rank: String.to_integer(rank))
+      |> assign(filters: filter_changeset(changeset))
       |> filter_json()
 
     {:noreply, socket}
   end
 
+  defp filter_changeset(params \\ %{}) do
+    {
+      %{"text" => nil, "type" => nil, "duration" => nil, "range" => nil, "rank" => nil},
+      %{"text" => :string, "type" => :string, "duration" => :string, "range" => :string, "rank" => :integer}
+    }
+    |> Ecto.Changeset.change(params)
+    |> Ecto.Changeset.apply_changes()
+  end
+
   defp filter_json(socket) do
     filters_text = Map.get(socket.assigns, :filters_text, "")
+    filters_type = Map.get(socket.assigns, :filters_type, "all")
+    filters_duration = Map.get(socket.assigns, :filters_duration, "all")
+    filters_range = Map.get(socket.assigns, :filters_range, "all")
+    filters_rank = Map.get(socket.assigns, :filters_rank, 0)
 
     spells =
       socket.assigns.spells_json
       |> Enum.filter(fn spell ->
-        String.match?(spell["name"], ~r/#{filters_text}/i)
+        String.match?(spell["name"], ~r/#{filters_text}/i) and
+          (filters_type == "all" or spell["type"] == filters_type) and
+          (filters_duration == "all" or spell["duration"] == filters_duration) and
+          (filters_range == "all" or spell["range"] == filters_range) and
+          (filters_rank == 0 or spell["rank"] == filters_rank)
       end)
       |> Enum.map(fn spell ->
         %{
-          type: type(spell["type"]),
+          type: spell["type"],
+          type_locale: type_locale(spell["type"]),
           rank: spell["rank"],
-          range: range(spell["range"]),
+          range: spell["range"],
+          range_locale: range_locale(spell["range"]),
           name: spell["name"],
           name_length: String.length(spell["name"]),
           is_official: spell["is_official"],
@@ -185,7 +242,8 @@ defmodule ForbiddenLandsWeb.Live.Spells do
           is_power_word: spell["is_power_word"],
           do_consume_ingredient: spell["do_consume_ingredient"],
           ingredient: spell["ingredient"],
-          duration: duration(spell["duration"]),
+          duration: spell["duration"],
+          duration_locale: duration_locale(spell["duration"]),
           desc_header: spell["description"]["header"],
           desc_summary: Enum.join(spell["description"]["summary"], " "),
           desc_length:
@@ -195,9 +253,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
         }
       end)
 
-    socket
-    |> assign(filters_text: filters_text)
-    |> assign(spells: spells)
+    assign(socket, spells: spells)
   end
 
   defp color_by_type("general"), do: "114, 114, 114"
@@ -291,35 +347,33 @@ defmodule ForbiddenLandsWeb.Live.Spells do
     "background: white;"
   end
 
-  # TODO: put that in i18n
+  defp type_locale("general"), do: dgettext("spells", "Magie commune")
+  defp type_locale("healing"), do: dgettext("spells", "Magie de soin")
+  defp type_locale("shapeshifting"), do: dgettext("spells", "Changeforme")
+  defp type_locale("awareness"), do: dgettext("spells", "Magie de l'Œil")
+  defp type_locale("symbolism"), do: dgettext("spells", "Symbolisme")
+  defp type_locale("stone_song"), do: dgettext("spells", "Chant de la Pierre")
+  defp type_locale("blood_magic"), do: dgettext("spells", "Magie du Sang")
+  defp type_locale("death_magic"), do: dgettext("spells", "Magie de la Mort")
+  defp type_locale(_), do: dgettext("spells", "Magie inconnue")
 
-  defp type("general"), do: "Magie commune"
-  defp type("healing"), do: "Magie de soin"
-  defp type("shapeshifting"), do: "Changeforme"
-  defp type("awareness"), do: "Magie de l'Œil"
-  defp type("symbolism"), do: "Symbolisme"
-  defp type("stone_song"), do: "Chant de la Pierre"
-  defp type("blood_magic"), do: "Magie du Sang"
-  defp type("death_magic"), do: "Magie de la Mort"
-  defp type(_), do: "Magie inconnue"
+  defp duration_locale("immediate"), do: dgettext("spells", "Immédiat")
+  defp duration_locale("round"), do: dgettext("spells", "1 round")
+  defp duration_locale("round_per_level"), do: dgettext("spells", "1 round/niv.")
+  defp duration_locale("turn"), do: dgettext("spells", "1 tour")
+  defp duration_locale("turn_per_level"), do: dgettext("spells", "1 tour/niv.")
+  defp duration_locale("quarter"), do: dgettext("spells", "1 quarter")
+  defp duration_locale("quarter_per_level"), do: dgettext("spells", "1 quarter/niv.")
+  defp duration_locale("varies"), do: dgettext("spells", "Variables")
+  defp duration_locale(_), do: dgettext("spells", "—")
 
-  defp duration("immediate"), do: "Immédiat"
-  defp duration("round"), do: "1 round"
-  defp duration("round_per_level"), do: "1 round/niv."
-  defp duration("turn"), do: "1 tour"
-  defp duration("turn_per_level"), do: "1 tour/niv."
-  defp duration("quarter"), do: "1 quarter"
-  defp duration("quarter_per_level"), do: "1 quarter/niv."
-  defp duration("varies"), do: "—"
-  defp duration(_), do: "—"
-
-  defp range("personal"), do: "Sur soi"
-  defp range("arms_length"), do: "Autour de soi"
-  defp range("near"), do: "Zone courante"
-  defp range("short"), do: "<25 mètres"
-  defp range("long"), do: "<100 mètres"
-  defp range("distant"), do: "Jusqu'à l'horizon"
-  defp range("unlimited"), do: "Illimité"
-  defp range("varies"), do: "Variable"
-  defp range(_), do: "—"
+  defp range_locale("personal"), do: dgettext("spells", "Sur soi")
+  defp range_locale("arms_length"), do: dgettext("spells", "Autour de soi")
+  defp range_locale("near"), do: dgettext("spells", "Zone courante")
+  defp range_locale("short"), do: dgettext("spells", "<25 mètres")
+  defp range_locale("long"), do: dgettext("spells", "<100 mètres")
+  defp range_locale("distant"), do: dgettext("spells", "Jusqu'à l'horizon")
+  defp range_locale("unlimited"), do: dgettext("spells", "Illimité")
+  defp range_locale("varies"), do: dgettext("spells", "Variable")
+  defp range_locale(_), do: dgettext("spells", "—")
 end
