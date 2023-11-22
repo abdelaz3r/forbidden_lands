@@ -296,7 +296,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "block mt-0.5 p-2 w-full bg-white rounded border-1 shadow-sm sm:text-sm focus:ring-4",
+          "block mt-0.5 p-2 py-2.5 pr-8 w-full bg-white rounded border-1 shadow-sm sm:text-sm focus:ring-4",
           "text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-blue-500/20",
           input_border(@errors)
         ]}
