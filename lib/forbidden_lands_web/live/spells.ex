@@ -77,6 +77,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
           </div>
         </.simple_form>
       </div>
+
       <div class="p-2 text-center print:p-0">
         <div
           :for={spell <- @spells}
@@ -93,6 +94,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
             style={"border-bottom-color: rgba(#{spell.style}, .5);"}
           >
           </div>
+          <div :if={not spell.is_official} class="absolute top-1 left-1 w-2 h-2 rounded-full bg-black"></div>
           <div class="absolute inset-0 flex flex-col p-4">
             <div class="flex-none font-['Satisfy']">
               <div class="font-bold">
@@ -103,29 +105,24 @@ defmodule ForbiddenLandsWeb.Live.Spells do
                 ]}>
                   <%= spell.name %>
                 </div>
-                <div
-                  class={[
-                    "absolute flex justify-center items-center w-8 h-8 text-xl bg-white rounded-lg border rotate-45",
-                    spell.is_ritual && "top-2 right-2",
-                    not spell.is_ritual && "top-4 right-4"
-                  ]}
-                  style={"border-color: rgba(#{spell.style}, .3);"}
-                >
-                </div>
-                <div
-                  class={[
-                    "absolute flex justify-center items-center w-8 h-8 text-xl bg-white rounded-md border",
-                    spell.is_ritual && "top-2 right-2",
-                    not spell.is_ritual && "top-4 right-4"
-                  ]}
-                  style={"
-                  border-color: rgba(#{spell.style}, .5);
-                  color: rgba(#{spell.style}, 1);
-                "}
-                >
-                  <span class="relative top-0.5">
-                    <%= spell.rank %>
-                  </span>
+                <div class={[
+                  "absolute w-8 h-8",
+                  (spell.is_ritual or spell.is_power_word) && "top-2 right-2",
+                  not (spell.is_ritual or spell.is_power_word) && "top-4 right-4"
+                ]}>
+                  <div
+                    class="absolute inset-0 bg-white rounded-lg border rotate-45"
+                    style={"border-color: rgba(#{spell.style}, .3);"}
+                  >
+                  </div>
+                  <div
+                    class="absolute flex inset-0 justify-center items-center text-xl bg-white rounded-md border"
+                    style={"border-color: rgba(#{spell.style}, .5); color: rgba(#{spell.style}, 1);"}
+                  >
+                    <span class="relative top-0.5">
+                      <%= spell.rank %>
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -140,9 +137,14 @@ defmodule ForbiddenLandsWeb.Live.Spells do
                     <span class="h-1 w-2 rounded-md" style={"background: rgba(#{spell.style}, 1);"}></span>
                   </span>
                 </div>
-                <span :if={spell.is_ritual}>
-                  Rituel
-                </span>
+                <div>
+                  <span :if={spell.is_ritual}>
+                    Rituel
+                  </span>
+                  <span :if={spell.is_power_word}>
+                    Mot de pouvoir
+                  </span>
+                </div>
               </div>
 
               <div class="text-base border-t border-b" style={"border-color: rgba(#{spell.style}, .25);"}>
@@ -153,10 +155,10 @@ defmodule ForbiddenLandsWeb.Live.Spells do
 
                 <div class="flex items-center gap-2 pb-2">
                   <%= if spell.ingredient do %>
-                    <span :if={not spell.do_consume_ingredient} class="relative -top-0 w-2 h-2 rounded-sm bg-black"></span>
                     <span><%= spell.ingredient %></span>
+                    <.icon :if={not spell.do_consume_ingredient} name={:infinity} class="h-4 w-4 " />
                   <% else %>
-                    —
+                    ————
                   <% end %>
                 </div>
               </div>
