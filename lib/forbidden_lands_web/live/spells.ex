@@ -66,14 +66,16 @@ defmodule ForbiddenLandsWeb.Live.Spells do
     <section class="text-gray-900 bg-white border-t print:border-none">
       <div class="p-5 pb-0 border-b print:hidden">
         <.simple_form :let={f} as={:filters} for={@filters} phx-change="update_filters">
-          <div class="flex gap-5">
+          <div class="flex flex-col md:flex-row md:gap-5">
             <div class="grow">
               <.input field={{f, :text}} placeholder={dgettext("spells", "Type to filter spells")} autocomplete="off" />
             </div>
-            <.input field={{f, :type}} type="select" options={@types} />
-            <.input field={{f, :duration}} type="select" options={@durations} />
-            <.input field={{f, :range}} type="select" options={@ranges} />
-            <.input field={{f, :rank}} type="select" options={@ranks} />
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-x-5">
+              <.input field={{f, :type}} type="select" options={@types} />
+              <.input field={{f, :duration}} type="select" options={@durations} />
+              <.input field={{f, :range}} type="select" options={@ranges} />
+              <.input field={{f, :rank}} type="select" options={@ranks} />
+            </div>
           </div>
         </.simple_form>
       </div>
