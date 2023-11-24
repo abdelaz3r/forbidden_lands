@@ -2,7 +2,8 @@ defmodule ForbiddenLandsWeb.Components.Generic.Icon do
   use Phoenix.Component
 
   attr(:name, :atom, required: true)
-  attr(:class, :string, default: "")
+
+  attr(:rest, :global)
 
   @doc """
   A dynamic way of generating a Lucide icon.
@@ -13,6 +14,6 @@ defmodule ForbiddenLandsWeb.Components.Generic.Icon do
   """
   @spec icon(assigns :: map()) :: Phoenix.LiveView.Rendered.t()
   def icon(assigns) do
-    apply(Lucide, assigns.name, [assigns])
+    apply(Lucide, assigns.name, [Map.merge(Map.delete(assigns, :rest), Map.get(assigns, :rest))])
   end
 end
