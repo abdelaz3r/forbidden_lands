@@ -29,22 +29,21 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
   Here is the shape of output item:
   ``` json
   {
-    "id": 1, # The index of the item in the source file
-    "type": "type", # Atomized type
-    "name": "Name", # Capitalized name
-    "rank": 1,
-    "range": "range", # Atomized range
-    "ingredient": "Ingredient", # Capitalized ingredient
-    "duration": "quarter", # Atomized duration
-    "is_ritual": false,
-    "is_power_word": false,
+    "type": :atom, # Atomized type
+    "name": String.t(), # Capitalized name
+    "rank": :integer, # [1, 2, 3]
+    "range": :atom, # Atomized range
+    "ingredient": String.t(), # Capitalized ingredient
+    "duration": :atom, # Atomized duration
+    "is_official": true, # Always true
+    "is_ritual": true|false,
+    "is_power_word": true|false,
+    "do_consume_ingredient": true, # Always true (you need to set it yourselfs)
     "description": {
-      "summary": [
-        "Key point 1.",
-        "Key point 2."
-      ],
-      "header": "Header."
-    }
+      "header": String.t(), # Key point extracted using OpenAI
+      "summary": [String.t()], # Rest of points extracted using OpenAI
+    },
+    "full_description": String.t() # Unchanged description
   },
   ```
 
@@ -61,7 +60,8 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
   * `--openai-api-key`: the OpenAI API key (required)
   * `--openai-org`: the OpenAI organization key (required)
   * `--openai-timout`: the OpenAI API timeout in milliseconds (default: 60000ms)
-  * `--deepl-api-key`: the DeepL API authentication key (required)
+  * `--translate`: translate the content into the target langage (default: false)
+  * `--deepl-api-key`: the DeepL API authentication key (required if translate is true)
   * `--source-lang`: the source language (default: EN)
   * `--target-lang`: the target language (default: FR)
 
@@ -76,6 +76,7 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
     --prompt-file openai-prompt.txt \
     --openai-api-key "mykey" \
     --openai-org "myorg" \
+    --translate \
     --deepl-api-key "mykey"
   ```
   """
@@ -95,23 +96,20 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
           openai_api_key: :string,
           openai_org: :string,
           openai_timout: :integer,
+          translate: :boolean,
           deepl_api_key: :string,
           source_lang: :string,
           target_lang: :string
         ]
       )
 
-    required_options = [
-      :directory,
-      :source_file,
-      :prompt_file,
-      :openai_api_key,
-      :openai_org,
-      :deepl_api_key
-    ]
+    # Parse options
+    translate? = Keyword.get(options, :translate, false)
+    required_options = [:directory, :source_file, :prompt_file, :openai_api_key, :openai_org]
+    required_options = if translate?, do: required_options ++ [:deepl_api_key], else: required_options
 
     unless Enum.all?(required_options, fn option -> Keyword.has_key?(options, option) end) do
-      Mix.shell().error("Missing options. Required options are #{inspect(required_options)}")
+      error("Missing options. Required options are #{inspect(required_options)}")
       exit(1)
     end
 
@@ -124,7 +122,7 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
     openai_org = Keyword.fetch!(options, :openai_org)
     openai_timout = Keyword.get(options, :openai_timout, 60_000)
 
-    deepl_api_key = Keyword.get(options, :deepl_api_key)
+    deepl_api_key = Keyword.get(options, :deepl_api_key, nil)
     source_lang = Keyword.get(options, :source_lang, "EN")
     target_lang = Keyword.get(options, :target_lang, "FR")
 
@@ -138,48 +136,83 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
     {:ok, openai_prompt} = File.read(Path.join(directory, prompt_file))
 
     # DeepL config
-    deepl_config = %{
-      source_lang: source_lang,
-      target_lang: target_lang,
-      auth_key: deepl_api_key
-    }
+    deepl_config =
+      if translate?,
+        do: %{source_lang: source_lang, target_lang: target_lang, auth_key: deepl_api_key},
+        else: nil
 
     # Read source file
-    items = read_source!(Path.join(directory, source_file))
+    items =
+      Path.join(directory, source_file)
+      |> read_source!()
+      |> Enum.with_index(fn item, index -> {:ok, Map.put(item, "id", index)} end)
 
-    Mix.shell().info("Process items:")
-    Mix.shell().info("Source file: #{Path.join(directory, source_file)}")
-    Mix.shell().info("Source items count: #{length(items)}")
-    Mix.shell().info("")
-    Mix.shell().info("Open AI config:")
-    Mix.shell().info("Api key: #{openai_api_key}")
-    Mix.shell().info("Organization key: #{openai_org}")
-    Mix.shell().info("Timeout: #{openai_timout}ms")
-    Mix.shell().info("Prompt file: #{Path.join(directory, prompt_file)}")
-    Mix.shell().info("")
-    Mix.shell().info("Translation config:")
-    Mix.shell().info("Api key: #{deepl_api_key}")
-    Mix.shell().info("Source langage: #{source_lang}")
-    Mix.shell().info("Target langage: #{target_lang}")
-    Mix.shell().info("")
-    Mix.shell().info("Processing...")
-    Mix.shell().info("It may take a while...")
-    Mix.shell().info("")
+    # Print task infos
+    print("Process items:")
+    print("Source file: #{Path.join(directory, source_file)}")
+    print("Source items count: #{length(items)}")
+    print("")
+    print("Open AI config:")
+    print("Api key: #{openai_api_key}")
+    print("Organization key: #{openai_org}")
+    print("Timeout: #{openai_timout}ms")
+    print("Prompt file: #{Path.join(directory, prompt_file)}")
+    print("")
+    print("Translation config:")
+    print("Api key: #{deepl_api_key}")
+    print("Source langage: #{source_lang}")
+    print("Target langage: #{target_lang}")
+    print("")
+    print("Processing...")
+    print("This may take a while...")
+    print("")
 
     # Pipeline to process items
-    results =
-      items
-      |> Enum.with_index(fn item, index ->
-        {:ok, Map.put(item, "id", index)}
-      end)
+    {success, failure} = process(items, {openai_config, openai_prompt, translate?, deepl_config, openai_timout})
+
+    # Postprocess results
+    success =
+      success
+      |> List.flatten()
+      |> Enum.map(fn {:ok, item} -> item end)
+      |> Enum.sort(fn %{"id" => id1}, %{"id" => id2} -> id1 < id2 end)
+
+    failure = Enum.map(failure, fn {:ok, item} -> item end)
+
+    print("Successfull results:")
+    print("Write:")
+    print("Save successfull items to #{Path.join(directory, "out-success.json")}")
+    print("Save failed items to #{Path.join(directory, "out-failed.json")}")
+
+    # Write results
+    File.write!(Path.join(directory, "out-success.json"), Poison.encode!(success, %{pretty: true}))
+    File.write!(Path.join(directory, "out-failed.json"), Poison.encode!(failure, %{pretty: true}))
+  end
+
+  # Pipeline
+
+  defp process(items, configs), do: process(items, [], 1, configs)
+  defp process([], processed, _iteration, _config), do: {processed, []}
+  defp process(to_process, processed, iteration, _config) when iteration > 5, do: {processed, to_process}
+
+  defp process(to_process, processed, iteration, configs) do
+    print("Iteration #{iteration}")
+    print("#{length(to_process)} items to process.")
+    print("")
+
+    {openai_config, openai_prompt, translate?, deepl_config, openai_timout} = configs
+
+    {success, failed} =
+      to_process
       |> Task.async_stream(
         fn item ->
           item
+          |> prepare()
           |> normalize()
           |> atomize()
           |> summarize(openai_config, openai_prompt)
           |> split_description()
-          |> translate(deepl_config)
+          |> translate(translate?, deepl_config)
         end,
         timeout: openai_timout,
         on_timeout: :kill_task,
@@ -189,53 +222,37 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
         {:ok, item} -> item
         {:exit, {{:ok, item}, reason}} -> {:error, :pipeline, reason, item}
       end)
-
-    success =
-      Enum.filter(results, fn
-        {:ok, _item} -> true
-        _error -> false
+      |> Enum.reduce({[], []}, fn
+        {:ok, item}, {success, failure} -> {[{:ok, item} | success], failure}
+        {:error, type, reason, item}, {success, failure} -> {success, [{:error, type, reason, item} | failure]}
       end)
 
-    failure =
-      Enum.filter(results, fn
-        {:ok, _item} -> false
-        _error -> true
-      end)
+    print("Result:")
+    print("#{length(success)}/#{length(to_process)} successfully processed items.")
+    print("#{length(failed)}/#{length(to_process)} unsuccessfully processed items.")
 
-    Mix.shell().info("Result:")
-    Mix.shell().info("#{length(success)} items processed successfully")
-
-    Enum.each(failure, fn {:error, type, _reason, item} ->
-      Mix.shell().error("* Item #{item["id"]} failed during #{type}")
+    Enum.each(failed, fn {:error, type, _r, item} ->
+      error("* Item #{item["id"]} failed during #{type}")
     end)
 
-    Mix.shell().info("")
+    print("")
 
-    # Write results
-    success_json = Poison.encode!(success |> Enum.map(fn {:ok, item} -> item end), %{pretty: true})
-    File.write!(Path.join(directory, "out-success.json"), success_json)
-    failed_json = Poison.encode!(failure |> Enum.map(fn {:error, _, _, item} -> item end), %{pretty: true})
-    File.write!(Path.join(directory, "out-failed.json"), failed_json)
+    next_ids_to_process = Enum.map(failed, fn {:error, _t, _r, %{"id" => id}} -> id end)
+    next_to_process = Enum.filter(to_process, fn {:ok, %{"id" => id}} -> id in next_ids_to_process end)
 
-    Mix.shell().info("Successfull results:")
-    Mix.shell().info("Write:")
-    Mix.shell().info("Save successfull items to #{Path.join(directory, "out-success.json")}")
-    Mix.shell().info("Save failed items to #{Path.join(directory, "out-failed.json")}")
+    process(next_to_process, [success | processed], iteration + 1, configs)
   end
 
-  defp read_source!(source) do
-    with {:ok, body} <- File.read(source),
-         {:ok, json} <- Poison.decode(body) do
-      json
-    else
-      {:error, error} ->
-        Mix.shell().error("Error:")
-        Mix.shell().error(error)
+  # Pipeline functions
 
-      error ->
-        Mix.shell().error("Error:")
-        Mix.shell().error(error)
-    end
+  defp prepare({:ok, item}) do
+    item =
+      item
+      |> Map.put("is_official", true)
+      |> Map.put("do_consume_ingredient", true)
+      |> Map.put("full_description", item["description"])
+
+    {:ok, item}
   end
 
   defp normalize({:ok, item}) do
@@ -309,12 +326,13 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
   end
 
   defp split_description({:ok, item}) do
-    [header | summary] =
+    splitted =
       item["description"]
       |> String.trim_leading("- ")
       |> String.split("\n- ")
 
-    if length(summary) > 0 do
+    if length(splitted) >= 2 do
+      [header | summary] = splitted
       {:ok, %{item | "description" => %{"header" => header, "summary" => summary}}}
     else
       {:error, :split_description, :cannot_split_description, item}
@@ -324,7 +342,10 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
   defp split_description(error),
     do: error
 
-  defp translate({:ok, %{"ingredient" => nil} = item}, config) do
+  defp translate(item, false, _config),
+    do: item
+
+  defp translate({:ok, %{"ingredient" => nil} = item}, _translate?, config) do
     texts = [item["name"], item["description"]["header"]] ++ item["description"]["summary"]
 
     case do_translate(texts, item, config) do
@@ -336,7 +357,7 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
     end
   end
 
-  defp translate({:ok, item}, config) do
+  defp translate({:ok, item}, _translate?, config) do
     texts = [item["name"], item["ingredient"], item["description"]["header"]] ++ item["description"]["summary"]
 
     case do_translate(texts, item, config) do
@@ -348,7 +369,7 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
     end
   end
 
-  defp translate(error, _config),
+  defp translate(error, _translate?, _config),
     do: error
 
   defp do_translate(texts, item, config) do
@@ -377,4 +398,24 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
       reason -> {:error, :translate, reason, item}
     end
   end
+
+  # Helpers functions
+
+  defp read_source!(source) do
+    with {:ok, body} <- File.read(source),
+         {:ok, json} <- Poison.decode(body) do
+      json
+    else
+      {:error, error} ->
+        error("Error:")
+        error(error)
+
+      error ->
+        error("Error:")
+        error(error)
+    end
+  end
+
+  defp print(message), do: Mix.shell().info(message)
+  defp error(message), do: Mix.shell().error(message)
 end
