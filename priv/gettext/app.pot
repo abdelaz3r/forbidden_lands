@@ -234,7 +234,7 @@ msgstr ""
 msgid "Adventure settings"
 msgstr ""
 
-#: lib/forbidden_lands_web/components/navbar.ex:21
+#: lib/forbidden_lands_web/components/navbar.ex:22
 #, elixir-autogen, elixir-format
 msgid "Adventures"
 msgstr ""
@@ -700,7 +700,7 @@ msgstr ""
 msgid "Welcome!"
 msgstr ""
 
-#: lib/forbidden_lands_web/components/navbar.ex:24
+#: lib/forbidden_lands_web/components/navbar.ex:34
 #, elixir-autogen, elixir-format
 msgid "About"
 msgstr ""
@@ -740,7 +740,8 @@ msgstr ""
 msgid "Active overlay"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/spells.ex:45
+#: lib/forbidden_lands_web/components/navbar.ex:28
+#: lib/forbidden_lands_web/live/spells.ex:47
 #, elixir-autogen, elixir-format
 msgid "Spells list"
 msgstr ""

@@ -40,12 +40,13 @@ defmodule ForbiddenLandsWeb.Live.Spells do
     ranks = Enum.map(1..3, fn i -> {dgettext("spells", "Rank %{level}", level: i), i} end)
 
     # Transform spells JSON into a list of spells
-    spells = Enum.map(spells_json, fn map -> Spell.from_json(map) end)
+    source = Enum.with_index(spells_json, fn spell, i -> Spell.from_json(spell, i) end)
 
     socket =
       socket
       |> assign(page_title: dgettext("app", "Spells list"))
-      |> assign(spells: spells)
+      |> assign(source: source)
+      |> assign(opened_spell: nil)
       |> assign(types: [{dgettext("spells", "All types"), "all"} | types |> MapSet.to_list()])
       |> assign(durations: [{dgettext("spells", "All durations"), "all"} | durations |> MapSet.to_list()])
       |> assign(ranges: [{dgettext("spells", "All ranges"), "all"} | ranges |> MapSet.to_list()])
@@ -156,8 +157,8 @@ defmodule ForbiddenLandsWeb.Live.Spells do
 
               <div class="text-base border-t border-b" style={"border-color: rgba(#{spell.style}, .25);"}>
                 <div class="flex justify-between pt-2">
-                  <div><%= Spell.ranges(spell.type) %></div>
-                  <div><%= Spell.durations(spell.type) %></div>
+                  <div><%= Spell.ranges(spell.range) %></div>
+                  <div><%= Spell.durations(spell.duration) %></div>
                 </div>
 
                 <div class="flex items-center gap-2 pb-2">
@@ -180,8 +181,28 @@ defmodule ForbiddenLandsWeb.Live.Spells do
                 <span class={["font-bold", spell.desc_length < 310 && "block pb-2"]}>
                   <%= spell.desc_header %>
                 </span>
-                <%= spell.desc_summary %>
+                <span>
+                  <%= spell.desc_summary %>
+                  <.icon
+                    :if={spell.full_description}
+                    phx-click="open"
+                    phx-value-spell-id={spell.id}
+                    name={:plus_circle}
+                    class="relative -top-0.5 inline-block ml-1 h-3 w-3 cursor-pointer print:hidden"
+                  />
+                </span>
               </div>
+            </div>
+
+            <div
+              :if={spell.id == @opened_spell}
+              class="absolute inset-0 overflow-y-auto p-4 bg-white/95 font-['Crimson_Pro'] print:hidden"
+            >
+              <.icon phx-click="close" name={:x_circle} class="absolute h-4 w-4 top-3 right-3 cursor-pointer" />
+              <div class="font-bold">
+                <%= dgettext("spells", "Original description") %>
+              </div>
+              <%= spell.full_description %>
             </div>
           </div>
         </div>
@@ -205,6 +226,16 @@ defmodule ForbiddenLandsWeb.Live.Spells do
     {:noreply, socket}
   end
 
+  @impl Phoenix.LiveView
+  def handle_event("open", %{"spell-id" => id}, socket) do
+    {:noreply, assign(socket, opened_spell: String.to_integer(id))}
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("close", _params, socket) do
+    {:noreply, assign(socket, opened_spell: nil)}
+  end
+
   defp filter_changeset(params \\ %{}) do
     {
       %{"text" => nil, "type" => nil, "duration" => nil, "range" => nil, "rank" => nil},
@@ -222,7 +253,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
     filters_rank = Map.get(socket.assigns, :filters_rank, 0)
 
     spells =
-      socket.assigns.spells
+      socket.assigns.source
       |> Enum.filter(fn spell ->
         String.match?(spell.name, ~r/#{filters_text}/i) and
           (filters_type == "all" or spell.type == filters_type) and

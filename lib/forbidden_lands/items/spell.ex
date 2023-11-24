@@ -5,7 +5,27 @@ defmodule ForbiddenLands.Items.Spell do
 
   alias ForbiddenLands.Items.Spell
 
-  @exported_fields [
+  @type t() :: %Spell{
+          id: integer() | nil,
+          type: String.t() | nil,
+          rank: integer() | nil,
+          name: String.t() | nil,
+          range: String.t() | nil,
+          duration: String.t() | nil,
+          ingredient: String.t() | nil,
+          is_official: boolean() | nil,
+          is_ritual: boolean() | nil,
+          is_power_word: boolean() | nil,
+          do_consume_ingredient: boolean() | nil,
+          desc_header: String.t() | nil,
+          desc_summary: String.t() | nil,
+          full_description: String.t() | nil,
+          name_length: integer() | nil,
+          desc_length: integer() | nil,
+          style: String.t() | nil
+        }
+  defstruct [
+    :id,
     :type,
     :rank,
     :name,
@@ -24,34 +44,14 @@ defmodule ForbiddenLands.Items.Spell do
     :style
   ]
 
-  @derive {ForbiddenLands.Export, fields: @exported_fields}
-  @type t() :: %Spell{
-          type: String.t() | nil,
-          rank: integer() | nil,
-          name: String.t() | nil,
-          range: String.t() | nil,
-          duration: String.t() | nil,
-          ingredient: String.t() | nil,
-          is_official: boolean() | nil,
-          is_ritual: boolean() | nil,
-          is_power_word: boolean() | nil,
-          do_consume_ingredient: boolean() | nil,
-          desc_header: String.t() | nil,
-          desc_summary: String.t() | nil,
-          full_description: String.t() | nil,
-          name_length: integer() | nil,
-          desc_length: integer() | nil,
-          style: String.t() | nil
-        }
-  defstruct @exported_fields
-
-  @spec from_json(map()) :: Spell.t()
-  def from_json(spell) do
+  @spec from_json(map(), integer()) :: Spell.t()
+  def from_json(spell, id) do
     description = Map.get(spell, "description", %{})
     header = Map.get(description, "header", "")
     summary = Map.get(description, "summary", []) |> Enum.join(" ")
 
     %Spell{
+      id: id,
       type: Map.get(spell, "type"),
       rank: Map.get(spell, "rank"),
       name: Map.get(spell, "name"),
