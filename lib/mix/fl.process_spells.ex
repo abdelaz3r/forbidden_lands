@@ -158,11 +158,15 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
     print("Timeout: #{openai_timout}ms")
     print("Prompt file: #{Path.join(directory, prompt_file)}")
     print("")
-    print("Translation config:")
-    print("Api key: #{deepl_api_key}")
-    print("Source langage: #{source_lang}")
-    print("Target langage: #{target_lang}")
-    print("")
+
+    if translate? do
+      print("Translation config:")
+      print("Api key: #{deepl_api_key}")
+      print("Source langage: #{source_lang}")
+      print("Target langage: #{target_lang}")
+      print("")
+    end
+
     print("Processing...")
     print("This may take a while...")
     print("")
@@ -174,10 +178,10 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
     success =
       success
       |> List.flatten()
-      |> Enum.map(fn {:ok, item} -> item end)
+      |> Enum.map(fn {:ok, item} -> Map.delete(item, "id") end)
       |> Enum.sort(fn %{"id" => id1}, %{"id" => id2} -> id1 < id2 end)
 
-    failure = Enum.map(failure, fn {:ok, item} -> item end)
+    failure = Enum.map(failure, fn {:ok, item} -> Map.delete(item, "id") end)
 
     print("Successfull results:")
     print("Write:")
@@ -346,11 +350,11 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
     do: item
 
   defp translate({:ok, %{"ingredient" => nil} = item}, _translate?, config) do
-    texts = [item["name"], item["description"]["header"]] ++ item["description"]["summary"]
+    texts = [item["name"], item["full_description"], item["description"]["header"]] ++ item["description"]["summary"]
 
     case do_translate(texts, item, config) do
-      {:ok, [n, h | s]} ->
-        {:ok, %{item | "name" => n, "description" => %{"header" => h, "summary" => s}}}
+      {:ok, [n, d, h | s]} ->
+        {:ok, %{item | "name" => n, "full_description" => d, "description" => %{"header" => h, "summary" => s}}}
 
       error ->
         error
@@ -358,11 +362,20 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
   end
 
   defp translate({:ok, item}, _translate?, config) do
-    texts = [item["name"], item["ingredient"], item["description"]["header"]] ++ item["description"]["summary"]
+    texts =
+      [item["name"], item["full_description"], item["ingredient"], item["description"]["header"]] ++
+        item["description"]["summary"]
 
     case do_translate(texts, item, config) do
-      {:ok, [n, i, h | s]} ->
-        {:ok, %{item | "name" => n, "ingredient" => i, "description" => %{"header" => h, "summary" => s}}}
+      {:ok, [n, d, i, h | s]} ->
+        {:ok,
+         %{
+           item
+           | "name" => n,
+             "full_description" => d,
+             "ingredient" => i,
+             "description" => %{"header" => h, "summary" => s}
+         }}
 
       error ->
         error
