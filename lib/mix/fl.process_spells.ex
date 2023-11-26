@@ -330,12 +330,31 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
   end
 
   defp split_description({:ok, item}) do
+    #  ChatGPT should return something that looks like:
+    # - header...
+    # - first line a real content
+    # - second line a real content
+
     splitted =
       item["description"]
       |> String.trim_leading("- ")
       |> String.split("\n- ")
 
     if length(splitted) >= 2 do
+      splitted =
+        Enum.map(splitted, fn s ->
+          #  ChatGPT often forget to add a dot at the end of the sentence
+          s = if String.ends_with?(s, "."), do: s, else: s <> "."
+
+          # Sometimes, chatGPT add something like "Summary: ..." at the beginning of the description
+          # We want to remove that
+          case String.split(s, ":") do
+            [_summary, content] -> String.trim(content)
+            [string] -> string
+            _string -> s
+          end
+        end)
+
       [header | summary] = splitted
       {:ok, %{item | "description" => %{"header" => header, "summary" => summary}}}
     else
