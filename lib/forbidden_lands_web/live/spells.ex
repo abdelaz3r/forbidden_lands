@@ -194,15 +194,14 @@ defmodule ForbiddenLandsWeb.Live.Spells do
               </div>
             </div>
 
-            <div
-              :if={spell.id == @opened_spell}
-              class="absolute inset-0 overflow-y-auto p-4 bg-white/95 font-['Crimson_Pro'] print:hidden"
-            >
-              <.icon phx-click="close" name={:x_circle} class="absolute h-4 w-4 top-3 right-3 cursor-pointer" />
-              <div class="font-bold">
-                <%= dgettext("spells", "Original description") %>
+            <div :if={spell.id == @opened_spell} class="absolute inset-0 p-4 bg-white font-['Crimson_Pro'] print:hidden">
+              <div class="absolute inset-0 py-3 px-4 overflow-y-auto" style={"background: rgba(#{spell.style}, .5);"}>
+                <div class="font-bold">
+                  <%= dgettext("spells", "Original description") %>
+                </div>
+                <%= spell.full_description %>
               </div>
-              <%= spell.full_description %>
+              <.icon phx-click="close" name={:x_circle} class="absolute h-4 w-4 top-2 right-2 cursor-pointer" />
             </div>
           </div>
         </div>

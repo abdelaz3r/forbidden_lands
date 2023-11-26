@@ -69,7 +69,7 @@ msgstr "Autour de soi"
 #: lib/forbidden_lands/items/spell.ex:100
 #, elixir-autogen, elixir-format
 msgid "Awareness"
-msgstr "Magie de l'Œil"
+msgstr "Divination"
 
 #: lib/forbidden_lands/items/spell.ex:103
 #, elixir-autogen, elixir-format
@@ -144,7 +144,7 @@ msgstr "<25 mètres"
 #: lib/forbidden_lands/items/spell.ex:102
 #, elixir-autogen, elixir-format
 msgid "Stone Song"
-msgstr "Chant des pierres"
+msgstr "Chant des Pierres"
 
 #: lib/forbidden_lands/items/spell.ex:101
 #, elixir-autogen, elixir-format
