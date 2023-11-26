@@ -178,8 +178,8 @@ defmodule Mix.Tasks.Fl.ProcessSpells do
     success =
       success
       |> List.flatten()
+      |> Enum.sort(fn {:ok, %{"id" => id1}}, {:ok, %{"id" => id2}} -> id1 < id2 end)
       |> Enum.map(fn {:ok, item} -> Map.delete(item, "id") end)
-      |> Enum.sort(fn %{"id" => id1}, %{"id" => id2} -> id1 < id2 end)
 
     failure = Enum.map(failure, fn {:ok, item} -> Map.delete(item, "id") end)
 
