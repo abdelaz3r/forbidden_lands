@@ -65,33 +65,25 @@ defmodule ForbiddenLandsWeb.Live.Manage.Media do
 
   @impl Phoenix.LiveComponent
   def handle_event("create_media", %{"media" => media}, %{assigns: %{topic: topic, instance: instance}} = socket) do
-    changeset = Map.put(Media.create(%Media{}, media), :action, :update)
-    medias = [changeset.changes | Enum.reverse(instance.medias)] |> Enum.reverse()
+    case Instances.add_media(instance, media) do
+      {:ok, _instance} ->
+        ForbiddenLandsWeb.Endpoint.broadcast(topic, "update", %{})
+        {:noreply, socket}
 
-    with true <- changeset.valid?,
-         {:ok, _instance} = Instances.update(instance, %{}, [], medias) do
-      ForbiddenLandsWeb.Endpoint.broadcast(topic, "update", %{})
-      {:noreply, socket}
-    else
-      false ->
+      {:error, changeset} ->
         {:noreply, assign(socket, :changeset_media, changeset)}
-
-      {:error, _changeset} ->
-        {:noreply, put_flash(socket, :error, dgettext("app", "Error."))}
     end
   end
 
   @impl Phoenix.LiveComponent
   def handle_event("remove_media", %{"id" => id}, %{assigns: %{topic: topic, instance: instance}} = socket) do
-    medias = Enum.filter(instance.medias, fn media -> media.id != id end)
-
-    case Instances.update(instance, %{}, [], medias) do
+    case Instances.remove_media(instance, id) do
       {:ok, _instance} ->
         ForbiddenLandsWeb.Endpoint.broadcast(topic, "update", %{})
         {:noreply, socket}
 
-      {:error, reason} ->
-        {:noreply, put_flash(socket, :error, dgettext("app", "General error: %{error}", error: inspect(reason)))}
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, dgettext("app", "General error"))}
     end
   end
 end
