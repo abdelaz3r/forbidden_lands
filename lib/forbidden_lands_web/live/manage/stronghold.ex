@@ -149,33 +149,25 @@ defmodule ForbiddenLandsWeb.Live.Manage.Stronghold do
 
   @impl Phoenix.LiveComponent
   def handle_event("create_rule", %{"rule" => rule}, %{assigns: %{topic: topic, instance: instance}} = socket) do
-    changeset = Map.put(ResourceRule.create(%ResourceRule{}, rule), :action, :update)
-    rules = [changeset.changes | Enum.reverse(instance.resource_rules)] |> Enum.reverse()
+    case Instances.add_rule(instance, rule) do
+      {:ok, _instance} ->
+        ForbiddenLandsWeb.Endpoint.broadcast(topic, "update", %{})
+        {:noreply, socket}
 
-    with true <- changeset.valid?,
-         {:ok, _instance} = Instances.update(instance, %{}, rules) do
-      ForbiddenLandsWeb.Endpoint.broadcast(topic, "update", %{})
-      {:noreply, socket}
-    else
-      false ->
+      {:error, changeset} ->
         {:noreply, assign(socket, :changeset_rule, changeset)}
-
-      {:error, _changeset} ->
-        {:noreply, put_flash(socket, :error, dgettext("app", "Error."))}
     end
   end
 
   @impl Phoenix.LiveComponent
   def handle_event("remove_rule", %{"id" => id}, %{assigns: %{topic: topic, instance: instance}} = socket) do
-    resource_rules = Enum.filter(instance.resource_rules, fn rule -> rule.id != id end)
-
-    case Instances.update(instance, %{}, resource_rules) do
+    case Instances.remove_rule(instance, id) do
       {:ok, _instance} ->
         ForbiddenLandsWeb.Endpoint.broadcast(topic, "update", %{})
         {:noreply, socket}
 
-      {:error, reason} ->
-        {:noreply, put_flash(socket, :error, dgettext("app", "General error: %{error}", error: inspect(reason)))}
+      {:error, _changeset} ->
+        {:noreply, put_flash(socket, :error, dgettext("app", "General error"))}
     end
   end
 
