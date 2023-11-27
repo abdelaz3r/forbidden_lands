@@ -5,6 +5,7 @@ defmodule ForbiddenLands.Instances.Instances do
 
   alias ForbiddenLands.Instances.Event
   alias ForbiddenLands.Instances.Instance
+  alias ForbiddenLands.Instances.Media
   alias ForbiddenLands.Repo
 
   @spec get(number(), number()) :: {:ok, Instance.t()} | {:error, :not_found}
@@ -61,10 +62,10 @@ defmodule ForbiddenLands.Instances.Instances do
     |> Repo.insert()
   end
 
-  @spec update(Instance.t(), map(), list(), list()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
-  def update(instance, params, resource_rules \\ [], medias \\ []) do
+  @spec update(Instance.t(), map(), list(), list() | nil) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
+  def update(instance, params, resource_rules \\ [], medias \\ nil) do
     resource_rules = if resource_rules == [], do: instance.resource_rules, else: resource_rules
-    medias = if medias == [], do: instance.medias, else: medias
+    medias = if medias == nil, do: instance.medias, else: medias
 
     instance
     |> Instance.update(params, resource_rules, medias)
@@ -92,5 +93,31 @@ defmodule ForbiddenLands.Instances.Instances do
   @spec remove_event(map()) :: {:ok, Event.t()} | {:error, Ecto.Changeset.t()}
   def remove_event(event) do
     Repo.delete(event)
+  end
+
+  @spec add_media(Instance.t(), map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
+  def add_media(instance, media) do
+    changeset =
+      %Media{}
+      |> Media.create(media)
+      |> Map.put(:action, :update)
+
+    with true <- changeset.valid?,
+         {:ok, instance} = update(instance, %{}, [], [changeset.changes | instance.medias]) do
+      {:ok, instance}
+    else
+      false -> {:error, changeset}
+      {:error, changeset} -> {:error, changeset}
+    end
+  end
+
+  @spec remove_media(Instance.t(), String.t()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
+  def remove_media(instance, media_id) do
+    medias = Enum.filter(instance.medias, fn media -> media.id != media_id end)
+
+    case update(instance, %{}, [], medias) do
+      {:ok, instance} -> {:ok, instance}
+      {:error, changeset} -> {:error, changeset}
+    end
   end
 end
