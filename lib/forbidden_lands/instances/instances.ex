@@ -6,6 +6,7 @@ defmodule ForbiddenLands.Instances.Instances do
   alias ForbiddenLands.Instances.Event
   alias ForbiddenLands.Instances.Instance
   alias ForbiddenLands.Instances.Media
+  alias ForbiddenLands.Instances.ResourceRule
   alias ForbiddenLands.Repo
 
   @spec get(number(), number()) :: {:ok, Instance.t()} | {:error, :not_found}
@@ -62,9 +63,9 @@ defmodule ForbiddenLands.Instances.Instances do
     |> Repo.insert()
   end
 
-  @spec update(Instance.t(), map(), list(), list() | nil) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
-  def update(instance, params, resource_rules \\ [], medias \\ nil) do
-    resource_rules = if resource_rules == [], do: instance.resource_rules, else: resource_rules
+  @spec update(Instance.t(), map(), list() | nil, list() | nil) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
+  def update(instance, params, resource_rules \\ nil, medias \\ nil) do
+    resource_rules = if resource_rules == nil, do: instance.resource_rules, else: resource_rules
     medias = if medias == nil, do: instance.medias, else: medias
 
     instance
@@ -95,6 +96,32 @@ defmodule ForbiddenLands.Instances.Instances do
     Repo.delete(event)
   end
 
+  @spec add_rule(Instance.t(), map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
+  def add_rule(instance, rule) do
+    changeset =
+      %ResourceRule{}
+      |> ResourceRule.create(rule)
+      |> Map.put(:action, :update)
+
+    with true <- changeset.valid?,
+         {:ok, instance} = update(instance, %{}, [changeset.changes | instance.resource_rules], nil) do
+      {:ok, instance}
+    else
+      false -> {:error, changeset}
+      {:error, changeset} -> {:error, changeset}
+    end
+  end
+
+  @spec remove_rule(Instance.t(), String.t()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
+  def remove_rule(instance, rule_id) do
+    rules = Enum.filter(instance.resource_rules, fn rule -> rule.id != rule_id end)
+
+    case update(instance, %{}, rules, nil) do
+      {:ok, instance} -> {:ok, instance}
+      {:error, changeset} -> {:error, changeset}
+    end
+  end
+
   @spec add_media(Instance.t(), map()) :: {:ok, Instance.t()} | {:error, Ecto.Changeset.t()}
   def add_media(instance, media) do
     changeset =
@@ -103,7 +130,7 @@ defmodule ForbiddenLands.Instances.Instances do
       |> Map.put(:action, :update)
 
     with true <- changeset.valid?,
-         {:ok, instance} = update(instance, %{}, [], [changeset.changes | instance.medias]) do
+         {:ok, instance} = update(instance, %{}, nil, [changeset.changes | instance.medias]) do
       {:ok, instance}
     else
       false -> {:error, changeset}
@@ -115,7 +142,7 @@ defmodule ForbiddenLands.Instances.Instances do
   def remove_media(instance, media_id) do
     medias = Enum.filter(instance.medias, fn media -> media.id != media_id end)
 
-    case update(instance, %{}, [], medias) do
+    case update(instance, %{}, nil, medias) do
       {:ok, instance} -> {:ok, instance}
       {:error, changeset} -> {:error, changeset}
     end
