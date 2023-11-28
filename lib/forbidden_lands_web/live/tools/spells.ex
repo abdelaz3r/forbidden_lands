@@ -1,4 +1,4 @@
-defmodule ForbiddenLandsWeb.Live.Spells do
+defmodule ForbiddenLandsWeb.Live.Tools.Spells do
   @moduledoc """
   Spells view.
   """
@@ -67,7 +67,7 @@ defmodule ForbiddenLandsWeb.Live.Spells do
     <.navbar />
 
     <section class="text-gray-900 bg-white border-t print:border-none">
-      <div class="p-5 pb-0 border-b print:hidden">
+      <div class="p-5 pb-0 border-b bg-gray-100 print:hidden">
         <.simple_form :let={f} as={:filters} for={@filters} phx-change="update_filters">
           <div class="flex flex-col md:flex-row md:gap-5">
             <div class="grow">
