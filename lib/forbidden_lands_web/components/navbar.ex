@@ -23,9 +23,9 @@ defmodule ForbiddenLandsWeb.Components.Navbar do
           </span>
           <.icon name={:list} class="md:hidden w-6 h-6" />
         </.link>
-        <.link navigate={~p"/#{Gettext.get_locale()}/spells"} class={link_classes()}>
+        <.link navigate={~p"/#{Gettext.get_locale()}/tools"} class={link_classes()}>
           <span class="hidden md:inline">
-            <%= dgettext("app", "Spells list") %>
+            <%= dgettext("app", "Tools") %>
           </span>
           <.icon name={:book_open} class="md:hidden w-6 h-6" />
         </.link>
