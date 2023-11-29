@@ -29,18 +29,34 @@ defmodule ForbiddenLandsWeb.Live.Tools do
 
       <div class="grid grid-cols-2 gap-5">
         <.link
-          navigate={~p"/#{Gettext.get_locale()}/tools/spells"}
+          :for={tool <- tools()}
+          navigate={tool.link}
           class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all"
         >
           <h2 class="font-bold text-xl pb-2">
-            <%= dgettext("app", "Spells list") %>
+            <%= tool.title %>
           </h2>
           <p class="text-slate-900/70">
-            <%= dgettext("app", "Browse and explore list of spells.") %>
+            <%= tool.desc %>
           </p>
         </.link>
       </div>
     </section>
     """
+  end
+
+  defp tools() do
+    [
+      %{
+        link: ~p"/#{Gettext.get_locale()}/tools/spells",
+        title: dgettext("app", "Spells list"),
+        desc: dgettext("app", "Browse and explore list of spells.")
+      },
+      %{
+        link: ~p"/#{Gettext.get_locale()}/tools/dices",
+        title: dgettext("app", "Dices"),
+        desc: dgettext("app", "TODO.")
+      }
+    ]
   end
 end
