@@ -55,7 +55,7 @@ defmodule ForbiddenLandsWeb.Live.Tools do
       %{
         link: ~p"/#{Gettext.get_locale()}/tools/dices",
         title: dgettext("app", "Dices"),
-        desc: dgettext("app", "TODO.")
+        desc: dgettext("app", "Roll and push.")
       }
     ]
   end

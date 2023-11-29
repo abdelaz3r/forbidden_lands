@@ -24,7 +24,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
   def render(assigns) do
     ~H"""
     <div class="p-6">
-      <section class="flex flex-col gap-3">
+      <section class="flex flex-col gap-2">
         <.button phx-click="move" phx-target={@myself} phx-value-amount={1} color={:blue}>
           <%= dgettext("app", "Moving on to the next quarter day") %>
         </.button>
@@ -42,7 +42,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
               phx-click="update_mood"
               phx-value-mood={playlist}
               phx-target={@myself}
-              class={if(playlist == @instance.mood, do: "outline outline-3 outline-sky-500", else: "opacity-80")}
+              color={if(playlist == @instance.mood, do: :blue, else: :gray)}
             >
               <%= String.capitalize(playlist) %>
             </.button>
@@ -54,11 +54,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
             <%= dgettext("app", "Active overlay") %>
           </h2>
           <div class="flex flex-wrap gap-2">
-            <.button
-              phx-click="remove_overlay"
-              phx-target={@myself}
-              class={if(@instance.overlay == nil, do: "outline outline-3 outline-sky-500", else: "opacity-80")}
-            >
+            <.button phx-click="remove_overlay" phx-target={@myself} color={if(@instance.overlay == nil, do: :blue, else: :gray)}>
               <%= dgettext("app", "No overlay") %>
             </.button>
             <.button
@@ -66,7 +62,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
               phx-click="update_overlay"
               phx-value-overlay={media.id}
               phx-target={@myself}
-              class={if(@instance.overlay == media.id, do: "outline outline-3 outline-sky-500", else: "opacity-80")}
+              color={if(@instance.overlay == media.id, do: :blue, else: :gray)}
             >
               <%= String.capitalize(media.name) %>
             </.button>
@@ -83,7 +79,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
           <.icon name={:chevrons_up} class={"h-6 w-6 transition-all duration-500 #{not @show_more? && "rotate-180"}"} />
         </button>
 
-        <div :if={@show_more?} class="flex flex-col gap-3">
+        <div :if={@show_more?} class="flex flex-col gap-2">
           <.button phx-click="move" phx-target={@myself} phx-value-amount={4}>
             <%= dgettext("app", "One day ahead") %>
           </.button>

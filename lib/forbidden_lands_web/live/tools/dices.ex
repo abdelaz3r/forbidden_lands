@@ -45,6 +45,7 @@ defmodule ForbiddenLandsWeb.Live.Tools.Dices do
         <h2 class="font-bold mb-2">
           <%= dgettext("app", "Set dices for launch") %>
         </h2>
+
         <div
           :for={%{key: key, base: base, name: name, max: max, count: count} <- @data_types}
           class="flex gap-2 items-top border-t py-2 my-0"
@@ -88,14 +89,14 @@ defmodule ForbiddenLandsWeb.Live.Tools.Dices do
       </div>
 
       <div class="space-y-5">
-        <div :for={%{id: id, normal: normal, pushed: pushed} <- @rolls} class="border rounded">
+        <div :for={%{id: id, normal: normal, pushed: pushed} <- @rolls} class="border bg-slate-100/20 rounded shadow">
           <div
             :for={{type, roll} <- [{:normal, normal}, {:pushed, pushed}]}
             :if={roll}
             class={[
-              "relative flex flex-col gap-1 p-1",
-              type == :normal && "flex-col",
-              type == :pushed && "flex-col-reverse border-t border-dashed",
+              "relative flex flex-col gap-1 p-2",
+              type == :normal && "flex-col pt-1.5",
+              type == :pushed && "flex-col-reverse border-t border-dashed pb-1.5",
               type == :normal and not is_nil(pushed) && "opacity-60"
             ]}
           >

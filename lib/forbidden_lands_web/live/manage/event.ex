@@ -57,7 +57,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Event do
           <.input field={{f, :title}} label={dgettext("app", "Title")} />
           <.input field={{f, :description}} type="textarea" label={dgettext("app", "Description")} />
           <:actions>
-            <.button color={:blue}>
+            <.button>
               <%= if @edit do %>
                 <%= dgettext("app", "Edit") %>
               <% else %>

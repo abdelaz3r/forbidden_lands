@@ -207,7 +207,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded border py-2 px-3 text-sm font-semibold leading-6 transition-all",
+        "phx-submit-loading:opacity-75 rounded border-2 py-3 px-3 text-sm font-semibold leading-4 transition-all",
         color(@color),
         @class
       ]}
@@ -218,9 +218,9 @@ defmodule ForbiddenLandsWeb.CoreComponents do
     """
   end
 
-  defp color(:blue), do: "bg-cyan-700 hover:bg-cyan-600 border-cyan-900 text-white"
-  defp color(:red), do: "bg-rose-700 hover:bg-rose-600 border-rose-900 text-white"
-  defp color(:gray), do: "bg-slate-700 hover:bg-slate-600 border-slate-900 text-white"
+  defp color(:blue), do: "bg-sky-400 hover:bg-sky-500 border-sky-800 hover:border-sky-900 text-sky-900"
+  defp color(:red), do: "bg-red-400 hover:bg-red-500 border-red-800 hover:border-red-900 text-red-900"
+  defp color(:gray), do: "bg-slate-200 hover:bg-slate-300 border-slate-400 hover:border-slate-500 text-slate-700"
 
   @doc """
   Renders an input with label and error messages.
@@ -280,7 +280,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
         name={@name}
         value="true"
         checked={@checked}
-        class="rounded border-blue-300 text-slate-900 focus:ring-blue-900"
+        class="rounded border-sky-300 text-slate-900 focus:ring-sky-900"
         {@rest}
       />
       <%= @label %>
@@ -296,8 +296,8 @@ defmodule ForbiddenLandsWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "block mt-0.5 p-2 py-2.5 pr-8 w-full bg-white rounded border-1 shadow-sm sm:text-sm focus:ring-4",
-          "text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-blue-500/20",
+          "block mt-0.5 p-2 py-2.5 pr-8 w-full bg-white rounded border-2 shadow-sm sm:text-sm focus:ring-4",
+          "text-slate-900 focus:outline-none focus:border-sky-500 focus:ring-sky-500/20",
           input_border(@errors)
         ]}
         multiple={@multiple}
@@ -319,9 +319,9 @@ defmodule ForbiddenLandsWeb.CoreComponents do
         id={@id || @name}
         name={@name}
         class={[
-          "mt-0.5 block h-40 w-full rounded border-1 p-2",
+          "mt-0.5 block h-40 w-full rounded border-2 p-2",
           "text-slate-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-blue-500 phx-no-feedback:focus:border-blue-500",
+          "phx-no-feedback:border-sky-500 phx-no-feedback:focus:border-sky-500",
           input_border(@errors)
         ]}
         {@rest}
@@ -342,9 +342,9 @@ defmodule ForbiddenLandsWeb.CoreComponents do
         id={@id || @name}
         value={@value}
         class={[
-          "mt-0.5 block w-full rounded border-1 p-2",
+          "mt-0.5 block w-full rounded border-2 p-2",
           "text-slate-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-blue-500 phx-no-feedback:focus:border-grey-500",
+          "phx-no-feedback:border-sky-500 phx-no-feedback:focus:border-grey-500",
           input_border(@errors)
         ]}
         {@rest}
@@ -354,8 +354,8 @@ defmodule ForbiddenLandsWeb.CoreComponents do
     """
   end
 
-  defp input_border([] = _errors), do: "border-blue-500 focus:ring-blue-500/20"
-  defp input_border([_ | _] = _errors), do: "border-rose-500 focus:border-rose-500 focus:ring-rose-500/20"
+  defp input_border([] = _errors), do: "border-sky-500 focus:ring-sky-500/20"
+  defp input_border([_ | _] = _errors), do: "border-red-500 focus:border-red-500 focus:ring-red-500/20"
 
   @doc """
   Renders a label.
