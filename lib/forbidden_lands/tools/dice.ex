@@ -6,12 +6,12 @@ defmodule ForbiddenLands.Tools.Dice do
   alias ForbiddenLands.Tools.Dice
 
   @types [
-    %{key: :base, base: 6, name: dgettext("dice", "Base"), max: 6},
-    %{key: :skill, base: 6, name: dgettext("dice", "Skill"), max: 8},
-    %{key: :gear, base: 6, name: dgettext("dice", "Gear"), max: 8},
-    %{key: :artifact_8, base: 8, name: dgettext("dice", "Artifact 8"), max: 1},
-    %{key: :artifact_10, base: 10, name: dgettext("dice", "Artifact 10"), max: 1},
-    %{key: :artifact_12, base: 12, name: dgettext("dice", "Artifact 12"), max: 1}
+    %{key: :base, base: 6, name: dgettext("dice", "Base"), max: 12},
+    %{key: :skill, base: 6, name: dgettext("dice", "Skill"), max: 12},
+    %{key: :gear, base: 6, name: dgettext("dice", "Gear"), max: 12},
+    %{key: :artifact_8, base: 8, name: dgettext("dice", "Artifact 8"), max: 12},
+    %{key: :artifact_10, base: 10, name: dgettext("dice", "Artifact 10"), max: 12},
+    %{key: :artifact_12, base: 12, name: dgettext("dice", "Artifact 12"), max: 12}
   ]
 
   @type t() :: %Dice{
