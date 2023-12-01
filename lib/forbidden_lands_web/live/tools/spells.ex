@@ -99,7 +99,7 @@ defmodule ForbiddenLandsWeb.Live.Tools.Spells do
           </div>
           <div :if={not spell.is_official} class="absolute top-1 left-1 w-2 h-2 rounded-full bg-black"></div>
           <div class="absolute inset-0 flex flex-col p-4">
-            <div class="flex-none font-['Satisfy']">
+            <div class="flex-none font-spell-title">
               <div class="font-bold">
                 <div class={[
                   "text-2xl",
@@ -171,7 +171,7 @@ defmodule ForbiddenLandsWeb.Live.Tools.Spells do
             </div>
 
             <div class={[
-              "grow flex flex-col gap-1 pt-2 font-['Crimson_Pro']",
+              "grow flex flex-col gap-1 pt-2 font-spell-body",
               spell.desc_length > 450 && "leading-4",
               spell.desc_length > 550 && "text-[13px] leading-4"
             ]}>
@@ -192,7 +192,7 @@ defmodule ForbiddenLandsWeb.Live.Tools.Spells do
               </div>
             </div>
 
-            <div :if={spell.id == @opened_spell} class="absolute inset-0 p-4 bg-white font-['Crimson_Pro'] print:hidden">
+            <div :if={spell.id == @opened_spell} class="absolute inset-0 p-4 bg-white font-spell-body print:hidden">
               <div class="absolute inset-0 py-3 px-4 overflow-y-auto" style={"background: rgba(#{spell.style}, .5);"}>
                 <div class="font-bold">
                   <%= dgettext("spells", "Original description") %>

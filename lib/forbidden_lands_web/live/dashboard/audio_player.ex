@@ -59,7 +59,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.AudioPlayer do
 
         <div
           :if={@playing? && @current_music != ""}
-          class="px-2 py-1 bg-slate-900/60 text-sm rounded transition-all opacity-0 peer-hover:opacity-100 font-title"
+          class="px-2 py-1 bg-slate-900/60 text-sm rounded transition-all opacity-0 peer-hover:opacity-100 font-sans"
         >
           <%= @current_music %>
         </div>

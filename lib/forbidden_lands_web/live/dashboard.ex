@@ -49,13 +49,13 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="md:grid md:grid-cols-[1fr_400px] h-screen bg-slate-700 overflow-hidden relative">
+    <div class="md:grid md:grid-cols-[1fr_400px] font-serif h-screen bg-slate-700 overflow-hidden relative">
       <div class="hidden md:block relative overflow-hidden">
         <div class="w-full h-full overflow-hidden">
           <.image path="map.jpg" alt={dgettext("app", "Map of Forbiddens Land")} class="object-cover h-full w-full" />
         </div>
         <div class={[layer_classes(), layer_classes(@luminosity)]}></div>
-        <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-title font-bold text-xl drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
+        <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-bold text-xl drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
           <.link navigate={~p"/#{Gettext.get_locale()}/"}>
             <.icon name={:chevron_left} class="h-6 w-6" />
           </.link>

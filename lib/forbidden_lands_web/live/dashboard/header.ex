@@ -16,7 +16,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Header do
   def header(assigns) do
     ~H"""
     <div class={[
-      "font-title bg-gradient-to-r from-slate-800 to-slate-900 flex-none z-10 border-b border-slate-900 shadow-2xl shadow-black/50",
+      "bg-gradient-to-r from-slate-800 to-slate-900 flex-none z-10 border-b border-slate-900 shadow-2xl shadow-black/50",
       @class
     ]}>
       <div class="flex items-stretch gap-4 p-4">

@@ -2,8 +2,7 @@
 // https://tailwindcss.com/docs/configuration
 
 const plugin = require("tailwindcss/plugin")
-
-// font-bold text-xl
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   content: [
@@ -34,7 +33,10 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        title: ['Lora']
+        sans: ['"Open Sans"', ...defaultTheme.fontFamily.sans],
+        serif: ['Lora', ...defaultTheme.fontFamily.serif],
+        'spell-title': ['Satisfy', ...defaultTheme.fontFamily.serif],
+        'spell-body': ['"Crimson Pro"', ...defaultTheme.fontFamily.serif],
       },
       colors: {
         brand: "#FD4F00"
