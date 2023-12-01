@@ -63,17 +63,16 @@ defmodule ForbiddenLands.Tools.Dice do
   end
 
   @spec fail_count(Dice.t()) :: non_neg_integer()
-  def fail_count(%Dice{roll: 1, key: key} = _dice) when key != :skill, do: 1
-  def fail_count(%Dice{} = _dice), do: 0
+  def fail_count(%Dice{} = dice) do
+    fail_base_count(dice) + fail_gear_count(dice)
+  end
 
   @spec fail_base_count(Dice.t()) :: non_neg_integer()
   def fail_base_count(%Dice{roll: 1, key: :base} = _dice), do: 1
   def fail_base_count(%Dice{} = _dice), do: 0
 
   @spec fail_gear_count(Dice.t()) :: non_neg_integer()
-  def fail_gear_count(%Dice{roll: 1, key: key} = _dice) when key in [:gear, :artifact_8, :artifact_10, :artifact_12],
-    do: 1
-
+  def fail_gear_count(%Dice{roll: 1, key: :gear} = _dice), do: 1
   def fail_gear_count(%Dice{} = _dice), do: 0
 
   @spec success_count(Dice.t()) :: non_neg_integer()
