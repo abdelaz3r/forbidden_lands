@@ -17,7 +17,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
     <section
       :if={@stronghold}
       class={[
-        "flex-none font-title border-t border-slate-900 shadow-2xl shadow-black/50 bg-gradient-to-l from-slate-800",
+        "flex-none border-t border-slate-900 shadow-2xl shadow-black/50 bg-gradient-to-l from-slate-800",
         "to-slate-900 transition-all duration-500 relative",
         if(@open?, do: "h-[458px]", else: "h-[140px]"),
         @class

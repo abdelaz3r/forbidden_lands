@@ -15,7 +15,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
   @spec timeline(assigns :: map()) :: Phoenix.LiveView.Rendered.t()
   def timeline(assigns) do
     ~H"""
-    <div class="grow overflow-y-auto flex flex-col gap-1.5 py-4 font-title">
+    <div class="grow overflow-y-auto flex flex-col gap-1.5 py-4">
       <section :for={event <- @events} class="space-y-2">
         <header class="px-4">
           <.icon name={Event.icon_by_type(event.type)} class={event_type_class(event.type)} />
@@ -28,14 +28,14 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
         <hr class="border-t border-slate-900/50" />
       </section>
 
-      <div :if={length(@events) == 0} class="p-16 text-center font-title text-lg text-slate-100/40">
+      <div :if={length(@events) == 0} class="p-16 text-center text-lg text-slate-100/40">
         <%= dgettext("app", "Start writing your story.") %>
       </div>
 
       <.link
         :if={length(@events) > 0}
         navigate={~p"/#{Gettext.get_locale()}/adventure/#{@instance_id}/story"}
-        class="px-16 py-10 text-center font-title text-lg text-slate-100/40 hover:text-slate-100 transition-all"
+        class="px-16 py-10 text-center text-lg text-slate-100/40 hover:text-slate-100 transition-all"
       >
         <%= dgettext("app", "The rest of the story is here!") %>
       </.link>

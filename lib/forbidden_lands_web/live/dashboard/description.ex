@@ -74,13 +74,10 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Description do
   defp bloc_content(%{content: _content} = assigns) do
     ~H"""
     <div class="px-4">
-      <h2
-        :if={render_slot(@inner_block) != []}
-        class="flex items-center gap-2 pt-4 text-xl first-letter:text-2xl font-title font-bold"
-      >
+      <h2 :if={render_slot(@inner_block) != []} class="flex items-center gap-2 pt-4 text-xl first-letter:text-2xl font-bold">
         <%= render_slot(@inner_block) %>
       </h2>
-      <div class="text-sm divide-y divide-slate-900/50 text-slate-100/80">
+      <div class="text-sm font-sans divide-y divide-slate-900/50 text-slate-100/80">
         <%= Helper.text_to_raw_html(@content, "py-3") %>
       </div>
     </div>
