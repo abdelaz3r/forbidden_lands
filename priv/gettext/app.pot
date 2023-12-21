@@ -177,7 +177,7 @@ msgstr[1] ""
 msgid "unknown resource"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:177
+#: lib/forbidden_lands_web/live/manage/date.ex:173
 #, elixir-autogen, elixir-format
 msgid "1 week passes"
 msgid_plural "%{count} weeks pass"
@@ -354,9 +354,7 @@ msgstr ""
 msgid "Edit event"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/media.ex:80
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:146
-#: lib/forbidden_lands_web/live/manage/stronghold.ex:164
 #, elixir-autogen, elixir-format
 msgid "Error."
 msgstr ""
@@ -420,13 +418,11 @@ msgstr ""
 
 #: lib/forbidden_lands_web/live/dashboard.ex:118
 #: lib/forbidden_lands_web/live/manage.ex:129
-#: lib/forbidden_lands_web/live/manage/date.ex:119
-#: lib/forbidden_lands_web/live/manage/date.ex:130
-#: lib/forbidden_lands_web/live/manage/date.ex:145
-#: lib/forbidden_lands_web/live/manage/date.ex:213
-#: lib/forbidden_lands_web/live/manage/media.ex:94
+#: lib/forbidden_lands_web/live/manage/date.ex:115
+#: lib/forbidden_lands_web/live/manage/date.ex:126
+#: lib/forbidden_lands_web/live/manage/date.ex:141
+#: lib/forbidden_lands_web/live/manage/date.ex:209
 #: lib/forbidden_lands_web/live/manage/settings.ex:98
-#: lib/forbidden_lands_web/live/manage/stronghold.ex:178
 #, elixir-autogen, elixir-format
 msgid "General error: %{error}"
 msgstr ""
@@ -489,12 +485,12 @@ msgstr ""
 msgid "May the adventure start!"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:82
+#: lib/forbidden_lands_web/live/manage/date.ex:78
 #, elixir-autogen, elixir-format
 msgid "More options"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:94
+#: lib/forbidden_lands_web/live/manage/date.ex:90
 #, elixir-autogen, elixir-format
 msgid "Move back one quarter day"
 msgstr ""
@@ -537,12 +533,12 @@ msgstr ""
 msgid "No events"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:88
+#: lib/forbidden_lands_web/live/manage/date.ex:84
 #, elixir-autogen, elixir-format
 msgid "One day ahead"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:91
+#: lib/forbidden_lands_web/live/manage/date.ex:87
 #, elixir-autogen, elixir-format
 msgid "One week ahead"
 msgstr ""
@@ -605,7 +601,7 @@ msgstr ""
 msgid "Successful copy"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:178
+#: lib/forbidden_lands_web/live/manage/date.ex:174
 #, elixir-autogen, elixir-format
 msgid "Summary of the castle's resources: \r\n\r\n%{rules}"
 msgstr ""
@@ -632,6 +628,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
+#: lib/forbidden_lands_web/components/navbar.ex:28
 #: lib/forbidden_lands_web/live/dashboard/description.ex:32
 #: lib/forbidden_lands_web/live/manage/stronghold.ex:61
 #, elixir-autogen, elixir-format
@@ -668,12 +665,12 @@ msgstr ""
 msgid "Your stronghold"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:170
+#: lib/forbidden_lands_web/live/manage/date.ex:166
 #, elixir-autogen, elixir-format
 msgid "— %{name} consume %{amount} %{resource}"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:169
+#: lib/forbidden_lands_web/live/manage/date.ex:165
 #, elixir-autogen, elixir-format
 msgid "— %{name} produce %{amount} %{resource}"
 msgstr ""
@@ -730,7 +727,7 @@ msgstr ""
 msgid "Url (valid link to an image)"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/manage/date.ex:62
+#: lib/forbidden_lands_web/live/manage/date.ex:58
 #, elixir-autogen, elixir-format
 msgid "No overlay"
 msgstr ""
@@ -740,8 +737,84 @@ msgstr ""
 msgid "Active overlay"
 msgstr ""
 
-#: lib/forbidden_lands_web/components/navbar.ex:28
-#: lib/forbidden_lands_web/live/spells.ex:47
+#: lib/forbidden_lands_web/live/tools.ex:52
+#: lib/forbidden_lands_web/live/tools/spells.ex:45
 #, elixir-autogen, elixir-format
 msgid "Spells list"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools/dices.ex:109
+#, elixir-autogen, elixir-format
+msgid "%{count} failed attribute"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools/dices.ex:112
+#, elixir-autogen, elixir-format
+msgid "%{count} failed gear"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools/dices.ex:106
+#, elixir-autogen, elixir-format
+msgid "%{count} success"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools.ex:53
+#, elixir-autogen, elixir-format
+msgid "Browse and explore list of spells."
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools/dices.ex:87
+#, elixir-autogen, elixir-format
+msgid "Clear the board"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools/dices.ex:41
+#, elixir-autogen, elixir-format
+msgid "Dice launcher"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools.ex:57
+#, elixir-autogen, elixir-format
+msgid "Dices"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools/dices.ex:14
+#, elixir-autogen, elixir-format
+msgid "Dices simulator"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/manage/media.ex:86
+#: lib/forbidden_lands_web/live/manage/stronghold.ex:170
+#, elixir-autogen, elixir-format
+msgid "General error"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools/dices.ex:122
+#, elixir-autogen, elixir-format
+msgid "Push the roll"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools.ex:58
+#, elixir-autogen, elixir-format
+msgid "Roll and push."
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools/dices.ex:84
+#, elixir-autogen, elixir-format
+msgid "Roll the dices"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools/dices.ex:46
+#, elixir-autogen, elixir-format
+msgid "Set dices for launch"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools.ex:27
+#, elixir-autogen, elixir-format
+msgid "Tools & Resources"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools.ex:12
+#, elixir-autogen, elixir-format
+msgid "Tools list"
 msgstr ""

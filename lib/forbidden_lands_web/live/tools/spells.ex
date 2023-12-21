@@ -92,10 +92,10 @@ defmodule ForbiddenLandsWeb.Live.Tools.Spells do
 
         <div class="absolute bottom-1 right-5 text-xs underline opacity-80 hover:opacity-100">
           <.link :if={@spell_display == :normal} navigate={~p"/#{Gettext.get_locale()}/tools/spells?simple-display=true"}>
-            Switch to simple spell display
+            <%= dgettext("spells", "Switch to simple spell display") %>
           </.link>
           <.link :if={@spell_display == :simple} navigate={~p"/#{Gettext.get_locale()}/tools/spells"}>
-            Switch to fancier spell display
+            <%= dgettext("spells", "Switch to fancier spell display") %>
           </.link>
         </div>
       </div>

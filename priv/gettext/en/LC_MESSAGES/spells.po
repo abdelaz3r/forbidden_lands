@@ -41,22 +41,22 @@ msgstr ""
 msgid "1 turn/lvl."
 msgstr ""
 
-#: lib/forbidden_lands_web/live/spells.ex:51
+#: lib/forbidden_lands_web/live/tools/spells.ex:50
 #, elixir-autogen, elixir-format
 msgid "All durations"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/spells.ex:52
+#: lib/forbidden_lands_web/live/tools/spells.ex:51
 #, elixir-autogen, elixir-format
 msgid "All ranges"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/spells.ex:53
+#: lib/forbidden_lands_web/live/tools/spells.ex:52
 #, elixir-autogen, elixir-format
 msgid "All ranks"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/spells.ex:50
+#: lib/forbidden_lands_web/live/tools/spells.ex:49
 #, elixir-autogen, elixir-format
 msgid "All types"
 msgstr ""
@@ -116,17 +116,17 @@ msgstr ""
 msgid "Personal"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/spells.ex:153
+#: lib/forbidden_lands_web/live/tools/spells.ex:173
 #, elixir-autogen, elixir-format
 msgid "Power word"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/spells.ex:40
+#: lib/forbidden_lands_web/live/tools/spells.ex:38
 #, elixir-autogen, elixir-format
 msgid "Rank %{level}"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/spells.ex:150
+#: lib/forbidden_lands_web/live/tools/spells.ex:170
 #, elixir-autogen, elixir-format
 msgid "Ritual"
 msgstr ""
@@ -151,7 +151,7 @@ msgstr ""
 msgid "Symbolism"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/spells.ex:74
+#: lib/forbidden_lands_web/live/tools/spells.ex:82
 #, elixir-autogen, elixir-format
 msgid "Type to filter spells"
 msgstr ""
@@ -178,7 +178,17 @@ msgstr ""
 msgid "—"
 msgstr ""
 
-#: lib/forbidden_lands_web/live/spells.ex:203
+#: lib/forbidden_lands_web/live/tools/spells.ex:224
 #, elixir-autogen, elixir-format
 msgid "Original description"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools/spells.ex:98
+#, elixir-autogen, elixir-format
+msgid "Switch to fancier spell display"
+msgstr ""
+
+#: lib/forbidden_lands_web/live/tools/spells.ex:95
+#, elixir-autogen, elixir-format
+msgid "Switch to simple spell display"
 msgstr ""

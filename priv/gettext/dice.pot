@@ -1,0 +1,42 @@
+## This file is a PO Template file.
+##
+## "msgid"s here are often extracted from source code.
+## Add new messages manually only if they're dynamic
+## messages that can't be statically extracted.
+##
+## Run "mix gettext.extract" to bring this file up to
+## date. Leave "msgstr"s empty as changing them here has no
+## effect: edit them in PO (.po) files instead.
+#
+msgid ""
+msgstr ""
+
+#: lib/forbidden_lands/tools/dice.ex:13
+#, elixir-autogen, elixir-format
+msgid "Artifact 10"
+msgstr ""
+
+#: lib/forbidden_lands/tools/dice.ex:14
+#, elixir-autogen, elixir-format
+msgid "Artifact 12"
+msgstr ""
+
+#: lib/forbidden_lands/tools/dice.ex:12
+#, elixir-autogen, elixir-format
+msgid "Artifact 8"
+msgstr ""
+
+#: lib/forbidden_lands/tools/dice.ex:9
+#, elixir-autogen, elixir-format
+msgid "Base"
+msgstr ""
+
+#: lib/forbidden_lands/tools/dice.ex:11
+#, elixir-autogen, elixir-format
+msgid "Gear"
+msgstr ""
+
+#: lib/forbidden_lands/tools/dice.ex:10
+#, elixir-autogen, elixir-format
+msgid "Skill"
+msgstr ""
