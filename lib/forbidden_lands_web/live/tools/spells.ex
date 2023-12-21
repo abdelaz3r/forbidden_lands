@@ -45,6 +45,7 @@ defmodule ForbiddenLandsWeb.Live.Tools.Spells do
       |> assign(page_title: dgettext("app", "Spells list"))
       |> assign(source: source)
       |> assign(opened_spell: nil)
+      |> assign(spell_display: :normal)
       |> assign(types: [{dgettext("spells", "All types"), "all"} | types |> MapSet.to_list()])
       |> assign(durations: [{dgettext("spells", "All durations"), "all"} | durations |> MapSet.to_list()])
       |> assign(ranges: [{dgettext("spells", "All ranges"), "all"} | ranges |> MapSet.to_list()])
@@ -55,6 +56,15 @@ defmodule ForbiddenLandsWeb.Live.Tools.Spells do
   end
 
   @impl Phoenix.LiveView
+  def handle_params(%{"simple-display" => "true"}, _uri, socket) do
+    socket =
+      socket
+      |> assign(spell_display: :simple)
+      |> assign(filters: filter_changeset())
+
+    {:noreply, filter_spells(socket)}
+  end
+
   def handle_params(_params, _uri, socket) do
     {:noreply, filter_spells(socket)}
   end
@@ -65,7 +75,7 @@ defmodule ForbiddenLandsWeb.Live.Tools.Spells do
     <.navbar />
 
     <section class="text-gray-900 bg-white border-t print:border-none">
-      <div class="p-5 pb-0 border-b bg-gray-100 print:hidden">
+      <div class="relative p-5 pb-0 border-b bg-gray-100 print:hidden">
         <.simple_form :let={f} as={:filters} for={@filters} phx-change="update_filters">
           <div class="flex flex-col md:flex-row md:gap-5">
             <div class="grow">
@@ -79,6 +89,15 @@ defmodule ForbiddenLandsWeb.Live.Tools.Spells do
             </div>
           </div>
         </.simple_form>
+
+        <div class="absolute bottom-1 right-5 text-xs underline opacity-80 hover:opacity-100">
+          <.link :if={@spell_display == :normal} navigate={~p"/#{Gettext.get_locale()}/tools/spells?simple-display=true"}>
+            Switch to simple spell display
+          </.link>
+          <.link :if={@spell_display == :simple} navigate={~p"/#{Gettext.get_locale()}/tools/spells"}>
+            Switch to fancier spell display
+          </.link>
+        </div>
       </div>
 
       <div class="p-2 text-center print:p-0">
@@ -87,7 +106,8 @@ defmodule ForbiddenLandsWeb.Live.Tools.Spells do
           class="relative text-left overflow-hidden m-2 w-[290px] h-[403px] inline-block align-top text-sm border-8 rounded bg-white"
           style={"border-color: rgba(#{spell.style}, .5);"}
         >
-          <div class="absolute inset-0" style={background(spell.type, spell.style)}></div>
+          <div class={["absolute inset-0", @spell_display == :simple && "opacity-50"]} style={background(spell.type, spell.style)}>
+          </div>
           <div class="absolute top-4 left-0 h-8 border-4 border-transparent border-l-white"></div>
           <div class="absolute top-4 left-0 h-8 border-4 border-transparent" style={"border-left-color: rgba(#{spell.style}, .5);"}>
           </div>
@@ -99,12 +119,14 @@ defmodule ForbiddenLandsWeb.Live.Tools.Spells do
           </div>
           <div :if={not spell.is_official} class="absolute top-1 left-1 w-2 h-2 rounded-full bg-black"></div>
           <div class="absolute inset-0 flex flex-col p-4">
-            <div class="flex-none font-spell-title">
+            <div class={["flex-none", @spell_display == :normal && "font-spell-title", @spell_display == :simple && "font-serif"]}>
               <div class="font-bold">
                 <div class={[
                   "text-2xl",
-                  spell.name_length > 18 && "tracking-tight",
-                  spell.name_length > 22 && "tracking-tighter"
+                  @spell_display == :normal && spell.name_length > 18 && "tracking-tight",
+                  @spell_display == :normal && spell.name_length > 22 && "tracking-tighter",
+                  @spell_display == :simple && spell.name_length > 16 && "-tracking-[0.05em]",
+                  @spell_display == :simple && spell.name_length > 20 && "-tracking-[0.06em]"
                 ]}>
                   <%= spell.name %>
                 </div>
@@ -171,9 +193,13 @@ defmodule ForbiddenLandsWeb.Live.Tools.Spells do
             </div>
 
             <div class={[
-              "grow flex flex-col gap-1 pt-2 font-spell-body",
-              spell.desc_length > 450 && "leading-4",
-              spell.desc_length > 550 && "text-[13px] leading-4"
+              "grow flex flex-col gap-1 pt-2",
+              @spell_display == :normal && "font-spell-body",
+              @spell_display == :normal && spell.desc_length > 450 && "leading-4",
+              @spell_display == :normal && spell.desc_length > 550 && "text-[13px] leading-4",
+              @spell_display == :simple && "font-serif",
+              @spell_display == :simple && spell.desc_length > 380 && "leading-[1.125rem]",
+              @spell_display == :simple && spell.desc_length > 500 && "text-[12px] leading-[1rem]"
             ]}>
               <div>
                 <span class={["font-bold", spell.desc_length < 310 && "block pb-2"]}>
@@ -193,7 +219,7 @@ defmodule ForbiddenLandsWeb.Live.Tools.Spells do
             </div>
 
             <div :if={spell.id == @opened_spell} class="absolute inset-0 p-4 bg-white font-spell-body print:hidden">
-              <div class="absolute inset-0 py-3 px-4 overflow-y-auto" style={"background: rgba(#{spell.style}, .5);"}>
+              <div class="absolute inset-0 py-3 px-4 overflow-y-auto font-sans" style={"background: rgba(#{spell.style}, .5);"}>
                 <div class="font-bold">
                   <%= dgettext("spells", "Original description") %>
                 </div>
