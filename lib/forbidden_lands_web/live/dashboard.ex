@@ -49,7 +49,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="md:grid md:grid-cols-[1fr_400px] font-serif h-screen bg-slate-700 overflow-hidden relative">
+    <div class="md:grid md:grid-cols-[1fr_400px] font-serif h-screen bg-stone-700 overflow-hidden relative">
       <div class="hidden md:block relative overflow-hidden">
         <div class="w-full h-full overflow-hidden">
           <.image path="map-alt.jpg" alt={dgettext("app", "Map of Forbiddens Land")} class="object-cover h-full w-full" />
@@ -76,7 +76,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
       </div>
 
       <div class="h-screen relative">
-        <div class="absolute inset-0 flex flex-col bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50 z-10">
+        <div class="absolute inset-0 flex flex-col bg-stone-800 border-l border-stone-900 shadow-2xl shadow-black/50 z-10">
           <.header date={@calendar} quarter_shift={@quarter_shift} />
           <.timeline instance_id={@instance.id} events={@instance.events} />
           <.stronghold stronghold={@instance.stronghold} open?={@stronghold_open?} />

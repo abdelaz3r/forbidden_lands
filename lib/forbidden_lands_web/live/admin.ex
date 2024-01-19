@@ -31,28 +31,28 @@ defmodule ForbiddenLandsWeb.Live.Admin do
     ~H"""
     <.navbar />
 
-    <div class="bg-white text-slate-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
+    <div class="bg-white text-stone-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
       <div class="grid grid-cols-2 gap-5">
         <.link
           navigate={~p"/#{Gettext.get_locale()}/start-a-new-adventure"}
-          class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all"
+          class="block p-5 border border-stone-200 rounded hover:bg-stone-100 transition-all"
         >
           <h2 class="font-bold text-xl pb-2">
             <%= dgettext("app", "Starting a fresh adventure") %>
           </h2>
-          <p class="text-slate-900/70">
+          <p class="text-stone-900/70">
             <%= dgettext("app", "Create a new adventure with a start date and a name.") %>
           </p>
         </.link>
 
         <.link
           navigate={~p"/#{Gettext.get_locale()}/import-adventure"}
-          class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all"
+          class="block p-5 border border-stone-200 rounded hover:bg-stone-100 transition-all"
         >
           <h2 class="font-bold text-xl pb-2">
             <%= dgettext("app", "Import an adventure") %>
           </h2>
-          <p class="text-slate-900/70">
+          <p class="text-stone-900/70">
             <%= dgettext("app", "Import an adventure from the .json export file of another adventure.") %>
           </p>
         </.link>

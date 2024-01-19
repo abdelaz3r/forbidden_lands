@@ -43,8 +43,8 @@ defmodule ForbiddenLandsWeb.Live.Manage.Settings do
           <p class="text-xs">
             <%= dgettext("app", "Example :") %>
           </p>
-          <aside class="font-serif text-center px-4 py-6 border bg-slate-100/50 mb-5">
-            <h2 :if={@instance.prepend_name} class="inline-block pb-2 text-2xl text-slate-900/50">
+          <aside class="font-serif text-center px-4 py-6 border bg-stone-100/50 mb-5">
+            <h2 :if={@instance.prepend_name} class="inline-block pb-2 text-2xl text-stone-900/50">
               <%= @instance.prepend_name %>
             </h2>
             <br />

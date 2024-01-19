@@ -10,7 +10,7 @@ defmodule ForbiddenLandsWeb.Components.Generic.Icon do
 
   Example:
 
-      <.icon name={:arrow_right} class="w-5 h-5 text-gray-600 dark:text-gray-400" />
+      <.icon name={:arrow_right} class="w-5 h-5 text-stone-600 dark:text-stone-400" />
   """
   @spec icon(assigns :: map()) :: Phoenix.LiveView.Rendered.t()
   def icon(assigns) do

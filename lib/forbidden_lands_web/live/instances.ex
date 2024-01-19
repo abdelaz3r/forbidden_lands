@@ -32,12 +32,12 @@ defmodule ForbiddenLandsWeb.Live.Instances do
     ~H"""
     <.navbar />
 
-    <div class="bg-white text-slate-900 max-w-screen-md mx-auto md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
+    <div class="bg-white text-stone-900 max-w-screen-md mx-auto md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
       <h2 class="font-bold text-xl">
         <%= dgettext("app", "Active adventures") %>
       </h2>
 
-      <section :for={instance <- @instances} class="block p-5 border border-slate-200 bg-slate-100 rounded">
+      <section :for={instance <- @instances} class="block p-5 border border-stone-200 bg-stone-100 rounded">
         <header class="space-y-5">
           <div class="space-y-2">
             <h2 class="flex items-center gap-3 font-bold text-xl">
@@ -87,5 +87,5 @@ defmodule ForbiddenLandsWeb.Live.Instances do
     """
   end
 
-  defp button_classes(), do: "flex gap-3 p-5 bg-white rounded border border-slate-200 hover:shadow transition-all"
+  defp button_classes(), do: "flex gap-3 p-5 bg-white rounded border border-stone-200 hover:shadow transition-all"
 end

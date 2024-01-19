@@ -22,20 +22,20 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
           <h2 class="font-bold"><%= event.title %></h2>
           <.event_date date={event.date} />
         </header>
-        <div :if={not is_nil(event.description)} class="text-sm space-y-1.5 px-4 text-slate-100/80">
+        <div :if={not is_nil(event.description)} class="text-sm space-y-1.5 px-4 text-stone-100/80">
           <%= Helper.text_to_raw_html(event.description) |> raw() %>
         </div>
-        <hr class="border-t border-slate-900/50" />
+        <hr class="border-t border-stone-900/50" />
       </section>
 
-      <div :if={length(@events) == 0} class="p-16 text-center text-lg text-slate-100/40">
+      <div :if={length(@events) == 0} class="p-16 text-center text-lg text-stone-100/40">
         <%= dgettext("app", "Start writing your story.") %>
       </div>
 
       <.link
         :if={length(@events) > 0}
         navigate={~p"/#{Gettext.get_locale()}/adventure/#{@instance_id}/story"}
-        class="px-16 py-10 text-center text-lg text-slate-100/40 hover:text-slate-100 transition-all"
+        class="px-16 py-10 text-center text-lg text-stone-100/40 hover:text-stone-100 transition-all"
       >
         <%= dgettext("app", "The rest of the story is here!") %>
       </.link>
@@ -60,8 +60,10 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
     """
   end
 
-  defp event_type_class(:automatic), do: "#{event_icon_class()} bg-gray-500 border-gray-400 outline-gray-400/10"
-  defp event_type_class(:normal), do: "#{event_icon_class()} bg-gray-500 border-gray-400 outline-gray-400/20"
+  defp event_type_class(:automatic),
+    do: "#{event_icon_class()} bg-stone-500 border-stone-400 outline-stone-400/10"
+
+  defp event_type_class(:normal), do: "#{event_icon_class()} bg-stone-500 border-stone-400 outline-stone-400/20"
 
   defp event_type_class(:special),
     do: "#{event_icon_class()} bg-emerald-600 border-emerald-400 outline-emerald-500/30"

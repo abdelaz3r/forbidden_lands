@@ -24,7 +24,7 @@ defmodule ForbiddenLandsWeb.Live.ImportInstance do
     ~H"""
     <.navbar />
 
-    <div class="bg-white text-slate-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
+    <div class="bg-white text-stone-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
       <h1 class="text-2xl font-bold">
         <%= dgettext("app", "Import an adventure") %>
       </h1>
