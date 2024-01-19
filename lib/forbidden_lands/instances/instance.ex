@@ -69,6 +69,7 @@ defmodule ForbiddenLands.Instances.Instance do
     timestamps(type: :naive_datetime_usec)
   end
 
+  @spec create() :: Ecto.Changeset.t()
   @spec create(map()) :: Ecto.Changeset.t()
   def create(params \\ %{}) do
     %Instance{}
@@ -79,6 +80,7 @@ defmodule ForbiddenLands.Instances.Instance do
     |> maybe_hash_password()
   end
 
+  @spec create_from_export() :: Ecto.Changeset.t()
   @spec create_from_export(map()) :: Ecto.Changeset.t()
   def create_from_export(params \\ %{}) do
     %Instance{}
@@ -101,7 +103,10 @@ defmodule ForbiddenLands.Instances.Instance do
     |> maybe_hash_password()
   end
 
+  @spec update(Instance.t()) :: Ecto.Changeset.t()
+  @spec update(Instance.t(), map()) :: Ecto.Changeset.t()
   @spec update(Instance.t(), map(), list()) :: Ecto.Changeset.t()
+  @spec update(Instance.t(), map(), list(), list()) :: Ecto.Changeset.t()
   def update(instance, params \\ %{}, resource_rules \\ [], medias \\ []) do
     instance
     |> cast(params, [

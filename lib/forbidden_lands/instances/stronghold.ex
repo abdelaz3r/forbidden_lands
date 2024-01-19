@@ -113,6 +113,7 @@ defmodule ForbiddenLands.Instances.Stronghold do
     field(:beer, :integer, default: 0)
   end
 
+  @spec changeset(Stronghold.t()) :: Ecto.Changeset.t()
   @spec changeset(Stronghold.t(), map()) :: Ecto.Changeset.t()
   def changeset(stronghold, params \\ %{}) do
     stronghold

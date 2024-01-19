@@ -20,6 +20,7 @@ defmodule ForbiddenLands.Instances.ResourceRule do
     field(:amount, :integer)
   end
 
+  @spec create(ResourceRule.t()) :: Ecto.Changeset.t()
   @spec create(ResourceRule.t(), map()) :: Ecto.Changeset.t()
   def create(resource_rule, params \\ %{}) do
     resource_rule

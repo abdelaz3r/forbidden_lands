@@ -38,6 +38,7 @@ defmodule ForbiddenLands.Instances.Event do
     @types
   end
 
+  @spec create(Event.t()) :: Ecto.Changeset.t()
   @spec create(Event.t(), map()) :: Ecto.Changeset.t()
   def create(event, params \\ %{}) do
     event
@@ -50,6 +51,7 @@ defmodule ForbiddenLands.Instances.Event do
     |> put_date()
   end
 
+  @spec create_from_export(Event.t()) :: Ecto.Changeset.t()
   @spec create_from_export(Event.t(), map()) :: Ecto.Changeset.t()
   def create_from_export(event, params \\ %{}) do
     event

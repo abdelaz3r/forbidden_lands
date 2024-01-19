@@ -17,6 +17,7 @@ defmodule ForbiddenLands.Instances.Media do
     field(:url, :string)
   end
 
+  @spec create(Media.t()) :: Ecto.Changeset.t()
   @spec create(Media.t(), map()) :: Ecto.Changeset.t()
   def create(resource_rule, params \\ %{}) do
     resource_rule

@@ -20,23 +20,16 @@ defmodule ForbiddenLands.Utils.RomanNumerals do
     {1, "I"}
   ]
 
-  def convert(number) do
-    convert(number, @numerals)
+  @spec convert(pos_integer()) :: String.t()
+  def convert(number) when is_integer(number) and number >= 0 do
+    do_convert(number, @numerals)
   end
 
-  defp convert(0, _) do
-    ""
-  end
+  defp do_convert(0, _), do: ""
+  defp do_convert(_number, []), do: ""
 
-  defp convert(_number, []) do
-    ""
-  end
+  defp do_convert(number, [{arabic, roman} | t]) when number >= arabic,
+    do: "#{roman}#{do_convert(number - arabic, [{arabic, roman} | t])}"
 
-  defp convert(number, [{arabic, roman} | t]) when number >= arabic do
-    "#{roman}#{convert(number - arabic, [{arabic, roman} | t])}"
-  end
-
-  defp convert(number, [_ | t]) do
-    convert(number, t)
-  end
+  defp do_convert(number, [_ | t]), do: do_convert(number, t)
 end
