@@ -39,7 +39,33 @@ module.exports = {
         'spell-body': ['"Crimson Pro"', ...defaultTheme.fontFamily.serif],
       },
       colors: {
-        brand: "#FD4F00"
+        brand: "#0284c7",
+        accent: {
+          50: 'rgb(var(--color-accent-50) / 1)',
+          100: 'rgb(var(--color-accent-100) / 1)',
+          200: 'rgb(var(--color-accent-200) / 1)',
+          300: 'rgb(var(--color-accent-300) / 1)',
+          400: 'rgb(var(--color-accent-400) / 1)',
+          500: 'rgb(var(--color-accent-500) / 1)',
+          600: 'rgb(var(--color-accent-600) / 1)',
+          700: 'rgb(var(--color-accent-700) / 1)',
+          800: 'rgb(var(--color-accent-800) / 1)',
+          900: 'rgb(var(--color-accent-900) / 1)',
+          950: 'rgb(var(--color-accent-950) / 1)',
+        },
+        grey: {
+          50: 'rgb(var(--color-grey-50) / 1)',
+          100: 'rgb(var(--color-grey-100) / 1)',
+          200: 'rgb(var(--color-grey-200) / 1)',
+          300: 'rgb(var(--color-grey-300) / 1)',
+          400: 'rgb(var(--color-grey-400) / 1)',
+          500: 'rgb(var(--color-grey-500) / 1)',
+          600: 'rgb(var(--color-grey-600) / 1)',
+          700: 'rgb(var(--color-grey-700) / 1)',
+          800: 'rgb(var(--color-grey-800) / 1)',
+          900: 'rgb(var(--color-grey-900) / 1)',
+          950: 'rgb(var(--color-grey-950) / 1)',
+        },
       },
       spacing: {
         '13': '3.25rem'

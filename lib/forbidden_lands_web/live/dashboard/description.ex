@@ -13,7 +13,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Description do
   def description(assigns) do
     ~H"""
     <div class={[
-      "grid grid-cols-3 absolute w-[1000px] bottom-0 top-0 transition-all duration-500 divide-x divide-slate-900",
+      "grid grid-cols-3 absolute w-[1000px] bottom-0 top-0 transition-all duration-500 divide-x divide-grey-900",
       if(@open?, do: "right-[400px] opacity-100", else: "right-[-1000px] opacity-50")
     ]}>
       <.column partial?={true}>
@@ -58,9 +58,9 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Description do
 
   defp column(assigns) do
     ~H"""
-    <div class={["h-screen", not @partial? && "overflow-y-scroll bg-slate-800 shadow-2xl shadow-black/50"]}>
+    <div class={["h-screen", not @partial? && "overflow-y-scroll bg-grey-800 shadow-2xl shadow-black/50"]}>
       <div class="flex flex-col justify-end min-h-screen">
-        <div class={["py-4", @partial? && "bg-slate-800 border-l border-t border-slate-900 shadow-2xl shadow-black/50"]}>
+        <div class={["py-4", @partial? && "bg-grey-800 border-l border-t border-grey-900 shadow-2xl shadow-black/50"]}>
           <%= render_slot(@inner_block) %>
         </div>
       </div>
@@ -77,7 +77,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Description do
       <h2 :if={render_slot(@inner_block) != []} class="flex items-center gap-2 pt-4 text-xl first-letter:text-2xl font-bold">
         <%= render_slot(@inner_block) %>
       </h2>
-      <div class="text-sm font-sans divide-y divide-slate-900/50 text-slate-100/80">
+      <div class="text-sm font-sans divide-y divide-grey-900/50 text-grey-100/80">
         <%= Helper.text_to_raw_html(@content, "py-3") %>
       </div>
     </div>

@@ -22,20 +22,20 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Timeline do
           <h2 class="font-bold"><%= event.title %></h2>
           <.event_date date={event.date} />
         </header>
-        <div :if={not is_nil(event.description)} class="text-sm space-y-1.5 px-4 text-slate-100/80">
+        <div :if={not is_nil(event.description)} class="text-sm space-y-1.5 px-4 text-grey-100/80">
           <%= Helper.text_to_raw_html(event.description) |> raw() %>
         </div>
-        <hr class="border-t border-slate-900/50" />
+        <hr class="border-t border-grey-900/50" />
       </section>
 
-      <div :if={length(@events) == 0} class="p-16 text-center text-lg text-slate-100/40">
+      <div :if={length(@events) == 0} class="p-16 text-center text-lg text-grey-100/40">
         <%= dgettext("app", "Start writing your story.") %>
       </div>
 
       <.link
         :if={length(@events) > 0}
         navigate={~p"/#{Gettext.get_locale()}/adventure/#{@instance_id}/story"}
-        class="px-16 py-10 text-center text-lg text-slate-100/40 hover:text-slate-100 transition-all"
+        class="px-16 py-10 text-center text-lg text-grey-100/40 hover:text-grey-100 transition-all"
       >
         <%= dgettext("app", "The rest of the story is here!") %>
       </.link>

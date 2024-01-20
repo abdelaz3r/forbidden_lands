@@ -2,10 +2,38 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* This file is for your main application CSS */
+@layer base {
+  .theme-default {
+    /* Original colors are `slate` from tailwind default theme */
+    --color-grey-50: 248 250 252;
+    --color-grey-100: 241 245 249;
+    --color-grey-200: 226 232 240;
+    --color-grey-300: 203 213 225;
+    --color-grey-400: 148 163 184;
+    --color-grey-500: 100 116 139;
+    --color-grey-600: 71 85 105;
+    --color-grey-700: 51 65 85;
+    --color-grey-800: 30 41 59;
+    --color-grey-900: 15 23 42;
+    --color-grey-950: 2 6 23;
+
+    /* Original colors are `rose` from tailwind default theme */
+    --color-accent-50: 255 241 242;
+    --color-accent-100: 255 228 230;
+    --color-accent-200: 254 205 211;
+    --color-accent-300: 253 164 175;
+    --color-accent-400: 251 113 133;
+    --color-accent-500: 244 63 94;
+    --color-accent-600: 225 29 72;
+    --color-accent-700: 190 18 60;
+    --color-accent-800: 159 18 57;
+    --color-accent-900: 136 19 55;
+    --color-accent-950: 76 5 25;
+  }
+}
 
 * {
-    -webkit-print-color-adjust: exact !important;   /* Chrome, Safari 6 – 15.3, Edge */
-    color-adjust: exact !important;                 /* Firefox 48 – 96 */
-    print-color-adjust: exact !important;           /* Firefox 97+, Safari 15.4+ */
+  -webkit-print-color-adjust: exact !important;   /* Chrome, Safari 6 – 15.3, Edge */
+  color-adjust: exact !important;                 /* Firefox 48 – 96 */
+  print-color-adjust: exact !important;           /* Firefox 97+, Safari 15.4+ */
 }

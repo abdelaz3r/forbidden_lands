@@ -52,14 +52,14 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.AudioPlayer do
         <button
           phx-click={if(@playing?, do: "pause", else: "play")}
           phx-target={@myself}
-          class="peer transition-all text-slate-100/60 hover:text-slate-100 rounded-full bg-black/20 shadow-2xl shadow-white"
+          class="peer transition-all text-grey-100/60 hover:text-grey-100 rounded-full bg-black/20 shadow-2xl shadow-white"
         >
           <.icon name={if(@playing?, do: :pause_circle, else: :play_circle)} class="w-8 h-8" />
         </button>
 
         <div
           :if={@playing? && @current_music != ""}
-          class="px-2 py-1 bg-slate-900/60 text-sm rounded transition-all opacity-0 peer-hover:opacity-100 font-sans"
+          class="px-2 py-1 bg-grey-900/60 text-sm rounded transition-all opacity-0 peer-hover:opacity-100 font-sans"
         >
           <%= @current_music %>
         </div>

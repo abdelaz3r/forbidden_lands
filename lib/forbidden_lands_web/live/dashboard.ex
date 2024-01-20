@@ -49,7 +49,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="md:grid md:grid-cols-[1fr_400px] font-serif h-screen bg-slate-700 overflow-hidden relative">
+    <div class="theme-default text-grey-100 md:grid md:grid-cols-[1fr_400px] font-serif h-screen bg-grey-700 overflow-hidden relative">
       <div class="hidden md:block relative overflow-hidden">
         <div class="w-full h-full overflow-hidden">
           <.image path="map.jpg" alt={dgettext("app", "Map of Forbiddens Land")} class="object-cover h-full w-full" />
@@ -76,7 +76,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
       </div>
 
       <div class="h-screen relative">
-        <div class="absolute inset-0 flex flex-col bg-slate-800 border-l border-slate-900 shadow-2xl shadow-black/50 z-10">
+        <div class="absolute inset-0 flex flex-col bg-grey-800 border-l border-grey-900 shadow-2xl shadow-black/50 z-10">
           <.header date={@calendar} quarter_shift={@quarter_shift} />
           <.timeline instance_id={@instance.id} events={@instance.events} />
           <.stronghold stronghold={@instance.stronghold} open?={@stronghold_open?} />
@@ -90,9 +90,9 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
 
   defp layer_classes(), do: "backdrop-hue-rotate-[15deg] transition-all duration-500 absolute inset-0"
   defp layer_classes(:daylight), do: "shadow-daylight"
-  defp layer_classes(:ligthish), do: "shadow-ligthish backdrop-contrast-125 bg-slate-900/20"
-  defp layer_classes(:darkish), do: "shadow-darkish backdrop-contrast-125 bg-slate-900/40"
-  defp layer_classes(:dark), do: "shadow-dark backdrop-contrast-200 bg-slate-900/70"
+  defp layer_classes(:ligthish), do: "shadow-ligthish backdrop-contrast-125 bg-grey-900/20"
+  defp layer_classes(:darkish), do: "shadow-darkish backdrop-contrast-125 bg-grey-900/40"
+  defp layer_classes(:dark), do: "shadow-dark backdrop-contrast-200 bg-grey-900/70"
 
   @impl Phoenix.LiveView
   def handle_event("toggle_stronghold", _params, socket) do
