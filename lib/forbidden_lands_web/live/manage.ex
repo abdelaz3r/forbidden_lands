@@ -77,7 +77,7 @@ defmodule ForbiddenLandsWeb.Live.Manage do
               class={["py-4 px-3 font-bold", @panel.key == key && "text-sky-800 underline"]}
               patch={~p"/#{Gettext.get_locale()}/adventure/#{@instance.id}/manage/#{key}"}
             >
-              <span class="text-grey-600">
+              <span class="text-slate-600 hover:text-slate-900">
                 <.icon name={icon} class="w-6 h-6" />
               </span>
             </.link>

@@ -17,8 +17,8 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
     <section
       :if={@stronghold}
       class={[
-        "flex-none border-t border-slate-900 shadow-2xl shadow-black/50 bg-gradient-to-l from-slate-800",
-        "to-slate-900 transition-all duration-500 relative",
+        "flex-none border-t border-grey-900 shadow-2xl shadow-black/50 bg-gradient-to-l from-grey-800",
+        "to-grey-900 transition-all duration-500 relative",
         if(@open?, do: "h-[458px]", else: "h-[140px]"),
         @class
       ]}
@@ -40,7 +40,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
         </header>
 
         <div class="flex gap-4 mb-4">
-          <div class="flex grow gap-2 border border-slate-800 p-4 bg-slate-900/60 justify-around">
+          <div class="flex grow gap-2 border border-grey-800 p-4 bg-grey-900/60 justify-around">
             <div :for={type <- [:copper, :silver, :gold]} class="flex gap-2 items-center flex-none">
               <.icon
                 name={:coins}
@@ -51,7 +51,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
               </span>
             </div>
           </div>
-          <div class="border border-slate-800 py-2 px-4 bg-slate-900/60 justify-around flex gap-2 items-center flex-none">
+          <div class="border border-grey-800 py-2 px-4 bg-grey-900/60 justify-around flex gap-2 items-center flex-none">
             <.icon
               name={:message_circle}
               class="float-left w-7 h-7 p-1 rounded-full border outline outline-offset-2 outline-2 bg-cyan-200 border-cyan-100 outline-cyan-100/10 text-cyan-700"
@@ -65,10 +65,10 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Stronghold do
         <div class="grid grid-cols-2 gap-1 tabular-nums">
           <div :for={type <- Stronghold.resource_fields()} :if={type != :coins} class="flex gap-1 items-baseline">
             <span class="inline-flex font-bold items-baseline">
-              <span class="text-slate-100/10"><%= leading_zeros(Map.get(@stronghold, type)) %></span>
+              <span class="text-grey-100/10"><%= leading_zeros(Map.get(@stronghold, type)) %></span>
               <%= Enum.min([9999, Map.get(@stronghold, type)]) %>
             </span>
-            <span class="text-slate-100/60 text-sm truncate">
+            <span class="text-grey-100/60 text-sm truncate">
               <%= Stronghold.resource_name(type, Map.get(@stronghold, type)) %>
             </span>
           </div>

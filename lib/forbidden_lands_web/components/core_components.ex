@@ -344,7 +344,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
         class={[
           "mt-0.5 block w-full rounded border-2 p-2",
           "text-slate-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-sky-500 phx-no-feedback:focus:border-grey-500",
+          "phx-no-feedback:border-sky-500",
           input_border(@errors)
         ]}
         {@rest}

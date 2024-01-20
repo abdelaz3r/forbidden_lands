@@ -38,7 +38,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="text-slate-900 font-serif p-0 md:py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover md:bg-[url('/images/story-background.jpg')]">
+    <div class="theme-default text-grey-900 font-serif p-0 md:py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover md:bg-[url('/images/story-background.jpg')]">
       <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-bold md:text-white text-xl md:drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
         <.link navigate={~p"/#{Gettext.get_locale()}/"}>
           <.icon name={:chevron_left} class="h-6 w-6" />
@@ -49,26 +49,26 @@ defmodule ForbiddenLandsWeb.Live.Story do
       <div class="relative max-w-[800px] mx-auto mt-16 md:mt-0">
         <.background_sheets />
 
-        <div class="flex flex-col items-center gap-1 py-1 absolute bg-stone-200 z-10 w-10 -left-10 top-24 shadow-2xl">
+        <div class="flex flex-col items-center gap-1 py-1 absolute bg-grey-200 z-10 w-10 -left-10 top-24 shadow-2xl">
           <button
             :for={%{type: type, active?: active?} <- @types}
             type="button"
             phx-click="update_types"
             phx-value-type={type}
-            class={not active? && "opacity-20"}
+            class={not active? && "opacity-30"}
           >
             <.icon name={Event.icon_by_type(type)} class={event_icon_class()} />
           </button>
         </div>
 
-        <div class={["relative bg-stone-200 shadow-2xl p-8 md:p-5 z-20 pb-36", border_classes()]}>
-          <div class="text-center py-20 md:py-[25vh]">
+        <div class={["relative bg-grey-200 shadow-2xl p-8 md:p-5 z-20 pb-36", border_classes()]}>
+          <div class="text-center mt-20 md:mt-[25vh]">
             <header class="inline-block m-auto px-4 md:px-16">
-              <h2 :if={@instance.prepend_name} class="inline-block pb-2 text-2xl text-slate-900/50">
+              <h2 :if={@instance.prepend_name} class="inline-block pb-2 text-2xl text-grey-900/50">
                 <%= @instance.prepend_name %>
               </h2>
               <br />
-              <h1 class="inline relative text-5xl font-bold first-letter:text-6xl text-stone-800">
+              <h1 class="inline relative text-5xl font-bold first-letter:text-6xl text-grey-800">
                 <%= @instance.name %>
               </h1>
               <br />
@@ -78,7 +78,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
             </header>
 
             <section :if={@instance.introduction} class="text-left pt-20 md:pt-[25vh] px-4 md:px-36 text-lg space-y-2 italic">
-              <%= @instance.introduction %>
+              <%= Helper.text_to_raw_html(@instance.introduction) |> raw() %>
             </section>
           </div>
 
@@ -88,6 +88,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
             phx-viewport-top={@page > 1 && "prev-page"}
             phx-viewport-bottom={!@end_of_timeline? && "next-page"}
             phx-page-loading
+            class="my-20 md:my-[25vh]"
           >
             <div
               :for={{id, %{event: event, with_day: with_day, with_month: with_month, calendar: calendar}} <- @streams.events}
@@ -106,12 +107,12 @@ defmodule ForbiddenLandsWeb.Live.Story do
                 >
                   <div
                     :if={with_day}
-                    class="absolute -left-10 md:-left-14 top-6 md:top-2 flex-none inline-flex justify-center items-center w-8 h-8 md:w-12 md:h-12 rounded-full text-xl md:text-2xl bg-stone-200 md:border border-stone-300/80"
+                    class="absolute -left-10 md:-left-14 top-6 md:top-2 flex-none inline-flex justify-center items-center w-8 h-8 md:w-12 md:h-12 rounded-full text-xl md:text-2xl bg-grey-200 md:border border-grey-300/80"
                   >
                     <%= calendar.month.day %>
                   </div>
                   <div>
-                    <span class="relative text-xs text-stone-700/70 uppercase top-1">
+                    <span class="relative text-xs text-grey-700/70 uppercase top-1">
                       <%= String.capitalize(calendar.quarter.name) %>
                     </span>
                     <h2 class="text-2xl font-bold">
@@ -254,14 +255,14 @@ defmodule ForbiddenLandsWeb.Live.Story do
   end
 
   defp background_classes() do
-    "hidden md:block absolute bg-stone-200 shadow-xl z-10"
+    "hidden md:block absolute bg-grey-200 shadow-xl z-10"
   end
 
   defp border_classes() do
-    "before:absolute before:inset-6 md:before:inset-4 before:border before:border-4 before:border-double before:border-stone-300/80 before:z-[-1]"
+    "before:absolute before:inset-6 md:before:inset-4 before:border before:border-4 before:border-double before:border-accent-500/10 before:z-[-1]"
   end
 
   defp event_icon_class() do
-    "w-8 h-8 p-1.5 rounded-full border text-slate-900/70 hover:text-slate-900"
+    "w-8 h-8 p-1.5 rounded-full border text-grey-900/70 hover:text-grey-900"
   end
 end
