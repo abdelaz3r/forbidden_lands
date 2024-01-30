@@ -23,7 +23,7 @@ defmodule ForbiddenLandsWeb.Live.About do
     <.navbar />
 
     <section class="bg-white text-slate-900 max-w-screen-md mx-auto md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-2">
-      <h1 class="text-brand font-bold text-xl">
+      <h1 class="font-bold text-2xl mb-5">
         <%= dgettext("app", "Welcome!") %>
       </h1>
 

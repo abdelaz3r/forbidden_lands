@@ -33,9 +33,9 @@ defmodule ForbiddenLandsWeb.Live.Instances do
     <.navbar />
 
     <div class="bg-white text-slate-900 max-w-screen-md mx-auto md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
-      <h2 class="font-bold text-xl">
+      <h1 class="text-2xl font-bold">
         <%= dgettext("app", "Active adventures") %>
-      </h2>
+      </h1>
 
       <section :for={instance <- @instances} class="block p-5 border border-slate-200 bg-slate-100 rounded">
         <header class="space-y-5">
