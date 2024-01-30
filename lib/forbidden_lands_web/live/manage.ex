@@ -68,7 +68,7 @@ defmodule ForbiddenLandsWeb.Live.Manage do
     ~H"""
     <.navbar />
 
-    <div class="bg-white text-slate-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden">
+    <div class="bg-white text-stone-900 max-w-screen-md mx-auto min-h-screen md:min-h-fit md:my-10 md:shadow-md md:rounded overflow-hidden">
       <header class="border-b">
         <nav class="flex justify-between border-b">
           <div class="flex px-3">

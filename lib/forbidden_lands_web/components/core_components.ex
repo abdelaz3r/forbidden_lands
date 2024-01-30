@@ -48,7 +48,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
   def modal(assigns) do
     ~H"""
     <div id={@id} phx-mounted={@show && show_modal(@id)} class="hidden relative z-50">
-      <div id={"#{@id}-bg"} class="fixed inset-0 transition-opacity bg-zinc-50/90" aria-hidden="true" />
+      <div id={"#{@id}-bg"} class="fixed inset-0 transition-opacity bg-stone-50/90" aria-hidden="true" />
       <div
         class="overflow-y-auto fixed inset-0"
         aria-labelledby={"#{@id}-title"}
@@ -65,7 +65,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
               phx-window-keydown={hide_modal(@on_cancel, @id)}
               phx-key="escape"
               phx-click-away={hide_modal(@on_cancel, @id)}
-              class="hidden relative p-14 bg-white rounded-2xl ring-1 shadow-lg transition shadow-zinc-700/10 ring-zinc-700/10"
+              class="hidden relative p-14 bg-white rounded-2xl ring-1 shadow-lg transition shadow-stone-700/10 ring-stone-700/10"
             >
               <div class="absolute right-5 top-6">
                 <button
@@ -78,10 +78,10 @@ defmodule ForbiddenLandsWeb.CoreComponents do
               </div>
               <div id={"#{@id}-content"}>
                 <header :if={@title != []}>
-                  <h1 id={"#{@id}-title"} class="text-lg font-semibold leading-8 text-zinc-800">
+                  <h1 id={"#{@id}-title"} class="text-lg font-semibold leading-8 text-stone-800">
                     <%= render_slot(@title) %>
                   </h1>
-                  <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-zinc-600">
+                  <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-stone-600">
                     <%= render_slot(@subtitle) %>
                   </p>
                 </header>
@@ -99,7 +99,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
                   <.link
                     :for={cancel <- @cancel}
                     phx-click={hide_modal(@on_cancel, @id)}
-                    class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
+                    class="text-sm font-semibold leading-6 text-stone-900 hover:text-stone-700"
                   >
                     <%= render_slot(cancel) %>
                   </.link>
@@ -220,7 +220,9 @@ defmodule ForbiddenLandsWeb.CoreComponents do
 
   defp color(:blue), do: "bg-sky-400 hover:bg-sky-500 border-sky-800 hover:border-sky-900 text-sky-900"
   defp color(:red), do: "bg-red-400 hover:bg-red-500 border-red-800 hover:border-red-900 text-red-900"
-  defp color(:gray), do: "bg-slate-200 hover:bg-slate-300 border-slate-400 hover:border-slate-500 text-slate-700"
+
+  defp color(:gray),
+    do: "bg-stone-200 hover:bg-stone-300 border-stone-400 hover:border-stone-500 text-stone-700"
 
   @doc """
   Renders an input with label and error messages.
@@ -272,7 +274,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
     assigns = assign_new(assigns, :checked, fn -> input_equals?(assigns.value, "true") end)
 
     ~H"""
-    <label phx-feedback-for={@name} class="flex gap-4 items-center text-sm leading-6 text-slate-600">
+    <label phx-feedback-for={@name} class="flex gap-4 items-center text-sm leading-6 text-stone-600">
       <input type="hidden" name={@name} value="false" />
       <input
         type="checkbox"
@@ -280,7 +282,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
         name={@name}
         value="true"
         checked={@checked}
-        class="rounded border-sky-300 text-slate-900 focus:ring-sky-900"
+        class="rounded border-sky-300 text-stone-900 focus:ring-sky-900"
         {@rest}
       />
       <%= @label %>
@@ -297,7 +299,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
         name={@name}
         class={[
           "block mt-0.5 p-2 py-2.5 pr-8 w-full bg-white rounded border-2 shadow-sm sm:text-sm focus:ring-4",
-          "text-slate-900 focus:outline-none focus:border-sky-500 focus:ring-sky-500/20",
+          "text-stone-900 focus:outline-none focus:border-sky-500 focus:ring-sky-500/20",
           input_border(@errors)
         ]}
         multiple={@multiple}
@@ -320,7 +322,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
         name={@name}
         class={[
           "mt-0.5 block h-40 w-full rounded border-2 p-2",
-          "text-slate-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
+          "text-stone-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
           "phx-no-feedback:border-sky-500 phx-no-feedback:focus:border-sky-500",
           input_border(@errors)
         ]}
@@ -343,7 +345,7 @@ defmodule ForbiddenLandsWeb.CoreComponents do
         value={@value}
         class={[
           "mt-0.5 block w-full rounded border-2 p-2",
-          "text-slate-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
+          "text-stone-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
           "phx-no-feedback:border-sky-500 phx-no-feedback:focus:border-grey-500",
           input_border(@errors)
         ]}
@@ -410,32 +412,32 @@ defmodule ForbiddenLandsWeb.CoreComponents do
     ~H"""
     <div id={@id} class="overflow-y-auto px-4 sm:overflow-visible sm:px-0">
       <table class="mt-11 sm:w-full w-[40rem]">
-        <thead class="leading-6 text-left text-[0.8125rem] text-zinc-500">
+        <thead class="leading-6 text-left text-[0.8125rem] text-stone-500">
           <tr>
             <th :for={col <- @col} class="p-0 pr-6 pb-4 font-normal"><%= col[:label] %></th>
             <th class="relative p-0 pb-4"><span class="sr-only"><%= gettext("Actions") %></span></th>
           </tr>
         </thead>
-        <tbody class="relative text-sm leading-6 border-t divide-y divide-zinc-100 border-zinc-200 text-zinc-700">
-          <tr :for={row <- @rows} id={"#{@id}-#{Phoenix.Param.to_param(row)}"} class="relative group hover:bg-zinc-50">
+        <tbody class="relative text-sm leading-6 border-t divide-y divide-stone-100 border-stone-200 text-stone-700">
+          <tr :for={row <- @rows} id={"#{@id}-#{Phoenix.Param.to_param(row)}"} class="relative group hover:bg-stone-50">
             <td
               :for={{col, i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
               class={["p-0", @row_click && "hover:cursor-pointer"]}
             >
               <div :if={i == 0}>
-                <span class="absolute top-0 -left-4 w-4 h-full sm:rounded-l-xl group-hover:bg-zinc-50" />
-                <span class="absolute top-0 -right-4 w-4 h-full sm:rounded-r-xl group-hover:bg-zinc-50" />
+                <span class="absolute top-0 -left-4 w-4 h-full sm:rounded-l-xl group-hover:bg-stone-50" />
+                <span class="absolute top-0 -right-4 w-4 h-full sm:rounded-r-xl group-hover:bg-stone-50" />
               </div>
               <div class="block py-4 pr-6">
-                <span class={["relative", i == 0 && "font-semibold text-zinc-900"]}>
+                <span class={["relative", i == 0 && "font-semibold text-stone-900"]}>
                   <%= render_slot(col, row) %>
                 </span>
               </div>
             </td>
             <td :if={@action != []} class="p-0 w-14">
               <div class="relative py-4 text-sm font-medium text-right whitespace-nowrap">
-                <span :for={action <- @action} class="relative ml-4 font-semibold leading-6 text-zinc-900 hover:text-zinc-700">
+                <span :for={action <- @action} class="relative ml-4 font-semibold leading-6 text-stone-900 hover:text-stone-700">
                   <%= render_slot(action, row) %>
                 </span>
               </div>
@@ -464,10 +466,10 @@ defmodule ForbiddenLandsWeb.CoreComponents do
   def list(assigns) do
     ~H"""
     <div class="mt-14">
-      <dl class="-my-4 divide-y divide-zinc-100">
+      <dl class="-my-4 divide-y divide-stone-100">
         <div :for={item <- @item} class="flex gap-4 py-4 sm:gap-8">
-          <dt class="flex-none w-1/4 leading-6 text-[0.8125rem] text-zinc-500"><%= item.title %></dt>
-          <dd class="text-sm leading-6 text-zinc-700"><%= render_slot(item) %></dd>
+          <dt class="flex-none w-1/4 leading-6 text-[0.8125rem] text-stone-500"><%= item.title %></dt>
+          <dd class="text-sm leading-6 text-stone-700"><%= render_slot(item) %></dd>
         </div>
       </dl>
     </div>
@@ -497,8 +499,8 @@ defmodule ForbiddenLandsWeb.CoreComponents do
     JS.show(js,
       to: selector,
       transition:
-        {"transition-all transform ease-out duration-300", "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
-         "opacity-100 translate-y-0 sm:scale-100"}
+        {"transition-all transform ease-out duration-300", "opacity-0 trangray-y-4 sm:trangray-y-0 sm:scale-95",
+         "opacity-100 trangray-y-0 sm:scale-100"}
     )
   end
 
@@ -507,8 +509,8 @@ defmodule ForbiddenLandsWeb.CoreComponents do
       to: selector,
       time: 200,
       transition:
-        {"transition-all transform ease-in duration-200", "opacity-100 translate-y-0 sm:scale-100",
-         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
+        {"transition-all transform ease-in duration-200", "opacity-100 trangray-y-0 sm:scale-100",
+         "opacity-0 trangray-y-4 sm:trangray-y-0 sm:scale-95"}
     )
   end
 

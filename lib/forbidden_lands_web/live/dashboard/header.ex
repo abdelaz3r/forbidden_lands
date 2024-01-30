@@ -16,7 +16,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Header do
   def header(assigns) do
     ~H"""
     <div class={[
-      "bg-gradient-to-r from-slate-800 to-slate-900 flex-none z-10 border-b border-slate-900 shadow-2xl shadow-black/50",
+      "bg-gradient-to-r from-stone-800 to-stone-900 flex-none z-10 border-b border-stone-900 shadow-2xl shadow-black/50",
       @class
     ]}>
       <div class="flex items-stretch gap-4 p-4">
@@ -40,18 +40,18 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Header do
           <div class="flex justify-between items-end text-lg font-bold">
             <span>
               <%= @date.month.name |> String.capitalize() %>
-              <span class="inline-block leading-5 px-1.5 text-sm bg-slate-900 rounded text-slate-100/80">
+              <span class="inline-block leading-5 px-1.5 text-sm bg-stone-900 rounded text-stone-100/80">
                 <%= RomanNumerals.convert(@date.month.number) %>
               </span>
             </span>
             <span class="flex items-center gap-2">
               <%= @date.year.number %>
-              <span class="text-slate-100/40">A.S.</span>
+              <span class="text-stone-100/40">A.S.</span>
               <span>
                 <.icon :if={@date.season.key == :spring} name={:flower} class="w-4 h-4 text-emerald-500" />
                 <.icon :if={@date.season.key == :summer} name={:sun} class="w-4 h-4 text-amber-400" />
                 <.icon :if={@date.season.key == :fall} name={:leaf} class="w-4 h-4 text-amber-800" />
-                <.icon :if={@date.season.key == :winter} name={:snowflake} class="w-4 h-4 text-slate-300" />
+                <.icon :if={@date.season.key == :winter} name={:snowflake} class="w-4 h-4 text-stone-300" />
               </span>
             </span>
           </div>
@@ -65,14 +65,14 @@ defmodule ForbiddenLandsWeb.Live.Dashboard.Header do
           </div>
         </div>
       </div>
-      <div class="h-0.5 w-full bg-slate-900/20">
+      <div class="h-0.5 w-full bg-stone-900/20">
         <div class="h-0.5 bg-rose-500 transition-all duration-500" style={"width: #{Calendar.month_progression(@date)}%;"}></div>
       </div>
       <div class="text-sm flex items-center justify-between p-4">
         <div>
           <%= dgettext("app", "It's %{luminosity}", luminosity: Calendar.luminosity(@date).name) %>
         </div>
-        <div class="flex items-center gap-3 text-slate-100/60">
+        <div class="flex items-center gap-3 text-stone-100/60">
           <%= @date.moon.name |> String.capitalize() %>
           <span class="flex" style={"opacity: #{Calendar.moon_progression(@date)}%;"}>
             <span :if={@date.moon.key == :new} class="w-4 h-4 bg-amber-100 rounded-full"></span>

@@ -36,7 +36,7 @@ defmodule ForbiddenLandsWeb.Live.Tools.Dices do
     ~H"""
     <.navbar />
 
-    <section class="bg-white text-slate-900 max-w-screen-md mx-auto md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
+    <section class="bg-white text-stone-900 max-w-screen-md mx-auto md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-5">
       <h1 class="text-brand font-bold text-xl">
         <%= dgettext("app", "Dice launcher") %>
       </h1>
@@ -58,7 +58,7 @@ defmodule ForbiddenLandsWeb.Live.Tools.Dices do
               <.icon name={:circle_slash} class="h-6 w-6" />
             </button>
             <%= for i <- 1..max do %>
-              <div :if={rem(i, 3) == 1} class="border-l border-slate-100"></div>
+              <div :if={rem(i, 3) == 1} class="border-l border-stone-100"></div>
               <button
                 :if={count >= i}
                 class={[dice_style(), dice_style(key)]}
@@ -89,7 +89,7 @@ defmodule ForbiddenLandsWeb.Live.Tools.Dices do
       </div>
 
       <div class="space-y-5">
-        <div :for={%{id: id, normal: normal, pushed: pushed} <- @rolls} class="border bg-slate-100/20 rounded shadow">
+        <div :for={%{id: id, normal: normal, pushed: pushed} <- @rolls} class="border bg-stone-100/20 rounded shadow">
           <div
             :for={{type, roll} <- [{:normal, normal}, {:pushed, pushed}]}
             :if={roll}
@@ -117,7 +117,7 @@ defmodule ForbiddenLandsWeb.Live.Tools.Dices do
                 :if={type == :normal and is_nil(pushed)}
                 phx-click="push"
                 phx-value-id={id}
-                class="absolute top-0 right-0 px-2 border-b border-l rounded-bl hover:bg-slate-100 transition"
+                class="absolute top-0 right-0 px-2 border-b border-l rounded-bl hover:bg-stone-100 transition"
               >
                 <%= dgettext("app", "Push the roll") %>
               </button>
@@ -227,7 +227,7 @@ defmodule ForbiddenLandsWeb.Live.Tools.Dices do
     do: "w-10 h-10 font-bold flex items-center justify-center rounded opacity-5 hover:opacity-50 transition"
 
   defp dice_style(), do: "w-10 h-10 border-2 rounded font-bold flex items-center justify-center"
-  defp dice_style(:base), do: "bg-slate-100 border-slate-300 text-slate-600"
+  defp dice_style(:base), do: "bg-stone-100 border-stone-300 text-stone-600"
   defp dice_style(:skill), do: "bg-red-400 border-red-700 text-red-900"
   defp dice_style(:gear), do: "bg-yellow-400 border-yellow-600 text-yellow-900"
   defp dice_style(:artifact_8), do: "bg-green-400 border-green-700 text-green-900"

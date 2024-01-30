@@ -47,7 +47,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Export do
           id="clipboard-target"
           class={[
             "h-64 w-full rounded border-2 p-2",
-            "text-slate-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
+            "text-stone-900 focus:outline-none focus:ring-4 sm:text-sm sm:leading-6",
             "border-sky-500 focus:ring-sky-500/20"
           ]}
           readonly={true}

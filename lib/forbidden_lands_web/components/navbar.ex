@@ -7,7 +7,7 @@ defmodule ForbiddenLandsWeb.Components.Navbar do
   @spec navbar(assigns :: map()) :: Phoenix.LiveView.Rendered.t()
   def navbar(assigns) do
     ~H"""
-    <header class="bg-white text-slate-900 border-b md:border-none py-3 px-2 shadow-md flex justify-between print:hidden">
+    <header class="bg-white text-stone-900 border-b md:border-none py-3 px-2 shadow-md flex justify-between print:hidden">
       <nav class="flex gap-2">
         <h1 class="font-bold py-2 px-3 pr-4 border-r text-brand">
           <span class="hidden md:inline">
@@ -51,5 +51,5 @@ defmodule ForbiddenLandsWeb.Components.Navbar do
     """
   end
 
-  defp link_classes(), do: "py-2 px-2 hover:bg-slate-100 rounded"
+  defp link_classes(), do: "py-2 px-2 hover:bg-stone-100 rounded"
 end

@@ -74,8 +74,8 @@ defmodule ForbiddenLandsWeb.Live.Tools.Spells do
     ~H"""
     <.navbar />
 
-    <section class="text-gray-900 bg-white border-t print:border-none">
-      <div class="relative p-5 pb-0 border-b bg-gray-100 print:hidden">
+    <section class="text-stone-900 bg-white border-t print:border-none">
+      <div class="relative p-5 pb-0 border-b bg-stone-100 print:hidden">
         <.simple_form :let={f} as={:filters} for={@filters} phx-change="update_filters">
           <div class="flex flex-col md:flex-row md:gap-5">
             <div class="grow">

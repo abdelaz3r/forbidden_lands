@@ -22,7 +22,7 @@ defmodule ForbiddenLandsWeb.Live.Tools do
     ~H"""
     <.navbar />
 
-    <section class="bg-white text-slate-900 max-w-screen-md mx-auto md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-2">
+    <section class="bg-white text-stone-900 max-w-screen-md mx-auto md:my-10 md:shadow-md md:rounded overflow-hidden p-5 space-y-2">
       <h1 class="text-brand font-bold text-xl mb-5">
         <%= dgettext("app", "Tools & Resources") %>
       </h1>
@@ -31,12 +31,12 @@ defmodule ForbiddenLandsWeb.Live.Tools do
         <.link
           :for={tool <- tools()}
           navigate={tool.link}
-          class="block p-5 border border-slate-200 rounded hover:bg-slate-100 transition-all"
+          class="block p-5 border border-stone-200 rounded hover:bg-stone-100 transition-all"
         >
           <h2 class="font-bold text-xl pb-2">
             <%= tool.title %>
           </h2>
-          <p class="text-slate-900/70">
+          <p class="text-stone-900/70">
             <%= tool.desc %>
           </p>
         </.link>

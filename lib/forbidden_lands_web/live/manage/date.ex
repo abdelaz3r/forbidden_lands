@@ -32,8 +32,8 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
           <%= dgettext("app", "Show/hide the castle") %>
         </.button>
 
-        <div class="border rounded p-2 bg-slate-100 border-slate-300">
-          <h2 class="pb-1.5 text-xs text-slate-600 font-bold uppercase">
+        <div class="border rounded p-2 bg-stone-100 border-stone-300">
+          <h2 class="pb-1.5 text-xs text-stone-600 font-bold uppercase">
             <%= dgettext("app", "Set mood") %>
           </h2>
           <div class="flex flex-wrap gap-2">
@@ -49,8 +49,8 @@ defmodule ForbiddenLandsWeb.Live.Manage.Date do
           </div>
         </div>
 
-        <div class="border rounded p-2 bg-slate-100 border-slate-300">
-          <h2 class="pb-1.5 text-xs text-slate-600 font-bold uppercase">
+        <div class="border rounded p-2 bg-stone-100 border-stone-300">
+          <h2 class="pb-1.5 text-xs text-stone-600 font-bold uppercase">
             <%= dgettext("app", "Active overlay") %>
           </h2>
           <div class="flex flex-wrap gap-2">

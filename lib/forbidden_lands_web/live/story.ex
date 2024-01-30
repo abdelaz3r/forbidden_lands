@@ -38,7 +38,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="text-slate-900 font-serif p-0 md:py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover md:bg-[url('/images/story-background.jpg')]">
+    <div class="text-stone-900 font-serif p-0 md:py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover md:bg-[url('/images/story-background.jpg')]">
       <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-bold md:text-white text-xl md:drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
         <.link navigate={~p"/#{Gettext.get_locale()}/"}>
           <.icon name={:chevron_left} class="h-6 w-6" />
@@ -64,7 +64,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
         <div class={["relative bg-stone-200 shadow-2xl p-8 md:p-5 z-20 pb-36", border_classes()]}>
           <div class="text-center py-20 md:py-[25vh]">
             <header class="inline-block m-auto px-4 md:px-16">
-              <h2 :if={@instance.prepend_name} class="inline-block pb-2 text-2xl text-slate-900/50">
+              <h2 :if={@instance.prepend_name} class="inline-block pb-2 text-2xl text-stone-900/50">
                 <%= @instance.prepend_name %>
               </h2>
               <br />
@@ -262,6 +262,6 @@ defmodule ForbiddenLandsWeb.Live.Story do
   end
 
   defp event_icon_class() do
-    "w-8 h-8 p-1.5 rounded-full border text-slate-900/70 hover:text-slate-900"
+    "w-8 h-8 p-1.5 rounded-full border text-stone-900/70 hover:text-stone-900"
   end
 end
