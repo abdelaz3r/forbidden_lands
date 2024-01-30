@@ -9,6 +9,7 @@ defmodule ForbiddenLands.Instances.Instances do
   alias ForbiddenLands.Instances.ResourceRule
   alias ForbiddenLands.Repo
 
+  @spec get(number()) :: {:ok, Instance.t()} | {:error, :not_found}
   @spec get(number(), number()) :: {:ok, Instance.t()} | {:error, :not_found}
   def get(id, event_limit \\ 50) do
     query =
@@ -32,6 +33,7 @@ defmodule ForbiddenLands.Instances.Instances do
     Repo.all(query)
   end
 
+  @spec list_events(number()) :: [Event.t()]
   @spec list_events(number(), list()) :: [Event.t()]
   def list_events(iid, options \\ []) do
     types = options[:types] || []
