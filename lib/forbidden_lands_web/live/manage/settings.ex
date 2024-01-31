@@ -29,6 +29,7 @@ defmodule ForbiddenLandsWeb.Live.Manage.Settings do
           </h2>
 
           <.input field={{f, :name}} label={dgettext("app", "Adventure name")} />
+          <.input field={{f, :theme}} type="select" options={Instance.themes()} label={dgettext("app", "Theme")} />
           <.input field={{f, :description}} label={dgettext("app", "Description")} type="textarea" style="height: 120px;" />
 
           <hr class="my-5" />
