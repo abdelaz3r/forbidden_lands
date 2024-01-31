@@ -12,8 +12,11 @@ defmodule ForbiddenLands.Instances.Instance do
   alias ForbiddenLands.Instances.ResourceRule
   alias ForbiddenLands.Instances.Stronghold
 
+  @themes [:forbidden_lands, :gor_sharan]
+
   @exported_fields [
     :name,
+    :theme,
     :prepend_name,
     :append_name,
     :initial_date,
@@ -30,6 +33,7 @@ defmodule ForbiddenLands.Instances.Instance do
   @type t() :: %Instance{
           id: non_neg_integer() | nil,
           name: String.t() | nil,
+          theme: atom() | nil,
           username: String.t() | nil,
           password: String.t() | nil,
           hashed_password: String.t() | nil,
@@ -49,6 +53,7 @@ defmodule ForbiddenLands.Instances.Instance do
         }
   schema("instances") do
     field(:name, :string)
+    field(:theme, Ecto.Enum, values: @themes)
     field(:username, :string)
     field(:password, :string, virtual: true)
     field(:hashed_password, :string, redact: true)
@@ -73,8 +78,9 @@ defmodule ForbiddenLands.Instances.Instance do
   @spec create(map()) :: Ecto.Changeset.t()
   def create(params \\ %{}) do
     %Instance{}
-    |> cast(params, [:name, :username, :password, :human_date])
-    |> validate_required([:name, :username, :password, :human_date])
+    |> cast(params, [:name, :theme, :username, :password, :human_date])
+    |> validate_required([:name, :theme, :username, :password, :human_date])
+    |> validate_inclusion(:theme, @themes)
     |> ForbiddenLands.Validation.validate_date(:human_date)
     |> put_dates()
     |> maybe_hash_password()
@@ -86,6 +92,7 @@ defmodule ForbiddenLands.Instances.Instance do
     %Instance{}
     |> cast(params, [
       :name,
+      :theme,
       :username,
       :password,
       :initial_date,
@@ -96,11 +103,13 @@ defmodule ForbiddenLands.Instances.Instance do
       :introduction
     ])
     |> validate_required([:name, :username, :password, :initial_date, :current_date])
+    |> validate_inclusion(:theme, @themes)
     |> cast_embed(:stronghold, with: &Stronghold.changeset/2)
     |> cast_embed(:resource_rules, with: &ResourceRule.create/2)
     |> cast_embed(:medias, with: &Media.create/2)
     |> cast_assoc(:events, with: &Event.create_from_export/2)
     |> maybe_hash_password()
+    |> maybe_default_theme()
   end
 
   @spec update(Instance.t()) :: Ecto.Changeset.t()
@@ -111,6 +120,7 @@ defmodule ForbiddenLands.Instances.Instance do
     instance
     |> cast(params, [
       :name,
+      :theme,
       :username,
       :password,
       :current_date,
@@ -121,7 +131,8 @@ defmodule ForbiddenLands.Instances.Instance do
       :description,
       :introduction
     ])
-    |> validate_required([:name, :current_date, :mood])
+    |> validate_required([:name, :theme, :current_date, :mood])
+    |> validate_inclusion(:theme, @themes)
     |> cast_embed(:stronghold, with: &Stronghold.changeset/2)
     |> put_embed(:resource_rules, resource_rules)
     |> put_embed(:medias, medias)
@@ -158,6 +169,17 @@ defmodule ForbiddenLands.Instances.Instance do
       |> validate_length(:password, max: 72, count: :bytes)
       |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(password))
       |> delete_change(:password)
+    else
+      changeset
+    end
+  end
+
+  defp maybe_default_theme(changeset) do
+    theme = get_change(changeset, :theme)
+
+    if is_nil(theme) do
+      [default_theme | _] = @themes
+      put_change(changeset, :theme, default_theme)
     else
       changeset
     end
