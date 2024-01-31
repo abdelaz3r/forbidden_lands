@@ -36,7 +36,11 @@ defmodule ForbiddenLandsWeb.Live.CreateInstance do
 
       <.simple_form :let={f} as={:create} for={@changeset} phx-submit="save">
         <.input field={{f, :name}} label={dgettext("app", "Name")} />
-        <.input field={{f, :human_date}} label={dgettext("app", "Start date (dd.mm.yyyy)")} />
+
+        <div class="grid grid-cols-2 gap-4">
+          <.input field={{f, :human_date}} label={dgettext("app", "Start date (dd.mm.yyyy)")} />
+          <.input field={{f, :theme}} type="select" options={Instance.themes()} label={dgettext("app", "Theme")} />
+        </div>
 
         <h2 class="pb-1 text-xl font-bold">
           <%= dgettext("app", "Game master credentials") %>
