@@ -9,6 +9,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   import ForbiddenLandsWeb.Live.Dashboard.{AudioPlayer, Description, Header, Stronghold, Timeline}
 
   alias ForbiddenLands.Calendar
+  alias ForbiddenLands.Instances.Instance
   alias ForbiddenLands.Instances.Instances
   alias ForbiddenLands.Music.Mood
 
@@ -49,10 +50,17 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="theme-default text-grey-100 md:grid md:grid-cols-[1fr_400px] font-serif h-screen bg-grey-700 overflow-hidden relative">
+    <div class={[
+      "theme-default text-grey-100 md:grid md:grid-cols-[1fr_400px] font-serif h-screen bg-grey-700 overflow-hidden relative",
+      Instance.theme_class(@instance.theme)
+    ]}>
       <div class="hidden md:block relative overflow-hidden">
         <div class="w-full h-full overflow-hidden">
-          <.image path="map.jpg" alt={dgettext("app", "Map of Forbiddens Land")} class="object-cover h-full w-full" />
+          <.image
+            path={Instance.theme_map(@instance.theme)}
+            alt={dgettext("app", "Map of Forbiddens Land")}
+            class="object-cover h-full w-full"
+          />
         </div>
         <div class={[layer_classes(), layer_classes(@luminosity)]}></div>
         <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-bold text-xl drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
@@ -88,7 +96,7 @@ defmodule ForbiddenLandsWeb.Live.Dashboard do
     """
   end
 
-  defp layer_classes(), do: "backdrop-hue-rotate-[15deg] transition-all duration-500 absolute inset-0"
+  defp layer_classes(), do: "transition-all duration-500 absolute inset-0"
   defp layer_classes(:daylight), do: "shadow-daylight"
   defp layer_classes(:ligthish), do: "shadow-ligthish backdrop-contrast-125 bg-grey-900/20"
   defp layer_classes(:darkish), do: "shadow-darkish backdrop-contrast-125 bg-grey-900/40"

@@ -7,6 +7,7 @@ defmodule ForbiddenLandsWeb.Live.Story do
 
   alias ForbiddenLands.Calendar
   alias ForbiddenLands.Instances.Event
+  alias ForbiddenLands.Instances.Instance
   alias ForbiddenLands.Instances.Instances
 
   @impl Phoenix.LiveView
@@ -38,7 +39,10 @@ defmodule ForbiddenLandsWeb.Live.Story do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="theme-default text-grey-900 font-serif p-0 md:py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover md:bg-[url('/images/books-background.jpg')]">
+    <div class={[
+      "text-grey-900 font-serif p-0 md:py-[40vh] bg-fixed bg-center bg-no-repeat bg-cover md:bg-[url('/images/books-background.jpg')]",
+      Instance.theme_class(@instance.theme)
+    ]}>
       <h1 class="flex items-center gap-3 absolute top-4 left-3 py-1 px-2 pr-5 font-bold md:text-white text-xl md:drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
         <.link navigate={~p"/#{Gettext.get_locale()}/"}>
           <.icon name={:chevron_left} class="h-6 w-6" />

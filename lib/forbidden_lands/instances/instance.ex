@@ -184,4 +184,17 @@ defmodule ForbiddenLands.Instances.Instance do
       changeset
     end
   end
+
+  @spec themes() :: list(atom())
+  def themes(), do: @themes
+
+  @spec theme_class(atom()) :: String.t()
+  def theme_class(:forbidden_lands), do: "theme-default"
+  def theme_class(:gor_sharan), do: "theme-desert"
+  def theme_class(_), do: "theme-default"
+
+  @spec theme_map(atom()) :: String.t()
+  def theme_map(:forbidden_lands), do: "forbidden-lands-map.jpg"
+  def theme_map(:gor_sharan), do: "gor-sharan-map.jpg"
+  def theme_map(_), do: "forbidden-lands-map.jpg"
 end
